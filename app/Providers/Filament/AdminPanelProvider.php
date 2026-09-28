@@ -29,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->domain('admin.dylenwolff.com')
             ->path('')
             ->login()
+            ->passwordReset()
             ->brandName('Dylen Wolff CMS')
             ->colors([
                 'primary' => Color::Blue,

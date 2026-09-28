@@ -19,4 +19,11 @@ class AdminDomainTest extends TestCase
 
         $response->assertNotFound();
     }
+
+    public function test_admin_password_reset_request_page_is_available(): void
+    {
+        $response = $this->get('http://admin.dylenwolff.com/password-reset/request');
+
+        $response->assertOk();
+    }
 }
