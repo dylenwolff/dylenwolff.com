@@ -21,6 +21,7 @@ export GIT_SSH_COMMAND="ssh -i $deploy_key -o IdentitiesOnly=yes"
 
 git pull --ff-only origin main
 composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
+php artisan livewire:publish --assets --force
 npm ci
 npm run build
 
