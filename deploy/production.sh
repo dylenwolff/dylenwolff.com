@@ -6,7 +6,7 @@ deploy_key=/home/dylenaw/.ssh/id_ed25519_dylenwolff_com_deploy
 
 cd "$app_dir"
 
-exec 9>storage/framework/deploy.lock
+exec 9>/tmp/dylenwolff-production-deploy.lock
 if ! flock -n 9; then
     echo "Another deployment is already running." >&2
     exit 1
