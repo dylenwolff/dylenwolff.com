@@ -89,10 +89,28 @@
 
         <section id="work" class="border-y border-slate-200/80 bg-slate-950 py-24 text-white dark:border-white/10 sm:py-32">
             <div class="site-container">
-                <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div class="max-w-3xl"><p class="section-kicker text-blue-400">Selected work</p><h2 class="section-title mt-3 text-white">Work that connects technology with purpose.</h2></div><p class="max-w-sm text-slate-400">Detailed case studies are being prepared. Client-sensitive work remains private.</p></div>
+                <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div class="max-w-3xl"><p class="section-kicker text-blue-400">Selected work</p><h2 class="section-title mt-3 text-white">Work that connects technology with purpose.</h2></div><p class="max-w-sm text-slate-400">Real products and platforms designed, engineered and deployed from the ground up.</p></div>
                 <div class="mt-14 grid gap-5 lg:grid-cols-2">
                     @foreach ($projects as $project)
-                        <article class="project-card"><div class="project-visual {{ $loop->even ? 'project-visual-cyan' : 'project-visual-blue' }}"><span>{{ $project->category }}</span>@if ($loop->even)<div class="network-map"><i></i><i></i><i></i><i></i><i></i></div>@else<div class="mock-window"><div></div><div></div><div></div></div>@endif</div><div class="p-7"><div class="flex items-start justify-between gap-4"><div><p class="text-sm text-blue-400">{{ $project->category }}</p><h3 class="mt-2 text-2xl font-bold">{{ $project->title }}</h3></div>@if ($project->url)<a href="{{ $project->url }}" target="_blank" rel="noreferrer" class="text-2xl text-slate-500">↗</a>@endif</div><p class="mt-4 leading-7 text-slate-400">{{ $project->summary }}</p></div></article>
+                        <article class="project-card {{ $project->is_featured ? 'lg:col-span-2' : '' }}">
+                            @if ($project->image_path)
+                                <div class="relative aspect-[2/1] overflow-hidden border-b border-white/10 bg-slate-900"><img src="{{ $project->image_path }}" alt="{{ $project->title }} project preview" class="h-full w-full object-cover object-top" loading="lazy"><span class="absolute left-5 top-5 rounded-full bg-slate-950/80 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-[.16em] text-white backdrop-blur">{{ $project->category }}</span></div>
+                            @else
+                                <div class="project-visual {{ $loop->even ? 'project-visual-cyan' : 'project-visual-blue' }}"><span>{{ $project->category }}</span>@if ($loop->even)<div class="network-map"><i></i><i></i><i></i><i></i><i></i></div>@else<div class="mock-window"><div></div><div></div><div></div></div>@endif</div>
+                            @endif
+                            <div class="p-7 sm:p-9">
+                                <div class="flex items-start justify-between gap-4"><div><p class="text-sm font-semibold text-blue-400">{{ $project->category }}</p><h3 class="mt-2 text-2xl font-bold sm:text-3xl">{{ $project->title }}</h3>@if ($project->client)<p class="mt-2 text-sm text-slate-500">{{ $project->client }}@if($project->status) · {{ $project->status }}@endif</p>@endif</div>@if ($project->url)<a href="{{ $project->url }}" target="_blank" rel="noreferrer" class="shrink-0 rounded-xl border border-white/10 px-4 py-2 text-sm font-bold text-white transition hover:border-blue-400 hover:text-blue-300">Visit project ↗</a>@endif</div>
+                                <p class="mt-5 max-w-4xl text-lg leading-8 text-slate-300">{{ $project->summary }}</p>
+                                @if ($project->is_featured && ($project->challenge || $project->solution || $project->responsibilities))
+                                    <div class="mt-8 grid gap-7 border-t border-white/10 pt-8 md:grid-cols-3">
+                                        @if ($project->challenge)<div><p class="font-mono text-xs font-bold uppercase tracking-[.16em] text-blue-400">The challenge</p><p class="mt-3 leading-7 text-slate-400">{{ $project->challenge }}</p></div>@endif
+                                        @if ($project->solution)<div><p class="font-mono text-xs font-bold uppercase tracking-[.16em] text-blue-400">The solution</p><p class="mt-3 leading-7 text-slate-400">{{ $project->solution }}</p></div>@endif
+                                        @if ($project->responsibilities)<div><p class="font-mono text-xs font-bold uppercase tracking-[.16em] text-blue-400">My role</p><p class="mt-3 leading-7 text-slate-400">{{ $project->responsibilities }}</p></div>@endif
+                                    </div>
+                                    @if ($project->technologies)<div class="mt-8 flex flex-wrap gap-2">@foreach ($project->technologies as $technology)<span class="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs text-slate-300">{{ $technology }}</span>@endforeach</div>@endif
+                                @endif
+                            </div>
+                        </article>
                     @endforeach
                 </div>
             </div>

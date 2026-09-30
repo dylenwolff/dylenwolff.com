@@ -10,6 +10,7 @@ use BackedEnum;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -37,8 +38,16 @@ class ProjectResource extends Resource
                 TextInput::make('category')->required()->maxLength(80),
                 Textarea::make('summary')->required()->rows(4)->maxLength(600)->columnSpanFull(),
                 TextInput::make('url')->url()->maxLength(255)->columnSpanFull(),
+                TextInput::make('image_path')->label('Cover image path')->helperText('Example: /images/projects/edupoint-homepage.png')->columnSpanFull(),
+                TextInput::make('client')->maxLength(120),
+                TextInput::make('status')->maxLength(120),
+                Textarea::make('challenge')->rows(5)->maxLength(1500)->columnSpanFull(),
+                Textarea::make('solution')->rows(7)->maxLength(2500)->columnSpanFull(),
+                Textarea::make('responsibilities')->rows(5)->maxLength(2000)->columnSpanFull(),
+                TagsInput::make('technologies')->columnSpanFull(),
                 Select::make('accent')->options(['blue' => 'Blue', 'cyan' => 'Cyan'])->default('blue')->required(),
                 TextInput::make('sort_order')->numeric()->default(0)->required(),
+                Toggle::make('is_featured')->label('Featured case study')->default(false),
                 Toggle::make('is_published')->default(true),
             ]);
     }
@@ -49,6 +58,7 @@ class ProjectResource extends Resource
             ->columns([
                 TextColumn::make('title')->searchable()->sortable(),
                 TextColumn::make('category')->searchable(),
+                IconColumn::make('is_featured')->label('Featured')->boolean(),
                 TextColumn::make('sort_order')->label('Order')->sortable(),
                 IconColumn::make('is_published')->label('Published')->boolean(),
             ])
