@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 #[Fillable([
     'title', 'category', 'summary', 'url', 'image_path', 'client', 'status',
-    'challenge', 'solution', 'responsibilities', 'technologies', 'accent',
+    'challenge', 'solution', 'responsibilities', 'technologies', 'gallery', 'accent',
     'is_featured', 'sort_order', 'is_published',
 ])]
 class Project extends Model
@@ -16,6 +16,7 @@ class Project extends Model
     {
         return [
             'technologies' => 'array',
+            'gallery' => 'array',
             'is_featured' => 'boolean',
             'is_published' => 'boolean',
         ];

@@ -8,6 +8,7 @@ use App\Filament\Resources\Projects\Pages\ListProjects;
 use App\Models\Project;
 use BackedEnum;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TagsInput;
@@ -38,7 +39,32 @@ class ProjectResource extends Resource
                 TextInput::make('category')->required()->maxLength(80),
                 Textarea::make('summary')->required()->rows(4)->maxLength(600)->columnSpanFull(),
                 TextInput::make('url')->url()->maxLength(255)->columnSpanFull(),
-                TextInput::make('image_path')->label('Cover image path')->helperText('Example: /images/projects/edupoint-homepage.png')->columnSpanFull(),
+                FileUpload::make('image_path')
+                    ->label('Cover image')
+                    ->disk('public')
+                    ->directory('projects/covers')
+                    ->visibility('public')
+                    ->image()
+                    ->imageEditor()
+                    ->imageResizeMode('contain')
+                    ->imageResizeTargetWidth('1800')
+                    ->maxSize(5120)
+                    ->columnSpanFull(),
+                FileUpload::make('gallery')
+                    ->label('Screenshot gallery')
+                    ->disk('public')
+                    ->directory('projects/gallery')
+                    ->visibility('public')
+                    ->image()
+                    ->multiple()
+                    ->reorderable()
+                    ->appendFiles()
+                    ->imageEditor()
+                    ->imageResizeMode('contain')
+                    ->imageResizeTargetWidth('1800')
+                    ->maxFiles(12)
+                    ->maxSize(5120)
+                    ->columnSpanFull(),
                 TextInput::make('client')->maxLength(120),
                 TextInput::make('status')->maxLength(120),
                 Textarea::make('challenge')->rows(5)->maxLength(1500)->columnSpanFull(),

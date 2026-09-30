@@ -94,7 +94,7 @@
                     @foreach ($projects as $project)
                         <article class="project-card {{ $project->is_featured ? 'lg:col-span-2' : '' }}">
                             @if ($project->image_path)
-                                <div class="relative aspect-[2/1] overflow-hidden border-b border-white/10 bg-slate-900"><img src="{{ $project->image_path }}" alt="{{ $project->title }} project preview" class="h-full w-full object-cover object-top" loading="lazy"><span class="absolute left-5 top-5 rounded-full bg-slate-950/80 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-[.16em] text-white backdrop-blur">{{ $project->category }}</span></div>
+                                <div class="relative aspect-[2/1] overflow-hidden border-b border-white/10 bg-slate-900"><img src="{{ str_starts_with($project->image_path, '/') || str_starts_with($project->image_path, 'http') ? $project->image_path : asset('storage/'.$project->image_path) }}" alt="{{ $project->title }} project preview" class="h-full w-full object-cover object-top" loading="lazy"><span class="absolute left-5 top-5 rounded-full bg-slate-950/80 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-[.16em] text-white backdrop-blur">{{ $project->category }}</span></div>
                             @else
                                 <div class="project-visual {{ $loop->even ? 'project-visual-cyan' : 'project-visual-blue' }}"><span>{{ $project->category }}</span>@if ($loop->even)<div class="network-map"><i></i><i></i><i></i><i></i><i></i></div>@else<div class="mock-window"><div></div><div></div><div></div></div>@endif</div>
                             @endif

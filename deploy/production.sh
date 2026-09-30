@@ -27,6 +27,7 @@ npm run build
 
 php artisan down --retry=60
 php artisan migrate --force
+php artisan storage:link
 php artisan optimize
 php artisan up
 
