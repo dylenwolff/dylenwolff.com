@@ -61,6 +61,8 @@
     .network-map i:nth-child(3) { right: 3%; top: 18%; }
     .network-map i:nth-child(4) { bottom: 5%; left: 18%; }
     .network-map i:nth-child(5) { bottom: 8%; right: 15%; }
+    .contact-label { @apply grid gap-2 text-sm font-bold text-slate-700; }
+    .contact-input { @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-normal text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100; }
 }
 
 .grid-fade {
