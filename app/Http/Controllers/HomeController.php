@@ -19,9 +19,49 @@ class HomeController extends Controller
     {
         return view('welcome', [
             'settings' => SiteSetting::current(),
-            'services' => Service::query()->where('is_published', true)->orderBy('sort_order')->get(),
-            'projects' => Project::query()->where('is_published', true)->orderBy('sort_order')->get(),
+            'services' => Service::query()->where('is_published', true)->orderBy('sort_order')->limit(3)->get(),
+            'projects' => Project::query()->where('is_published', true)->orderBy('sort_order')->limit(4)->get(),
         ]);
+    }
+
+    public function work(): View
+    {
+        return view('pages.work', $this->shared([
+            'projects' => Project::query()->where('is_published', true)->orderBy('sort_order')->get(),
+        ]));
+    }
+
+    public function project(Project $project): View
+    {
+        abort_unless($project->is_published, 404);
+
+        return view('pages.project', $this->shared([
+            'project' => $project,
+            'previous' => Project::query()->where('is_published', true)->where('sort_order', '<', $project->sort_order)->orderByDesc('sort_order')->first(),
+            'next' => Project::query()->where('is_published', true)->where('sort_order', '>', $project->sort_order)->orderBy('sort_order')->first(),
+        ]));
+    }
+
+    public function about(): View
+    {
+        return view('pages.about', $this->shared());
+    }
+
+    public function services(): View
+    {
+        return view('pages.services', $this->shared([
+            'services' => Service::query()->where('is_published', true)->orderBy('sort_order')->get(),
+        ]));
+    }
+
+    public function contactPage(): View
+    {
+        return view('pages.contact', $this->shared());
+    }
+
+    private function shared(array $data = []): array
+    {
+        return array_merge(['settings' => SiteSetting::current()], $data);
     }
 
     public function contact(Request $request): RedirectResponse

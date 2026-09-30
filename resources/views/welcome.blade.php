@@ -23,12 +23,12 @@
 
     <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-[#07111f]/80">
         <nav class="site-container flex h-20 items-center justify-between" aria-label="Main navigation">
-            <a href="#top" class="group flex items-center gap-3" aria-label="Dylen Wolff home">
+            <a href="{{ route('home') }}" class="group flex items-center gap-3" aria-label="Dylen Wolff home">
                 <span class="grid size-10 place-items-center rounded-xl bg-blue-600 text-sm font-black tracking-tight text-white shadow-lg shadow-blue-600/20 transition-transform group-hover:-rotate-3">DW</span>
                 <span class="font-semibold tracking-tight">{{ $settings->name }}</span>
             </a>
             <div class="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex dark:text-slate-300">
-                <a class="nav-link" href="#about">About</a><a class="nav-link" href="#services">Services</a><a class="nav-link" href="#work">Work</a><a class="nav-link" href="#contact">Contact</a>
+                <a class="nav-link" href="{{ route('about') }}">About</a><a class="nav-link" href="{{ route('services') }}">Services</a><a class="nav-link" href="{{ route('work') }}">Work</a><a class="nav-link" href="{{ route('contact') }}">Contact</a>
             </div>
             <div class="flex items-center gap-2">
                 <button data-theme-toggle type="button" class="icon-button" aria-label="Switch color theme">
@@ -36,11 +36,11 @@
                     <svg class="hidden size-5 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
                 </button>
                 <button data-menu-toggle type="button" class="icon-button md:hidden" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation"><svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-                <a href="#contact" class="button-primary ml-2 hidden sm:inline-flex">Start a project</a>
+                <a href="{{ route('contact') }}" class="button-primary ml-2 hidden sm:inline-flex">Start a project</a>
             </div>
         </nav>
         <div id="mobile-menu" data-mobile-menu class="site-container hidden border-t border-slate-200 py-4 md:hidden dark:border-white/10">
-            <div class="grid gap-1 text-sm font-medium"><a class="mobile-link" href="#about">About</a><a class="mobile-link" href="#services">Services</a><a class="mobile-link" href="#work">Work</a><a class="mobile-link" href="#contact">Contact</a></div>
+            <div class="grid gap-1 text-sm font-medium"><a class="mobile-link" href="{{ route('about') }}">About</a><a class="mobile-link" href="{{ route('services') }}">Services</a><a class="mobile-link" href="{{ route('work') }}">Work</a><a class="mobile-link" href="{{ route('contact') }}">Contact</a></div>
         </div>
     </header>
 
@@ -51,7 +51,7 @@
                 <h1 class="mt-7 max-w-4xl text-5xl font-black leading-[.98] tracking-[-0.05em] sm:text-6xl lg:text-7xl">{{ $settings->hero_heading }}<br><span class="gradient-text">{{ $settings->hero_accent }}</span></h1>
                 <p class="mt-7 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl dark:text-slate-300">{{ $settings->hero_intro }}</p>
                 <p class="mt-5 text-sm font-semibold uppercase tracking-[.13em] text-slate-500 dark:text-slate-400">{{ $settings->name }} · {{ $settings->professional_title }}</p>
-                <div class="mt-9 flex flex-wrap gap-3"><a href="#work" class="button-primary">Explore my work <span aria-hidden="true">↗</span></a><a href="mailto:{{ $settings->email }}" class="button-secondary">{{ $settings->email }}</a></div>
+                <div class="mt-9 flex flex-wrap gap-3"><a href="{{ route('work') }}" class="button-primary">Explore my work <span aria-hidden="true">↗</span></a><a href="mailto:{{ $settings->email }}" class="button-secondary">{{ $settings->email }}</a></div>
                 <div class="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-sm font-medium text-slate-500 dark:text-slate-400">
                     <a class="social-link" href="{{ $settings->linkedin_url }}" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a><a class="social-link" href="{{ $settings->github_url }}" target="_blank" rel="noreferrer">GitHub <span>↗</span></a><a class="social-link" href="{{ $settings->upwork_url }}" target="_blank" rel="noreferrer">Upwork <span>↗</span></a>
                 </div>
@@ -83,36 +83,29 @@
                 @foreach ($services as $service)
                     <article class="service-card"><span class="service-number">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span><h3>{{ $service->title }}</h3><p>{{ $service->description }}</p>@if ($service->tags)<div class="tag-row">@foreach ($service->tags as $tag)<span>{{ $tag }}</span>@endforeach</div>@endif</article>
                 @endforeach
-                <article class="service-card service-card-accent"><span class="service-number">{{ str_pad($services->count() + 1, 2, '0', STR_PAD_LEFT) }}</span><h3>Something different?</h3><p>If it involves technology, let’s explore it together. The best solution starts with understanding what you need.</p><a href="#contact" class="mt-auto pt-6 font-semibold text-blue-600 dark:text-blue-400">Tell me about it →</a></article>
+                <article class="service-card service-card-accent"><span class="service-number">{{ str_pad($services->count() + 1, 2, '0', STR_PAD_LEFT) }}</span><h3>Explore every service</h3><p>See the full range, or tell me about a challenge that does not fit neatly into a category.</p><a href="{{ route('services') }}" class="mt-auto pt-6 font-semibold text-blue-600 dark:text-blue-400">View services →</a></article>
             </div>
         </section>
 
         <section id="work" class="border-y border-slate-200/80 bg-slate-950 py-24 text-white dark:border-white/10 sm:py-32">
             <div class="site-container">
                 <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div class="max-w-3xl"><p class="section-kicker text-blue-400">Selected work</p><h2 class="section-title mt-3 text-white">Work that connects technology with purpose.</h2></div><p class="max-w-sm text-slate-400">Real products and platforms designed, engineered and deployed from the ground up.</p></div>
-                <div class="mt-14 grid gap-5 lg:grid-cols-2">
+                <div class="mt-14 grid gap-5 md:grid-cols-2">
                     @foreach ($projects as $project)
-                        <article class="project-card {{ $project->is_featured ? 'lg:col-span-2' : '' }}">
+                        <article class="project-card overflow-hidden">
                             @if ($project->image_path)
                                 <div class="relative aspect-[2/1] overflow-hidden border-b border-white/10 bg-slate-900"><img src="{{ str_starts_with($project->image_path, '/') || str_starts_with($project->image_path, 'http') ? $project->image_path : asset('storage/'.$project->image_path) }}" alt="{{ $project->title }} project preview" class="h-full w-full object-cover object-top" loading="lazy"><span class="absolute left-5 top-5 rounded-full bg-slate-950/80 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-[.16em] text-white backdrop-blur">{{ $project->category }}</span></div>
                             @else
                                 <div class="project-visual {{ $loop->even ? 'project-visual-cyan' : 'project-visual-blue' }}"><span>{{ $project->category }}</span>@if ($loop->even)<div class="network-map"><i></i><i></i><i></i><i></i><i></i></div>@else<div class="mock-window"><div></div><div></div><div></div></div>@endif</div>
                             @endif
-                            <div class="p-7 sm:p-9">
+                            <div class="p-7 sm:p-8">
                                 <div class="flex items-start justify-between gap-4"><div><p class="text-sm font-semibold text-blue-400">{{ $project->category }}</p><h3 class="mt-2 text-2xl font-bold sm:text-3xl">{{ $project->title }}</h3>@if ($project->client)<p class="mt-2 text-sm text-slate-500">{{ $project->client }}@if($project->status) · {{ $project->status }}@endif</p>@endif</div>@if ($project->url)<a href="{{ $project->url }}" target="_blank" rel="noreferrer" class="shrink-0 rounded-xl border border-white/10 px-4 py-2 text-sm font-bold text-white transition hover:border-blue-400 hover:text-blue-300">Visit project ↗</a>@endif</div>
-                                <p class="mt-5 max-w-4xl text-lg leading-8 text-slate-300">{{ $project->summary }}</p>
-                                @if ($project->is_featured && ($project->challenge || $project->solution || $project->responsibilities))
-                                    <div class="mt-8 grid gap-7 border-t border-white/10 pt-8 md:grid-cols-3">
-                                        @if ($project->challenge)<div><p class="font-mono text-xs font-bold uppercase tracking-[.16em] text-blue-400">The challenge</p><p class="mt-3 leading-7 text-slate-400">{{ $project->challenge }}</p></div>@endif
-                                        @if ($project->solution)<div><p class="font-mono text-xs font-bold uppercase tracking-[.16em] text-blue-400">The solution</p><p class="mt-3 leading-7 text-slate-400">{{ $project->solution }}</p></div>@endif
-                                        @if ($project->responsibilities)<div><p class="font-mono text-xs font-bold uppercase tracking-[.16em] text-blue-400">My role</p><p class="mt-3 leading-7 text-slate-400">{{ $project->responsibilities }}</p></div>@endif
-                                    </div>
-                                    @if ($project->technologies)<div class="mt-8 flex flex-wrap gap-2">@foreach ($project->technologies as $technology)<span class="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs text-slate-300">{{ $technology }}</span>@endforeach</div>@endif
-                                @endif
+                                <p class="mt-5 line-clamp-3 text-lg leading-8 text-slate-300">{{ $project->summary }}</p>
+                                <a href="{{ route('work.show', $project) }}" class="mt-6 inline-flex font-semibold text-blue-400 hover:text-blue-300">Read the case study →</a>
                             </div>
                         </article>
                     @endforeach
-                </div>
+                </div><div class="mt-10 text-center"><a href="{{ route('work') }}" class="button-secondary border-white/20 bg-white/5 text-white hover:bg-white/10">View all work →</a></div>
             </div>
         </section>
 

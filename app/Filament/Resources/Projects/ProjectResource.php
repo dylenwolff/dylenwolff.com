@@ -36,6 +36,7 @@ class ProjectResource extends Resource
         return $schema
             ->components([
                 TextInput::make('title')->required()->maxLength(120),
+                TextInput::make('slug')->helperText('Leave blank to generate it from the title.')->unique(ignoreRecord: true)->maxLength(160),
                 TextInput::make('category')->required()->maxLength(80),
                 Textarea::make('summary')->required()->rows(4)->maxLength(600)->columnSpanFull(),
                 TextInput::make('url')->url()->maxLength(255)->columnSpanFull(),
