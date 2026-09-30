@@ -1,11 +1,74 @@
 @import 'tailwindcss';
-
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Inter', 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+}
+
+@layer base {
+    * { border-color: rgb(226 232 240); }
+    ::selection { background: rgb(37 99 235); color: white; }
+    a, button { outline-offset: 4px; }
+    a:focus-visible, button:focus-visible { outline: 2px solid rgb(59 130 246); }
+}
+
+@layer components {
+    .site-container { @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10; }
+    .nav-link { @apply transition hover:text-blue-600 dark:hover:text-blue-400; }
+    .mobile-link { @apply rounded-lg px-3 py-3 text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/5; }
+    .icon-button { @apply inline-grid size-10 place-items-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:border-blue-300 hover:text-blue-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:border-blue-500/50 dark:hover:text-blue-400; }
+    .button-primary { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-500; }
+    .button-secondary { @apply inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-300 bg-white/60 px-5 text-sm font-bold text-slate-800 transition hover:-translate-y-0.5 hover:border-blue-400 dark:border-white/15 dark:bg-white/5 dark:text-white dark:hover:border-blue-400; }
+    .eyebrow { @apply inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-xs font-bold uppercase tracking-[.16em] text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300; }
+    .gradient-text { @apply bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-400 bg-clip-text text-transparent; }
+    .social-link { @apply flex items-center gap-1.5 transition hover:text-blue-600 dark:hover:text-blue-400; }
+    .terminal-row { @apply flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-white/10 dark:bg-white/5; }
+    .terminal-row span { @apply text-xs text-blue-500; }
+    .terminal-row strong { @apply font-medium text-slate-700 dark:text-slate-200; }
+    .section-kicker { @apply font-mono text-sm font-bold uppercase tracking-[.18em] text-blue-600 dark:text-blue-400; }
+    .section-title { @apply text-3xl font-black leading-tight tracking-[-.035em] sm:text-4xl lg:text-5xl; }
+    .section-copy { @apply mt-6 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300; }
+    .stat { @apply flex min-h-28 flex-col justify-end rounded-2xl border border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-white/5; }
+    .stat strong { @apply text-xl text-slate-950 dark:text-white; }
+    .stat span { @apply mt-1 text-sm text-slate-500 dark:text-slate-400; }
+    .service-card { @apply flex min-h-80 flex-col rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-950/5 dark:border-white/10 dark:bg-white/[.035] dark:hover:border-blue-500/40; }
+    .service-card h3 { @apply mt-7 text-2xl font-bold tracking-tight; }
+    .service-card p { @apply mt-4 leading-7 text-slate-600 dark:text-slate-400; }
+    .service-number { @apply font-mono text-sm font-bold text-blue-600 dark:text-blue-400; }
+    .service-card-accent { @apply border-blue-200 bg-blue-50/60 dark:border-blue-500/30 dark:bg-blue-500/10; }
+    .tag-row { @apply mt-auto flex flex-wrap gap-2 pt-7; }
+    .tag-row span { @apply rounded-md bg-slate-100 px-2.5 py-1 font-mono text-xs text-slate-500 dark:bg-white/10 dark:text-slate-400; }
+    .project-card { @apply overflow-hidden rounded-2xl border border-white/10 bg-white/[.045] transition duration-300 hover:-translate-y-1 hover:border-blue-500/40; }
+    .project-visual { @apply relative grid h-64 place-items-center overflow-hidden border-b border-white/10; }
+    .project-visual > span { @apply absolute left-5 top-5 font-mono text-xs font-bold tracking-[.18em] text-white/60; }
+    .project-visual-blue { background: radial-gradient(circle at 70% 20%, #3b82f6 0, transparent 30%), linear-gradient(135deg, #0f1f46, #09101f); }
+    .project-visual-cyan { background: radial-gradient(circle at 20% 80%, #06b6d4 0, transparent 32%), linear-gradient(135deg, #06202b, #09101f); }
+    .mock-window { @apply grid h-32 w-3/4 grid-cols-3 gap-3 rounded-xl border border-white/20 bg-white/10 p-4 shadow-2xl backdrop-blur; transform: rotate(-3deg); }
+    .mock-window div { @apply rounded-md bg-white/15; }
+    .mock-window div:first-child { @apply col-span-3 h-4; }
+    .network-map { @apply relative size-40 rounded-full border border-cyan-300/20; }
+    .network-map::before, .network-map::after { content: ''; @apply absolute left-1/2 top-1/2 bg-cyan-300/30; transform: translate(-50%, -50%) rotate(30deg); }
+    .network-map::before { width: 1px; height: 150%; }
+    .network-map::after { width: 150%; height: 1px; }
+    .network-map i { @apply absolute size-4 rounded-full border-4 border-cyan-300/30 bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,.7)]; }
+    .network-map i:nth-child(1) { left: 45%; top: 45%; }
+    .network-map i:nth-child(2) { left: 5%; top: 20%; }
+    .network-map i:nth-child(3) { right: 3%; top: 18%; }
+    .network-map i:nth-child(4) { bottom: 5%; left: 18%; }
+    .network-map i:nth-child(5) { bottom: 8%; right: 15%; }
+}
+
+.grid-fade {
+    background-image: linear-gradient(to right, rgb(148 163 184 / .12) 1px, transparent 1px), linear-gradient(to bottom, rgb(148 163 184 / .12) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: linear-gradient(to bottom, black, transparent 75%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }

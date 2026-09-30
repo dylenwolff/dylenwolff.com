@@ -15,5 +15,7 @@ class ExampleTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
+        $response->assertSee('Dylen Andrew Wolff');
+        $response->assertSee('Systems Engineer and Digital Solutions Developer');
     }
 }
