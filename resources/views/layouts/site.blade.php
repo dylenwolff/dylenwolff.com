@@ -8,7 +8,7 @@
     <link rel="icon" href="{{ asset('images/brand/favicon.svg') }}" type="image/svg+xml">
     <link rel="alternate icon" href="{{ asset('favicon.ico') }}" sizes="any">
     <link rel="apple-touch-icon" href="{{ asset('images/brand/apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
     <title>@yield('title', $settings->name.' | '.$settings->professional_title)</title>
     <script>
         (() => {
