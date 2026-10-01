@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Models\Award;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\SiteSetting;
@@ -21,6 +22,7 @@ class HomeController extends Controller
             'settings' => SiteSetting::current(),
             'services' => Service::query()->where('is_published', true)->orderBy('sort_order')->limit(3)->get(),
             'projects' => Project::query()->where('is_published', true)->orderBy('sort_order')->limit(4)->get(),
+            'awards' => Award::query()->where('is_published', true)->where('is_featured', true)->orderBy('sort_order')->limit(3)->get(),
         ]);
     }
 
@@ -44,7 +46,9 @@ class HomeController extends Controller
 
     public function about(): View
     {
-        return view('pages.about', $this->shared());
+        return view('pages.about', $this->shared([
+            'awards' => Award::query()->where('is_published', true)->orderBy('sort_order')->get(),
+        ]));
     }
 
     public function services(): View

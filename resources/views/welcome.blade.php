@@ -79,7 +79,7 @@
 
         <section id="services" class="site-container py-24 sm:py-32">
             <div class="max-w-3xl"><p class="section-kicker">How I can help</p><h2 class="section-title mt-3">Digital solutions without the one-size-fits-all thinking.</h2><p class="section-copy">From a focused website to a complete internal platform, I select and combine technologies based on your actual goals.</p></div>
-            <div class="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <div class="mt-14 grid gap-5 md:grid-cols-2">
                 @foreach ($services as $service)
                     <article class="service-card"><span class="service-number">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span><h3>{{ $service->title }}</h3><p>{{ $service->description }}</p>@if ($service->tags)<div class="tag-row">@foreach ($service->tags as $tag)<span>{{ $tag }}</span>@endforeach</div>@endif</article>
                 @endforeach
@@ -108,6 +108,14 @@
                 </div><div class="mt-10 text-center"><a href="{{ route('work') }}" class="button-secondary border-white/20 bg-white/5 text-white hover:bg-white/10">View all work →</a></div>
             </div>
         </section>
+
+        @if($awards->isNotEmpty())
+        <section class="border-y border-slate-200/80 bg-slate-50/70 py-20 dark:border-white/10 dark:bg-white/[.025] sm:py-24">
+            <div class="site-container"><div class="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p class="section-kicker">Recognition</p><h2 class="section-title mt-3">Work recognised beyond the screen.</h2></div><a href="{{ route('about') }}#recognition" class="font-semibold text-blue-600 dark:text-blue-400">See all recognition →</a></div>
+                <div class="mt-10 grid gap-5 md:grid-cols-3">@foreach($awards as $award)<article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-white/[.04]"><div class="flex items-start justify-between gap-4"><span class="grid size-11 shrink-0 place-items-center rounded-xl bg-amber-50 text-xl dark:bg-amber-400/10">🏆</span>@if($award->awarded_at)<time class="text-sm font-semibold text-slate-400">{{ $award->awarded_at->format('Y') }}</time>@endif</div><p class="mt-5 text-sm font-bold text-blue-600 dark:text-blue-400">{{ $award->placement }}</p><h3 class="mt-2 text-xl font-bold">{{ $award->title }}</h3><p class="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">{{ $award->issuer }}</p></article>@endforeach</div>
+            </div>
+        </section>
+        @endif
 
         <section id="contact" class="site-container py-24 sm:py-32">
             <div class="relative overflow-hidden rounded-[2rem] bg-blue-600 px-6 py-12 text-white shadow-2xl shadow-blue-600/20 sm:px-12 lg:px-16 lg:py-16">
