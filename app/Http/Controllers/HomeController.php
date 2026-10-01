@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ContactMessage;
+use App\Mail\ContactEnquiryMail;
 use App\Models\Award;
+use App\Models\ContactMessage;
 use App\Models\Project;
+use App\Models\Qualification;
 use App\Models\Service;
 use App\Models\SiteSetting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
@@ -47,6 +50,7 @@ class HomeController extends Controller
     public function about(): View
     {
         return view('pages.about', $this->shared([
+            'qualifications' => Qualification::query()->where('is_published', true)->orderBy('sort_order')->get(),
             'awards' => Award::query()->where('is_published', true)->orderBy('sort_order')->get(),
         ]));
     }
@@ -61,6 +65,32 @@ class HomeController extends Controller
     public function contactPage(): View
     {
         return view('pages.contact', $this->shared());
+    }
+
+    public function privacy(): View
+    {
+        return view('pages.privacy', $this->shared());
+    }
+
+    public function sitemap(): Response
+    {
+        $fixed = collect([
+            ['loc' => route('home'), 'lastmod' => now()->toDateString()],
+            ['loc' => route('about'), 'lastmod' => now()->toDateString()],
+            ['loc' => route('services'), 'lastmod' => now()->toDateString()],
+            ['loc' => route('work'), 'lastmod' => now()->toDateString()],
+            ['loc' => route('contact'), 'lastmod' => now()->toDateString()],
+            ['loc' => route('privacy'), 'lastmod' => now()->toDateString()],
+        ]);
+
+        $projects = Project::query()->where('is_published', true)->get()->map(fn (Project $project) => [
+            'loc' => route('work.show', $project),
+            'lastmod' => $project->updated_at->toDateString(),
+        ]);
+
+        return response()
+            ->view('sitemap', ['urls' => $fixed->concat($projects)])
+            ->header('Content-Type', 'application/xml');
     }
 
     private function shared(array $data = []): array
@@ -81,16 +111,11 @@ class HomeController extends Controller
         $contact = ContactMessage::create($validated);
 
         try {
-            Mail::raw(
-                "New website enquiry from {$contact->name} <{$contact->email}>\n\nSubject: " . ($contact->subject ?: 'General enquiry') . "\n\n{$contact->message}",
-                fn ($mail) => $mail->to(SiteSetting::current()->email)
-                    ->replyTo($contact->email, $contact->name)
-                    ->subject('Website enquiry: ' . ($contact->subject ?: $contact->name)),
-            );
+            Mail::to(SiteSetting::current()->email)->send(new ContactEnquiryMail($contact));
         } catch (Throwable $exception) {
             Log::error('Contact notification could not be sent.', ['contact_message_id' => $contact->id, 'exception' => $exception]);
         }
 
-        return back()->with('contact_success', 'Thank you—your message has been received. I’ll get back to you soon.');
+        return back()->with('contact_success', 'Thank you, your message has been received. I’ll get back to you soon.');
     }
 }

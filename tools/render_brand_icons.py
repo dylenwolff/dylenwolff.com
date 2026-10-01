@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,3 +34,22 @@ render(64).save(
     format="ICO",
     sizes=[(16, 16), (32, 32), (48, 48), (64, 64)],
 )
+
+
+def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
+    family = "segoeuib.ttf" if bold else "segoeui.ttf"
+    return ImageFont.truetype(Path("C:/Windows/Fonts") / family, size)
+
+
+social = Image.new("RGB", (1200, 630), "#07111f")
+social_draw = ImageDraw.Draw(social)
+social_draw.ellipse((820, -210, 1380, 350), fill="#0c2a51")
+social_draw.ellipse((900, 310, 1260, 670), fill="#0b3852")
+social_draw.rounded_rectangle((72, 70, 184, 182), radius=26, fill="#0d1929")
+social.alpha_composite(render(94), (81, 79)) if social.mode == "RGBA" else social.paste(render(94), (81, 79), render(94))
+social_draw.text((72, 238), "DYLEN ANDREW WOLFF", font=font(28, True), fill="#60a5fa")
+social_draw.text((72, 292), "Systems Engineer", font=font(66, True), fill="#f8fafc")
+social_draw.text((72, 374), "Digital Solutions Developer", font=font(48, True), fill="#22d3ee")
+social_draw.text((72, 472), "Practical technology built around real problems.", font=font(27), fill="#cbd5e1")
+social_draw.text((72, 552), "dylenwolff.com", font=font(24, True), fill="#f8fafc")
+social.save(BRAND / "social-card.png", optimize=True)

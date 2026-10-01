@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\ContactMessage;
 use App\Models\Project;
+use App\Models\Qualification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -51,6 +52,18 @@ class PortfolioCmsTest extends TestCase
         $this->get('/about')->assertOk();
         $this->get('/services')->assertOk();
         $this->get('/contact')->assertOk()->assertSee('Send enquiry');
+        $this->get('/privacy')->assertOk()->assertSee('What is collected');
+    }
+
+    public function test_published_qualifications_appear_on_the_about_page(): void
+    {
+        $qualification = Qualification::query()->firstOrFail();
+
+        $this->get('/about')
+            ->assertOk()
+            ->assertSee('Qualifications')
+            ->assertSee($qualification->title)
+            ->assertSee($qualification->institution);
     }
 
     public function test_the_honeypot_rejects_automated_submissions(): void

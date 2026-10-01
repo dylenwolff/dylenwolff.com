@@ -1,15 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
+    @php
+        $structuredProfile = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Person',
+            'name' => $settings->name,
+            'url' => route('home'),
+            'image' => $settings->profile_photo ? asset('storage/'.$settings->profile_photo) : asset('images/brand/social-card.png'),
+            'jobTitle' => $settings->professional_title,
+            'email' => 'mailto:'.$settings->email,
+            'homeLocation' => ['@type' => 'Place', 'name' => 'Colombo, Sri Lanka'],
+            'sameAs' => array_values(array_filter([$settings->linkedin_url, $settings->github_url, $settings->upwork_url])),
+            'knowsAbout' => ['Digital solutions', 'Web development', 'Systems engineering', 'Cybersecurity', 'Technology education'],
+        ];
+    @endphp
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Dylen Andrew Wolff builds practical digital solutions, reliable systems, and technology learning experiences.">
     <meta name="theme-color" content="#07111f">
+    <link rel="canonical" href="{{ route('home') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ $settings->name }}">
+    <meta property="og:title" content="{{ $settings->name }} | {{ $settings->professional_title }}">
+    <meta property="og:description" content="Dylen Andrew Wolff builds practical digital solutions, reliable systems, and technology learning experiences.">
+    <meta property="og:url" content="{{ route('home') }}">
+    <meta property="og:image" content="{{ asset('images/brand/social-card.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $settings->name }} | {{ $settings->professional_title }}">
+    <meta name="twitter:description" content="Dylen Andrew Wolff builds practical digital solutions, reliable systems, and technology learning experiences.">
+    <meta name="twitter:image" content="{{ asset('images/brand/social-card.png') }}">
     <link rel="icon" href="{{ asset('images/brand/favicon.svg') }}" type="image/svg+xml">
     <link rel="alternate icon" href="{{ asset('favicon.ico') }}" sizes="any">
     <link rel="apple-touch-icon" href="{{ asset('images/brand/apple-touch-icon.png') }}">
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <title>{{ $settings->name }} | {{ $settings->professional_title }}</title>
+    <script type="application/ld+json">{!! json_encode($structuredProfile, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
     <script>
         (() => {
             const saved = localStorage.getItem('theme');
@@ -144,6 +172,6 @@
         </section>
     </main>
 
-    <footer class="border-t border-slate-200 py-10 dark:border-white/10"><div class="site-container flex flex-col gap-5 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between dark:text-slate-400"><p>© {{ date('Y') }} {{ $settings->name }}. Built with purpose.</p><div class="flex gap-5"><a class="hover:text-blue-500" href="{{ $settings->linkedin_url }}" target="_blank" rel="noreferrer">LinkedIn</a><a class="hover:text-blue-500" href="{{ $settings->github_url }}" target="_blank" rel="noreferrer">GitHub</a><a class="hover:text-blue-500" href="mailto:{{ $settings->email }}">Email</a></div></div></footer>
+    <footer class="border-t border-slate-200 py-10 dark:border-white/10"><div class="site-container flex flex-col gap-5 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between dark:text-slate-400"><p>© {{ date('Y') }} {{ $settings->name }}. Built with purpose.</p><div class="flex flex-wrap gap-5"><a class="hover:text-blue-500" href="{{ $settings->linkedin_url }}" target="_blank" rel="noreferrer">LinkedIn</a><a class="hover:text-blue-500" href="{{ $settings->github_url }}" target="_blank" rel="noreferrer">GitHub</a><a class="hover:text-blue-500" href="mailto:{{ $settings->email }}">Email</a><a class="hover:text-blue-500" href="{{ route('privacy') }}">Privacy</a></div></div></footer>
 </body>
 </html>

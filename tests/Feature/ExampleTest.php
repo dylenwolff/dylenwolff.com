@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * A basic test example.
      */
@@ -16,6 +18,6 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Dylen Andrew Wolff');
-        $response->assertSee('Systems Engineer and Digital Solutions Developer');
+        $response->assertSee('Systems Engineer &amp; Digital Solutions Developer', false);
     }
 }

@@ -71,7 +71,7 @@ return new class extends Migration
             'email' => 'hello@dylenwolff.com', 'linkedin_url' => 'https://www.linkedin.com/in/dylenaw/',
             'github_url' => 'https://github.com/dylenwolff', 'upwork_url' => 'https://www.upwork.com/freelancers/~01d1b15fc05390f9a2',
             'contact_heading' => 'Have an idea, a problem, or a project?',
-            'contact_body' => 'Tell me what you are trying to accomplish. I will help you find a practical way forward—even if the answer is simpler than expected.',
+            'contact_body' => 'Tell me what you are trying to accomplish. I will help you find a practical way forward, even if the answer is simpler than expected.',
             'created_at' => now(), 'updated_at' => now(),
         ]);
 

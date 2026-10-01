@@ -32,8 +32,40 @@
     </div>
 </section>
 
+@if($qualifications->isNotEmpty())
+<section id="qualifications" class="border-y border-slate-200/80 bg-slate-50/70 py-20 dark:border-white/10 dark:bg-white/[.025] sm:py-28">
+    <div class="site-container">
+        <div class="grid gap-10 lg:grid-cols-[.58fr_1.42fr]">
+            <div class="max-w-md">
+                <p class="section-kicker">Qualifications</p>
+                <h2 class="section-title mt-3">A strong technical foundation, continuously applied.</h2>
+                <p class="section-copy">Formal education and professional credentials support the practical experience behind my work.</p>
+            </div>
+            <div class="grid gap-4">
+                @foreach($qualifications as $qualification)
+                    <article class="group grid gap-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:border-white/10 dark:bg-[#0d1929] sm:grid-cols-[auto_1fr] sm:p-7">
+                        <div class="grid size-14 place-items-center rounded-2xl bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300">
+                            <svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m3 10 9-5 9 5-9 5-9-5Z"/><path d="M7 12.5V17c2.7 2 7.3 2 10 0v-4.5M21 10v6"/></svg>
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                                <div><p class="text-sm font-bold text-blue-600 dark:text-blue-400">{{ $qualification->credential_type }}</p><h3 class="mt-1 text-xl font-bold">{{ $qualification->title }}</h3></div>
+                                @if($qualification->start_year || $qualification->end_year)<span class="whitespace-nowrap text-sm font-semibold text-slate-400">{{ $qualification->start_year && $qualification->start_year !== $qualification->end_year ? $qualification->start_year.' to ' : '' }}{{ $qualification->end_year }}</span>@endif
+                            </div>
+                            <p class="mt-2 font-semibold text-slate-500 dark:text-slate-400">{{ $qualification->institution }}</p>
+                            @if($qualification->description)<p class="mt-3 leading-7 text-slate-600 dark:text-slate-300">{{ $qualification->description }}</p>@endif
+                            @if($qualification->credential_url)<a href="{{ $qualification->credential_url }}" target="_blank" rel="noreferrer" class="mt-4 inline-flex font-semibold text-blue-600 dark:text-blue-400">View credential ↗</a>@endif
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+
 @if($awards->isNotEmpty())
-<section id="recognition" class="border-y border-slate-200/80 bg-slate-50/70 py-20 dark:border-white/10 dark:bg-white/[.025] sm:py-28"><div class="site-container"><div class="max-w-3xl"><p class="section-kicker">Awards & recognition</p><h2 class="section-title mt-3">Meaningful recognition for work that made a difference.</h2><p class="section-copy">These awards recognise personal contribution, digital transformation, and platforms created for the communities I serve.</p></div><div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">@foreach($awards as $award)<article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-white/10 dark:bg-[#0d1929]">@if($award->image_path)<div class="aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-900"><img src="{{ asset('storage/'.$award->image_path) }}" alt="{{ $award->title }}" class="h-full w-full object-cover" loading="lazy"></div>@endif<div class="p-6"><div class="flex items-center justify-between gap-4"><span class="font-bold text-blue-600 dark:text-blue-400">{{ $award->placement }}</span>@if($award->awarded_at)<time class="text-sm text-slate-400">{{ $award->awarded_at->format('F Y') }}</time>@endif</div><h3 class="mt-3 text-xl font-bold">{{ $award->title }}</h3><p class="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">{{ $award->issuer }}</p>@if($award->description)<p class="mt-4 leading-7 text-slate-600 dark:text-slate-300">{{ $award->description }}</p>@endif @if($award->proof_url)<a href="{{ $award->proof_url }}" target="_blank" rel="noreferrer" class="mt-5 inline-flex font-semibold text-blue-600 dark:text-blue-400">View recognition ↗</a>@endif</div></article>@endforeach</div></div></section>
+<section id="recognition" class="py-20 sm:py-28"><div class="site-container"><div class="max-w-3xl"><p class="section-kicker">Awards & recognition</p><h2 class="section-title mt-3">Meaningful recognition for work that made a difference.</h2><p class="section-copy">These awards recognise personal contribution, digital transformation, and platforms created for the communities I serve.</p></div><div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">@foreach($awards as $award)<article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-white/10 dark:bg-[#0d1929]">@if($award->image_path)<div class="aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-900"><img src="{{ asset('storage/'.$award->image_path) }}" alt="{{ $award->title }}" class="h-full w-full object-cover" loading="lazy"></div>@endif<div class="p-6"><div class="flex items-center justify-between gap-4"><span class="font-bold text-blue-600 dark:text-blue-400">{{ $award->placement }}</span>@if($award->awarded_at)<time class="text-sm text-slate-400">{{ $award->awarded_at->format('F Y') }}</time>@endif</div><h3 class="mt-3 text-xl font-bold">{{ $award->title }}</h3><p class="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">{{ $award->issuer }}</p>@if($award->description)<p class="mt-4 leading-7 text-slate-600 dark:text-slate-300">{{ $award->description }}</p>@endif @if($award->proof_url)<a href="{{ $award->proof_url }}" target="_blank" rel="noreferrer" class="mt-5 inline-flex font-semibold text-blue-600 dark:text-blue-400">View recognition ↗</a>@endif</div></article>@endforeach</div></div></section>
 @endif
 
 <section class="site-container pb-20 sm:pb-28"><div class="overflow-hidden rounded-[2rem] bg-slate-950 px-7 py-12 text-white sm:px-12 sm:py-14"><div class="grid gap-10 md:grid-cols-[1fr_auto] md:items-center"><div><p class="font-mono text-sm font-semibold uppercase tracking-[.18em] text-blue-400">How I work</p><h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">Clear thinking before complicated technology.</h2><p class="mt-4 max-w-3xl text-lg leading-8 text-slate-300">I start by understanding the goal, the people involved, and what success should look like. Then I explain the options plainly and build the most practical path forward.</p></div><a href="{{ route('contact') }}" class="button-primary whitespace-nowrap">Let’s work together</a></div></div></section>

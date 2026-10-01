@@ -21,7 +21,7 @@ return new class extends Migration
         });
 
         DB::table('projects')->where('sort_order', 1)->update([
-            'title' => 'EduPoint — One platform for modern institutes',
+            'title' => 'EduPoint: One platform for modern institutes',
             'category' => 'Education Management SaaS',
             'summary' => 'A commercially ready platform that brings students, teachers, classes, attendance, payments and communication into one secure, branded workspace.',
             'url' => 'https://edupoint.skrepkie.com',
