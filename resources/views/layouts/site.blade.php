@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="@yield('description', 'Dylen Andrew Wolff builds practical digital solutions, reliable systems, and technology learning experiences.')">
     <meta name="theme-color" content="#07111f">
+    <link rel="icon" href="{{ asset('images/brand/favicon.svg') }}" type="image/svg+xml">
+    <link rel="alternate icon" href="{{ asset('favicon.ico') }}" sizes="any">
+    <link rel="apple-touch-icon" href="{{ asset('images/brand/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
     <title>@yield('title', $settings->name.' | '.$settings->professional_title)</title>
     <script>
         (() => {
@@ -24,7 +28,7 @@
     <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-[#07111f]/80">
         <nav class="site-container flex h-20 items-center justify-between" aria-label="Main navigation">
             <a href="{{ route('home') }}" class="group flex items-center gap-3" aria-label="Dylen Wolff home">
-                <span class="grid size-10 place-items-center rounded-xl bg-blue-600 text-sm font-black tracking-tight text-white shadow-lg shadow-blue-600/20 transition-transform group-hover:-rotate-3">DW</span>
+                <span class="grid size-10 place-items-center rounded-xl bg-white p-2 shadow-lg shadow-blue-600/15 transition-transform group-hover:rotate-6 dark:bg-white/5"><img src="{{ asset('images/brand/dylen-wolff-mark.svg') }}" alt="" class="size-full dark:hidden"><img src="{{ asset('images/brand/dylen-wolff-mark-dark.svg') }}" alt="" class="hidden size-full dark:block"></span>
                 <span class="font-semibold tracking-tight">{{ $settings->name }}</span>
             </a>
             <div class="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex dark:text-slate-300">
