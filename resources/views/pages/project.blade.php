@@ -1,6 +1,6 @@
 @extends('layouts.site')
 
-@section('title', $project->title.' — '.$settings->name)
+@section('title', $project->title.' | '.$settings->name)
 @section('description', $project->summary)
 
 @section('content')

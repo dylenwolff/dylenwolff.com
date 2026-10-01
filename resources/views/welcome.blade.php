@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Dylen Andrew Wolff builds practical digital solutions, reliable systems, and technology learning experiences.">
     <meta name="theme-color" content="#07111f">
-    <title>{{ $settings->name }} — {{ $settings->professional_title }}</title>
+    <title>{{ $settings->name }} | {{ $settings->professional_title }}</title>
     <script>
         (() => {
             const saved = localStorage.getItem('theme');
@@ -27,8 +27,8 @@
                 <span class="grid size-10 place-items-center rounded-xl bg-blue-600 text-sm font-black tracking-tight text-white shadow-lg shadow-blue-600/20 transition-transform group-hover:-rotate-3">DW</span>
                 <span class="font-semibold tracking-tight">{{ $settings->name }}</span>
             </a>
-            <div class="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex dark:text-slate-300">
-                <a class="nav-link" href="{{ route('about') }}">About</a><a class="nav-link" href="{{ route('services') }}">Services</a><a class="nav-link" href="{{ route('work') }}">Work</a><a class="nav-link" href="{{ route('contact') }}">Contact</a>
+            <div class="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex dark:text-slate-300">
+                <a class="nav-link text-blue-600 dark:text-blue-400" href="{{ route('home') }}">Home</a><a class="nav-link" href="{{ route('about') }}">About Me</a><a class="nav-link" href="{{ route('services') }}">What I Do</a><a class="nav-link" href="{{ route('work') }}">My Work</a><a class="nav-link" href="{{ route('contact') }}">Let’s Talk</a>
             </div>
             <div class="flex items-center gap-2">
                 <button data-theme-toggle type="button" class="icon-button" aria-label="Switch color theme">
@@ -40,7 +40,7 @@
             </div>
         </nav>
         <div id="mobile-menu" data-mobile-menu class="site-container hidden border-t border-slate-200 py-4 md:hidden dark:border-white/10">
-            <div class="grid gap-1 text-sm font-medium"><a class="mobile-link" href="{{ route('about') }}">About</a><a class="mobile-link" href="{{ route('services') }}">Services</a><a class="mobile-link" href="{{ route('work') }}">Work</a><a class="mobile-link" href="{{ route('contact') }}">Contact</a></div>
+            <div class="grid gap-1 text-sm font-medium"><a class="mobile-link" href="{{ route('home') }}">Home</a><a class="mobile-link" href="{{ route('about') }}">About Me</a><a class="mobile-link" href="{{ route('services') }}">What I Do</a><a class="mobile-link" href="{{ route('work') }}">My Work</a><a class="mobile-link" href="{{ route('contact') }}">Let’s Talk</a></div>
         </div>
     </header>
 

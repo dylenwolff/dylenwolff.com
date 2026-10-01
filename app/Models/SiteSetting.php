@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 #[Fillable([
     'name', 'professional_title', 'availability', 'hero_heading', 'hero_accent',
     'hero_intro', 'about_heading', 'about_body', 'email', 'linkedin_url',
-    'github_url', 'upwork_url', 'contact_heading', 'contact_body',
+    'github_url', 'upwork_url', 'contact_heading', 'contact_body', 'profile_photo',
 ])]
 class SiteSetting extends Model
 {
@@ -28,7 +28,7 @@ class SiteSetting extends Model
             'github_url' => 'https://github.com/dylenwolff',
             'upwork_url' => 'https://www.upwork.com/freelancers/~01d1b15fc05390f9a2',
             'contact_heading' => 'Have an idea, a problem, or a project?',
-            'contact_body' => 'Tell me what you are trying to accomplish. I will help you find a practical way forward—even if the answer is simpler than expected.',
+            'contact_body' => 'Tell me what you are trying to accomplish. I will help you find a practical way forward, even if the answer is simpler than expected.',
         ]);
     }
 }

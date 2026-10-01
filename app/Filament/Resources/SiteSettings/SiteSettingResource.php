@@ -8,6 +8,7 @@ use BackedEnum;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -35,7 +36,15 @@ class SiteSettingResource extends Resource
                 TextInput::make('hero_accent')->required()->maxLength(100)->columnSpanFull(),
                 Textarea::make('hero_intro')->required()->rows(4)->maxLength(700)->columnSpanFull(),
                 TextInput::make('about_heading')->required()->maxLength(150)->columnSpanFull(),
-                Textarea::make('about_body')->required()->rows(7)->maxLength(1500)->columnSpanFull(),
+                FileUpload::make('profile_photo')
+                    ->label('About page portrait')
+                    ->image()
+                    ->imageEditor()
+                    ->disk('public')
+                    ->directory('profile')
+                    ->visibility('public')
+                    ->columnSpanFull(),
+                Textarea::make('about_body')->required()->rows(12)->maxLength(5000)->columnSpanFull(),
                 TextInput::make('email')->email()->required(),
                 TextInput::make('linkedin_url')->url(),
                 TextInput::make('github_url')->url(),
