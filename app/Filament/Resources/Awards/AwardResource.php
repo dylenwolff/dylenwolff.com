@@ -22,12 +22,18 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class AwardResource extends Resource
 {
     protected static ?string $model = Award::class;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTrophy;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Website';
+
     protected static ?string $navigationLabel = 'Awards & recognition';
+
     protected static ?string $recordTitleAttribute = 'title';
 
     public static function form(Schema $schema): Schema

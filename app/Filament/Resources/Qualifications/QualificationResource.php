@@ -19,12 +19,15 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class QualificationResource extends Resource
 {
     protected static ?string $model = Qualification::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAcademicCap;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Website';
 
     protected static ?string $navigationLabel = 'Qualifications';
 

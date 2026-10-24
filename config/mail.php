@@ -115,4 +115,25 @@ return [
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Sent Folder Copy
+    |--------------------------------------------------------------------------
+    |
+    | SMTP delivers messages but does not place them in a webmail Sent folder.
+    | When enabled, the application appends each successfully sent message to
+    | the sender's IMAP Sent mailbox so it is visible in Roundcube.
+    |
+    */
+
+    'sent_copy' => [
+        'enabled' => env('MAIL_SAVE_SENT', false),
+        'host' => env('MAIL_IMAP_HOST', env('MAIL_HOST')),
+        'port' => env('MAIL_IMAP_PORT', 993),
+        'username' => env('MAIL_IMAP_USERNAME', env('MAIL_USERNAME')),
+        'password' => env('MAIL_IMAP_PASSWORD', env('MAIL_PASSWORD')),
+        'mailbox' => env('MAIL_IMAP_SENT_MAILBOX', 'Sent'),
+        'timeout' => env('MAIL_IMAP_TIMEOUT', 10),
+    ],
+
 ];

@@ -14,14 +14,17 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use UnitEnum;
 
 class ContactMessageResource extends Resource
 {
     protected static ?string $model = ContactMessage::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedEnvelope;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Sales';
 
     protected static ?string $recordTitleAttribute = 'subject';
 
@@ -33,6 +36,7 @@ class ContactMessageResource extends Resource
                 TextInput::make('email')->disabled(),
                 TextInput::make('subject')->disabled()->columnSpanFull(),
                 Textarea::make('message')->disabled()->rows(10)->columnSpanFull(),
+                Select::make('lead_id')->relationship('lead', 'title')->searchable()->preload(),
                 Select::make('status')->options(['new' => 'New', 'replied' => 'Replied', 'archived' => 'Archived'])->required(),
             ]);
     }
@@ -44,6 +48,7 @@ class ContactMessageResource extends Resource
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('email')->searchable(),
                 TextColumn::make('subject')->limit(50),
+                TextColumn::make('lead.title')->label('Lead')->limit(40),
                 TextColumn::make('status')->badge()->sortable(),
                 TextColumn::make('created_at')->dateTime()->sortable(),
             ])

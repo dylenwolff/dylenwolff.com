@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContactEnquiryMail;
 use App\Models\Award;
+use App\Models\Contact;
 use App\Models\ContactMessage;
+use App\Models\Lead;
 use App\Models\Project;
 use App\Models\Qualification;
 use App\Models\Service;
 use App\Models\SiteSetting;
+use App\Services\SentMailArchiver;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
@@ -98,7 +102,7 @@ class HomeController extends Controller
         return array_merge(['settings' => SiteSetting::current()], $data);
     }
 
-    public function contact(Request $request): RedirectResponse
+    public function contact(Request $request, SentMailArchiver $sentMailArchiver): RedirectResponse
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:100'],
@@ -108,10 +112,36 @@ class HomeController extends Controller
             'website' => ['nullable', 'max:0'],
         ]);
 
-        $contact = ContactMessage::create($validated);
+        $contact = DB::transaction(function () use ($validated) {
+            $person = Contact::query()->firstOrCreate(
+                ['email' => $validated['email']],
+                ['first_name' => $validated['name'], 'status' => 'active']
+            );
+
+            $lead = Lead::create([
+                'contact_id' => $person->id,
+                'title' => $validated['subject'] ?: 'Website enquiry from '.$validated['name'],
+                'source' => 'website',
+                'status' => 'new',
+                'description' => $validated['message'],
+            ]);
+
+            return ContactMessage::create([...$validated, 'lead_id' => $lead->id]);
+        });
 
         try {
-            Mail::to(SiteSetting::current()->email)->send(new ContactEnquiryMail($contact));
+            $sentMessage = Mail::to(SiteSetting::current()->email)->send(new ContactEnquiryMail($contact));
+
+            if ($sentMessage !== null) {
+                try {
+                    $sentMailArchiver->archive($sentMessage);
+                } catch (Throwable $exception) {
+                    Log::warning('Contact notification was sent but could not be archived in the Sent folder.', [
+                        'contact_message_id' => $contact->id,
+                        'exception' => $exception,
+                    ]);
+                }
+            }
         } catch (Throwable $exception) {
             Log::error('Contact notification could not be sent.', ['contact_message_id' => $contact->id, 'exception' => $exception]);
         }

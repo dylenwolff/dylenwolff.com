@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Contact;
 use App\Models\ContactMessage;
+use App\Models\Lead;
 use App\Models\Project;
 use App\Models\Qualification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -41,6 +43,13 @@ class PortfolioCmsTest extends TestCase
             'status' => 'new',
         ]);
         Mail::assertSentCount(1);
+        $this->assertDatabaseHas(Contact::class, ['email' => 'client@example.com']);
+        $this->assertDatabaseHas(Lead::class, [
+            'source' => 'website',
+            'status' => 'new',
+            'title' => 'New website',
+        ]);
+        $this->assertDatabaseHas(ContactMessage::class, ['email' => 'client@example.com']);
     }
 
     public function test_portfolio_pages_and_project_case_studies_are_accessible(): void
