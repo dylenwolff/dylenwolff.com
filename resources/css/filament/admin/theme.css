@@ -141,18 +141,33 @@ body.fi-body {
     background: color-mix(in srgb, var(--dw-primary) 4%, transparent);
 }
 
-.fi-input-wrp,
-.fi-select-input,
-.fi-textarea {
-    border-color: var(--dw-border);
+.fi-input-wrp {
+    border: 1px solid var(--dw-border);
     border-radius: .7rem;
-    background: var(--dw-surface);
-    box-shadow: none;
+    background: color-mix(in srgb, var(--dw-canvas) 45%, var(--dw-surface));
+    box-shadow: 0 1px 2px rgb(15 23 42 / .03);
 }
 
 .fi-input-wrp:focus-within {
     border-color: var(--dw-primary);
     box-shadow: 0 0 0 3px rgb(37 99 235 / .12);
+}
+
+.fi-input-wrp.fi-invalid {
+    border-color: var(--danger-600);
+}
+
+.fi-input,
+.fi-select-input,
+.fi-fo-textarea textarea {
+    color: var(--dw-text);
+}
+
+.fi-input::placeholder,
+.fi-fo-textarea textarea::placeholder,
+.fi-select-input-placeholder {
+    color: var(--dw-muted);
+    opacity: .72;
 }
 
 .fi-btn {
