@@ -39,4 +39,14 @@ class Opportunity extends Model
     {
         return $this->hasMany(CrmTask::class);
     }
+
+    public function clientProjects(): HasMany
+    {
+        return $this->hasMany(ClientProject::class);
+    }
+
+    public function quotes(): HasMany
+    {
+        return $this->hasMany(Quote::class);
+    }
 }
