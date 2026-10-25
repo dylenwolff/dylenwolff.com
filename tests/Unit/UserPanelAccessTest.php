@@ -10,12 +10,13 @@ use Tests\TestCase;
 class UserPanelAccessTest extends TestCase
 {
     #[Test]
-    public function the_site_owner_can_access_the_admin_panel(): void
+    public function the_approved_email_addresses_can_access_the_admin_panel(): void
     {
-        $user = new User(['email' => 'dylenaw@gmail.com']);
         $panel = Panel::make()->id('admin');
 
-        $this->assertTrue($user->canAccessPanel($panel));
+        foreach (['dylenaw@outlook.com', 'dylenaw@gmail.com', 'connect@dylenwolff.com'] as $email) {
+            $this->assertTrue((new User(['email' => $email]))->canAccessPanel($panel));
+        }
     }
 
     #[Test]

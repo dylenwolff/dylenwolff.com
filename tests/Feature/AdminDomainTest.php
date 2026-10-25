@@ -20,10 +20,21 @@ class AdminDomainTest extends TestCase
         $response->assertNotFound();
     }
 
-    public function test_admin_password_reset_request_page_is_available(): void
+    public function test_admin_password_reset_is_disabled(): void
     {
         $response = $this->get('http://admin.dylenwolff.com/password-reset/request');
 
-        $response->assertOk();
+        $response->assertNotFound();
+    }
+
+    public function test_admin_login_uses_an_email_code_instead_of_a_password(): void
+    {
+        $response = $this->get('http://admin.dylenwolff.com/login');
+
+        $response
+            ->assertOk()
+            ->assertSee('Sign in with an email code')
+            ->assertSee('Send login code')
+            ->assertDontSee('Forgot password');
     }
 }

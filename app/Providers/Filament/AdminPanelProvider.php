@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\EmailOtpLogin;
 use App\Filament\Widgets\SalesOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -28,8 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->domain('admin.dylenwolff.com')
             ->path('')
-            ->login()
-            ->passwordReset()
+            ->login(EmailOtpLogin::class)
             ->brandName('Dylen Wolff Business Hub')
             ->colors([
                 'primary' => Color::Blue,
