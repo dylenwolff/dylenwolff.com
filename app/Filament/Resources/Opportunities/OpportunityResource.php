@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use UnitEnum;
 
@@ -49,10 +50,13 @@ class OpportunityResource extends Resource
         return $table->columns([
             TextColumn::make('name')->searchable()->sortable(),
             TextColumn::make('organization.name')->label('Organisation'),
+            TextColumn::make('organization.country_code')->label('Country')->formatStateUsing(fn (?string $state): string => \App\Support\Countries::name($state) ?? 'Not set')->sortable(),
             TextColumn::make('stage')->badge()->sortable(),
             TextColumn::make('amount')->money('LKR')->sortable(),
             TextColumn::make('probability')->suffix('%'),
             TextColumn::make('expected_close_date')->date()->sortable(),
+        ])->filters([
+            SelectFilter::make('country')->options(\App\Support\Countries::options())->query(fn ($query, array $data) => $query->when($data['value'] ?? null, fn ($query, $country) => $query->whereHas('organization', fn ($query) => $query->where('country_code', $country)))),
         ])->recordActions([EditAction::make()])->toolbarActions([CreateAction::make()]);
     }
 

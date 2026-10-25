@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Organizations;
 
 use App\Filament\Resources\Organizations\Pages\ListOrganizations;
 use App\Models\Organization;
+use App\Support\Countries;
 use BackedEnum;
 use Filament\Actions\CreateAction;
 use Filament\Actions\EditAction;
@@ -32,6 +33,8 @@ class OrganizationResource extends Resource
         return $schema->components([
             TextInput::make('name')->required()->maxLength(160),
             TextInput::make('industry')->maxLength(120),
+            Select::make('country_code')->label('Country')->options(Countries::options())->searchable(),
+            TextInput::make('city')->maxLength(120),
             TextInput::make('website')->url()->maxLength(255),
             TextInput::make('email')->email()->maxLength(255),
             TextInput::make('phone')->tel()->maxLength(50),
@@ -45,6 +48,8 @@ class OrganizationResource extends Resource
         return $table->columns([
             TextColumn::make('name')->searchable()->sortable(),
             TextColumn::make('industry')->searchable(),
+            TextColumn::make('country_code')->label('Country')->formatStateUsing(fn (?string $state): string => Countries::name($state) ?? 'Not set')->searchable()->sortable(),
+            TextColumn::make('city')->searchable()->toggleable(isToggledHiddenByDefault: true),
             TextColumn::make('email')->searchable(),
             TextColumn::make('phone'),
             TextColumn::make('status')->badge()->sortable(),

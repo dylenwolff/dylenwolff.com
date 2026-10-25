@@ -83,9 +83,19 @@
         </article>
     </section>
 
-    <section class="grid gap-4 md:grid-cols-2">
+    <section class="grid gap-4 lg:grid-cols-3">
         <article class="card bg-neutral text-neutral-content shadow-sm"><div class="card-body"><div class="flex items-center justify-between"><div><p class="text-sm opacity-60">Prospect organisations</p><p class="mt-2 text-3xl font-black">{{ $organizations }}</p></div><i data-lucide="building-2" class="size-9 opacity-60"></i></div></div></article>
         <article class="card bg-primary text-primary-content shadow-sm"><div class="card-body"><div class="flex items-center justify-between"><div><p class="text-sm opacity-70">Outstanding invoices</p><p class="mt-2 text-3xl font-black">${{ number_format((float)$outstandingInvoices) }}</p></div><i data-lucide="receipt-text" class="size-9 opacity-70"></i></div></div></article>
+        <article class="card border border-base-300 bg-base-100 shadow-sm">
+            <div class="card-body gap-3">
+                <div class="flex items-center justify-between"><div><p class="font-bold">Markets</p><p class="text-xs text-base-content/50">Organisations by country</p></div><i data-lucide="globe-2" class="size-6 text-info"></i></div>
+                @forelse($countries as $country)
+                    <div class="flex items-center justify-between gap-3 text-sm"><span class="truncate">{{ $country['name'] }}</span><span class="badge badge-ghost badge-sm">{{ $country['total'] }}</span></div>
+                @empty
+                    <p class="text-sm text-base-content/50">Add a country to an organisation to begin tracking markets.</p>
+                @endforelse
+            </div>
+        </article>
     </section>
 </div>
 @endsection

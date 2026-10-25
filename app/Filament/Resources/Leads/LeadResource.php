@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use UnitEnum;
 
@@ -47,10 +48,13 @@ class LeadResource extends Resource
         return $table->columns([
             TextColumn::make('title')->searchable()->sortable(),
             TextColumn::make('contact.full_name')->label('Contact'),
+            TextColumn::make('organization.country_code')->label('Country')->formatStateUsing(fn (?string $state): string => \App\Support\Countries::name($state) ?? 'Not set')->sortable(),
             TextColumn::make('source')->badge(),
             TextColumn::make('status')->badge()->sortable(),
             TextColumn::make('estimated_value')->money('LKR')->sortable(),
             TextColumn::make('next_follow_up_at')->dateTime()->sortable(),
+        ])->filters([
+            SelectFilter::make('country')->options(\App\Support\Countries::options())->query(fn ($query, array $data) => $query->when($data['value'] ?? null, fn ($query, $country) => $query->whereHas('organization', fn ($query) => $query->where('country_code', $country)))),
         ])->defaultSort('created_at', 'desc')->recordActions([EditAction::make()])->toolbarActions([CreateAction::make()]);
     }
 
