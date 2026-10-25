@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WorkspaceController;
 use App\Http\Controllers\WorkspaceAuthController;
+use App\Http\Controllers\WorkspaceResourceController;
 use Illuminate\Support\Facades\Route;
 
 Route::domain('admin.dylenwolff.com')->group(function (): void {
@@ -13,17 +14,18 @@ Route::domain('admin.dylenwolff.com')->group(function (): void {
     Route::middleware('auth')->group(function (): void {
         Route::get('/', [WorkspaceController::class, 'index'])->name('workspace.dashboard');
         Route::get('/workspace', [WorkspaceController::class, 'index'])->name('workspace.home');
-        Route::get('/manage/{section}', function (string $section) {
-            $allowed = [
-                'organizations', 'contacts', 'leads', 'opportunities', 'crm-tasks', 'activities',
-                'client-projects', 'support-tickets', 'client-documents', 'quotes', 'invoices',
-                'maintenance-plans', 'projects', 'services', 'awards', 'qualifications', 'site-settings',
-            ];
-
-            abort_unless(in_array($section, $allowed, true), 404);
-
-            return redirect('/legacy/'.$section);
-        })->name('workspace.manage');
+        Route::post('/logout', [WorkspaceAuthController::class, 'logout'])->name('workspace.logout');
+        Route::get('/manage/{section}', [WorkspaceResourceController::class, 'index'])->name('workspace.manage');
+        Route::get('/manage/{section}/create', [WorkspaceResourceController::class, 'create'])->name('workspace.resources.create');
+        Route::post('/manage/{section}', [WorkspaceResourceController::class, 'store'])->name('workspace.resources.store');
+        Route::get('/manage/{section}/{record}/edit', [WorkspaceResourceController::class, 'edit'])->name('workspace.resources.edit');
+        Route::put('/manage/{section}/{record}', [WorkspaceResourceController::class, 'update'])->name('workspace.resources.update');
+        Route::delete('/manage/{section}/{record}', [WorkspaceResourceController::class, 'destroy'])->name('workspace.resources.destroy');
+        Route::get('/legacy/{section?}', function (?string $section = null) {
+            return $section
+                ? redirect()->route('workspace.manage', $section)
+                : redirect()->route('workspace.dashboard');
+        });
     });
 });
 

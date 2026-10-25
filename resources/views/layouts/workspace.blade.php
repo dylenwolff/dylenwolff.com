@@ -12,6 +12,7 @@
 @php
     $sections = [
         'Sales' => [
+            ['label' => 'Messages', 'slug' => 'contact-messages', 'icon' => 'mail'],
             ['label' => 'Organizations', 'slug' => 'organizations', 'icon' => 'building-2'],
             ['label' => 'Contacts', 'slug' => 'contacts', 'icon' => 'contact'],
             ['label' => 'Leads', 'slug' => 'leads', 'icon' => 'radar'],
@@ -36,6 +37,7 @@
             ['label' => 'Services', 'slug' => 'services', 'icon' => 'blocks'],
             ['label' => 'Awards', 'slug' => 'awards', 'icon' => 'award'],
             ['label' => 'Qualifications', 'slug' => 'qualifications', 'icon' => 'graduation-cap'],
+            ['label' => 'Site content', 'slug' => 'site-settings', 'icon' => 'settings-2'],
         ],
     ];
 @endphp
@@ -57,8 +59,7 @@
                 <div class="dropdown dropdown-end">
                     <button tabindex="0" class="btn btn-ghost btn-sm gap-2"><span class="avatar placeholder"><span class="w-7 rounded-full bg-primary text-primary-content"><span class="text-xs">{{ str(auth()->user()->name)->substr(0, 1) }}</span></span></span><span class="hidden md:inline">{{ auth()->user()->name }}</span><i data-lucide="chevron-down" class="size-3"></i></button>
                     <ul tabindex="0" class="menu dropdown-content z-50 mt-3 w-56 rounded-box border border-base-300 bg-base-100 p-2 shadow-xl">
-                        <li><a href="/legacy"><i data-lucide="settings-2" class="size-4"></i>Legacy admin</a></li>
-                        <li><form method="POST" action="/legacy/logout">@csrf<button class="w-full"><i data-lucide="log-out" class="size-4"></i>Sign out</button></form></li>
+                        <li><form method="POST" action="{{ route('workspace.logout') }}">@csrf<button class="w-full"><i data-lucide="log-out" class="size-4"></i>Sign out</button></form></li>
                     </ul>
                 </div>
             </div>
@@ -81,12 +82,12 @@
                 @foreach($sections as $group => $items)
                     <li class="menu-title mt-3">{{ $group }}</li>
                     @foreach($items as $item)
-                        <li><a href="{{ route('workspace.manage', $item['slug']) }}"><i data-lucide="{{ $item['icon'] }}" class="size-4"></i>{{ $item['label'] }}</a></li>
+                        <li><a href="{{ route('workspace.manage', $item['slug']) }}" class="{{ request()->route('section') === $item['slug'] ? 'active' : '' }}"><i data-lucide="{{ $item['icon'] }}" class="size-4"></i>{{ $item['label'] }}</a></li>
                     @endforeach
                 @endforeach
             </nav>
             <div class="border-t border-base-300 p-4 text-xs text-base-content/55">
-                DaisyUI workspace · Phase 1
+                DaisyUI business workspace
             </div>
         </div>
     </aside>

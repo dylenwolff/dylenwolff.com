@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Models\User;
-use Filament\Panel;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -12,10 +11,8 @@ class UserPanelAccessTest extends TestCase
     #[Test]
     public function the_approved_email_addresses_can_access_the_admin_panel(): void
     {
-        $panel = Panel::make()->id('admin');
-
         foreach (['dylenaw@outlook.com', 'dylenaw@gmail.com', 'connect@dylenwolff.com'] as $email) {
-            $this->assertTrue((new User(['email' => $email]))->canAccessPanel($panel));
+            $this->assertTrue((new User(['email' => $email]))->canAccessWorkspace());
         }
     }
 
@@ -23,8 +20,6 @@ class UserPanelAccessTest extends TestCase
     public function other_users_cannot_access_the_admin_panel(): void
     {
         $user = new User(['email' => 'someone@example.com']);
-        $panel = Panel::make()->id('admin');
-
-        $this->assertFalse($user->canAccessPanel($panel));
+        $this->assertFalse($user->canAccessWorkspace());
     }
 }

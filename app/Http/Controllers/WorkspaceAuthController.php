@@ -14,6 +14,14 @@ use Illuminate\View\View;
 
 class WorkspaceAuthController extends Controller
 {
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
+    }
     public function create(Request $request): View|RedirectResponse
     {
         if (Auth::check()) {

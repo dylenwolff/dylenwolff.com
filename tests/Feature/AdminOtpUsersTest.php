@@ -2,14 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Filament\Pages\Auth\EmailOtpLogin;
 use App\Models\AdminLoginOtp;
 use App\Models\User;
 use App\Notifications\AdminLoginCode;
-use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-use Livewire\Livewire;
 use Tests\TestCase;
 
 class AdminOtpUsersTest extends TestCase
@@ -26,13 +23,10 @@ class AdminOtpUsersTest extends TestCase
     public function test_an_approved_user_can_request_a_login_code(): void
     {
         Notification::fake();
-        Filament::setCurrentPanel(Filament::getPanel('admin'));
-
-        Livewire::test(EmailOtpLogin::class)
-            ->set('data.email', 'dylenaw@gmail.com')
-            ->call('authenticate')
-            ->assertHasNoErrors()
-            ->assertSet('codeSent', true);
+        $this->from('http://admin.dylenwolff.com/login')
+            ->post('http://admin.dylenwolff.com/login/code', ['email' => 'dylenaw@gmail.com'])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect('http://admin.dylenwolff.com/login');
 
         $user = User::query()->where('email', 'dylenaw@gmail.com')->firstOrFail();
 
