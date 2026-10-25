@@ -31,6 +31,8 @@ class AdminPanelProvider extends PanelProvider
             ->path('legacy')
             ->login(EmailOtpLogin::class)
             ->brandName('Dylen Wolff Business Hub')
+            ->homeUrl('/')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Blue,
             ])
