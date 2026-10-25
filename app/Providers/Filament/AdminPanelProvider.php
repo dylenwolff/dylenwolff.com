@@ -28,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->domain('admin.dylenwolff.com')
-            ->path('')
+            ->path('legacy')
             ->login(EmailOtpLogin::class)
             ->brandName('Dylen Wolff Business Hub')
             ->colors([
