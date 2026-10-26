@@ -57,12 +57,6 @@
             <div class="navbar-end gap-2">
                 <a href="https://dylenwolff.com" class="btn btn-ghost btn-sm hidden sm:inline-flex" target="_blank"><i data-lucide="external-link" class="size-4"></i>Website</a>
                 <button class="btn btn-square btn-ghost btn-sm" data-workspace-theme aria-label="Change theme"><i data-lucide="sun-moon" class="size-4"></i></button>
-                <div class="dropdown dropdown-end">
-                    <button tabindex="0" class="btn btn-ghost btn-sm gap-2"><span class="avatar placeholder"><span class="w-7 rounded-full bg-primary text-primary-content"><span class="text-xs">{{ str(auth()->user()->name)->substr(0, 1) }}</span></span></span><span class="hidden md:inline">{{ auth()->user()->name }}</span><i data-lucide="chevron-down" class="size-3"></i></button>
-                    <ul tabindex="0" class="menu dropdown-content z-50 mt-3 w-56 rounded-box border border-base-300 bg-base-100 p-2 shadow-xl">
-                        <li><form method="POST" action="{{ route('workspace.logout') }}">@csrf<button class="w-full"><i data-lucide="log-out" class="size-4"></i>Sign out</button></form></li>
-                    </ul>
-                </div>
             </div>
         </header>
 
@@ -87,8 +81,12 @@
                     @endforeach
                 @endforeach
             </nav>
-            <div class="border-t border-base-300 p-4 text-xs text-base-content/55">
-                DaisyUI business workspace
+            <div class="border-t border-base-300 p-3">
+                <div class="flex items-center gap-3 rounded-box px-2 py-2">
+                    <span class="avatar placeholder"><span class="w-9 rounded-full bg-primary text-primary-content"><span class="text-sm">{{ str(auth()->user()->name)->substr(0, 1) }}</span></span></span>
+                    <span class="min-w-0 flex-1"><strong class="block truncate text-sm">{{ auth()->user()->name }}</strong><span class="block truncate text-xs text-base-content/50">{{ auth()->user()->email }}</span></span>
+                </div>
+                <form method="POST" action="{{ route('workspace.logout') }}" class="mt-1">@csrf<button class="btn btn-ghost btn-sm w-full justify-start"><i data-lucide="log-out" class="size-4"></i>Sign out</button></form>
             </div>
         </div>
     </aside>

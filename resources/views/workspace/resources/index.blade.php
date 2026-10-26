@@ -37,6 +37,8 @@
                                 <span class="badge {{ $value ? 'badge-success' : 'badge-ghost' }} badge-sm">{{ $value ? 'Yes' : 'No' }}</span>
                             @elseif(in_array(last(explode('.', $column)), ['status','stage','priority','source','type','billing_type'], true))
                                 <span class="badge badge-outline badge-sm">{{ str((string)$value)->replace('_', ' ')->headline() }}</span>
+                            @elseif(last(explode('.', $column)) === 'contact_phone' && filled($value))
+                                <a class="link link-primary whitespace-nowrap" href="tel:{{ preg_replace('/[^+\d]/', '', $value) }}">{{ $value }}</a>
                             @elseif(last(explode('.', $column)) === 'country_code')
                                 {{ \App\Support\Countries::name($value) ?? 'Not set' }}
                             @elseif($value instanceof \Carbon\CarbonInterface)

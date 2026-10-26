@@ -70,6 +70,22 @@ class WorkspaceResourceTest extends TestCase
             ->assertSeeInOrder(['Work in progress', 'Urgent task', 'Normal task', 'Completed task']);
     }
 
+    public function test_task_list_shows_the_organization_contact_and_phone(): void
+    {
+        $user = User::query()->where('email', 'dylenaw@gmail.com')->firstOrFail();
+        $organization = Organization::create(['name' => 'Clear Call Client', 'country_code' => 'AU', 'phone' => '0411 222 333']);
+        $contact = Contact::create(['organization_id' => $organization->id, 'first_name' => 'Jamie', 'last_name' => 'Owner']);
+        $lead = Lead::create(['organization_id' => $organization->id, 'contact_id' => $contact->id, 'title' => 'Website upgrade']);
+        CrmTask::create(['contact_id' => $contact->id, 'lead_id' => $lead->id, 'title' => 'Call Clear Call Client', 'status' => 'todo']);
+
+        $this->actingAs($user)
+            ->get('http://admin.dylenwolff.com/manage/crm-tasks')
+            ->assertOk()
+            ->assertSee('Clear Call Client')
+            ->assertSee('Jamie Owner')
+            ->assertSee('0411 222 333');
+    }
+
     public function test_old_filament_urls_redirect_to_the_native_workspace(): void
     {
         $user = User::query()->where('email', 'dylenaw@gmail.com')->firstOrFail();

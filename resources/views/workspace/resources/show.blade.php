@@ -32,6 +32,14 @@
         </section>
     @endif
 
+    @if($section === 'crm-tasks')
+        <section class="grid gap-3 md:grid-cols-3">
+            <div class="card border border-base-300 bg-base-100 shadow-sm"><div class="card-body p-4"><p class="text-xs font-bold uppercase tracking-wide text-base-content/50">Organization</p><p class="mt-1 font-bold">{{ $model->organization_name ?: 'Not linked' }}</p></div></div>
+            <div class="card border border-base-300 bg-base-100 shadow-sm"><div class="card-body p-4"><p class="text-xs font-bold uppercase tracking-wide text-base-content/50">Contact</p><p class="mt-1 font-bold">{{ $model->contact_name ?: 'Owner or manager' }}</p></div></div>
+            <div class="card border border-base-300 bg-base-100 shadow-sm"><div class="card-body p-4"><p class="text-xs font-bold uppercase tracking-wide text-base-content/50">Phone</p>@if($model->contact_phone)<a class="link link-primary mt-1 font-bold" href="tel:{{ preg_replace('/[^+\d]/', '', $model->contact_phone) }}">{{ $model->contact_phone }}</a>@else<p class="mt-1 text-base-content/45">Not available</p>@endif</div></div>
+        </section>
+    @endif
+
     <section class="card border border-base-300 bg-base-100 shadow-sm">
         <div class="card-body p-0">
             <div class="grid md:grid-cols-2">
