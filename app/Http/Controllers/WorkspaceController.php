@@ -12,6 +12,7 @@ use App\Models\OutreachDeliveryMetric;
 use App\Models\OutreachEmail;
 use App\Models\WhatsAppOutreach;
 use App\Support\Countries;
+use App\Support\SentMailStatistics;
 use Illuminate\View\View;
 
 class WorkspaceController extends Controller
@@ -33,9 +34,7 @@ class WorkspaceController extends Controller
         $invalidRate = $delivery->total_sent > 0
             ? round(($delivery->invalid_recipient / $delivery->total_sent) * 100, 1)
             : 0;
-        $dailyStart = $now->copy()->subDays(6)->startOfDay()->utc();
-        $emailsByDay = OutreachEmail::query()->where('sent_at', '>=', $dailyStart)->get(['sent_at'])
-            ->countBy(fn ($email) => $email->sent_at->timezone('Asia/Colombo')->toDateString());
+        $emailsByDay = SentMailStatistics::dailyCounts();
         $whatsAppByDay = WhatsAppOutreach::query()->where('sent_at', '>=', $dailyStart)->get(['sent_at'])
             ->countBy(fn ($message) => $message->sent_at->timezone('Asia/Colombo')->toDateString());
         $outreachDaily = collect(range(6, 0))->map(function (int $daysAgo) use ($now, $emailsByDay, $whatsAppByDay) {
@@ -54,9 +53,9 @@ class WorkspaceController extends Controller
                 'tasksDue' => CrmTask::query()->whereNotIn('status', ['done', 'completed', 'cancelled'])->where('due_at', '<=', now()->endOfDay())->count(),
                 'unreadMessages' => ContactMessage::query()->whereNull('read_at')->where('status', '!=', 'spam')->count(),
                 'emailQueue' => OutreachEmail::query()->whereNull('sent_at')->whereIn('status', ['ready', 'approved'])->count(),
-                'sentEmails' => OutreachEmail::query()->whereNotNull('sent_at')->count(),
-                'emailsToday' => OutreachEmail::query()->where('sent_at', '>=', $todayStart)->count(),
-                'emailsWeek' => OutreachEmail::query()->where('sent_at', '>=', $weekStart)->count(),
+                'sentEmails' => SentMailStatistics::total(),
+                'emailsToday' => $emailsByDay->get($now->toDateString(), 0),
+                'emailsWeek' => $emailsByDay->sum(),
                 'whatsappToday' => WhatsAppOutreach::query()->where('sent_at', '>=', $todayStart)->count(),
                 'whatsappWeek' => WhatsAppOutreach::query()->where('sent_at', '>=', $weekStart)->count(),
                 'whatsappUnavailable' => WhatsAppOutreach::query()->where('status', 'unavailable')->count(),

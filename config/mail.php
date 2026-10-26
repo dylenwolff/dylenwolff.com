@@ -2,6 +2,8 @@
 
 return [
 
+    'sent_maildir' => env('MAIL_SENT_MAILDIR', '/home/dylenaw/mail/dylenwolff.com/connect/.Sent'),
+
     /*
     |--------------------------------------------------------------------------
     | Default Mailer
