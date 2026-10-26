@@ -26,6 +26,12 @@
                     <div class="rounded-box border border-base-300 bg-base-200/30 px-4 py-3"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-base-content/60">{{ $label }}</span><i data-lucide="{{ $icon }}" class="size-4 text-primary"></i></div><p class="mt-1 text-2xl font-black">{{ $value }}</p></div>
                 @endforeach
             </div>
+            <div class="overflow-x-auto rounded-box border border-base-300">
+                <table class="table table-sm">
+                    <thead><tr><th>Day</th><th class="text-right">Email</th><th class="text-right">WhatsApp</th><th class="text-right">Total sent</th></tr></thead>
+                    <tbody>@foreach($outreachDaily as $day)<tr><td>{{ $day['label'] }}</td><td class="text-right">{{ $day['emails'] }}</td><td class="text-right">{{ $day['whatsapp'] }}</td><td class="text-right font-bold">{{ $day['total'] }}</td></tr>@endforeach</tbody>
+                </table>
+            </div>
         </div>
     </section>
 

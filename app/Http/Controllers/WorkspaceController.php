@@ -33,6 +33,19 @@ class WorkspaceController extends Controller
         $invalidRate = $delivery->total_sent > 0
             ? round(($delivery->invalid_recipient / $delivery->total_sent) * 100, 1)
             : 0;
+        $dailyStart = $now->copy()->subDays(6)->startOfDay()->utc();
+        $emailsByDay = OutreachEmail::query()->where('sent_at', '>=', $dailyStart)->get(['sent_at'])
+            ->countBy(fn ($email) => $email->sent_at->timezone('Asia/Colombo')->toDateString());
+        $whatsAppByDay = WhatsAppOutreach::query()->where('sent_at', '>=', $dailyStart)->get(['sent_at'])
+            ->countBy(fn ($message) => $message->sent_at->timezone('Asia/Colombo')->toDateString());
+        $outreachDaily = collect(range(6, 0))->map(function (int $daysAgo) use ($now, $emailsByDay, $whatsAppByDay) {
+            $day = $now->copy()->subDays($daysAgo);
+            $date = $day->toDateString();
+            $emails = $emailsByDay->get($date, 0);
+            $whatsApp = $whatsAppByDay->get($date, 0);
+
+            return ['date' => $date, 'label' => $day->format('D, d M'), 'emails' => $emails, 'whatsapp' => $whatsApp, 'total' => $emails + $whatsApp];
+        });
 
         return view('workspace.dashboard', [
             'stats' => [
@@ -67,6 +80,7 @@ class WorkspaceController extends Controller
                     'total' => $country->total,
                 ]),
             'outstandingInvoices' => Invoice::query()->whereNotIn('status', ['paid', 'cancelled'])->sum('total'),
+            'outreachDaily' => $outreachDaily,
             'delivery' => [
                 'total' => $delivery->total_sent,
                 'accepted' => $delivery->accepted,

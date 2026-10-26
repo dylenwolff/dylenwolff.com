@@ -41,7 +41,7 @@
                             @elseif(in_array(last(explode('.', $column)), ['status','stage','priority','source','type','billing_type'], true))
                                 <span class="badge badge-outline badge-sm">{{ str((string)$value)->replace('_', ' ')->headline() }}</span>
                             @elseif(last(explode('.', $column)) === 'phone' && filled($value))
-                                @php($internationalPhone = \App\Support\PhoneNumber::international($value, $record->country_code ?? $record->organization?->country_code))
+                                @php($internationalPhone = $section === 'whatsapp-outreaches' ? '+'.ltrim($value, '+') : \App\Support\PhoneNumber::international($value, $record->country_code ?? $record->organization?->country_code))
                                 <a class="link link-primary whitespace-nowrap" href="tel:{{ $internationalPhone }}">{{ $internationalPhone }}</a>
                             @elseif(last(explode('.', $column)) === 'contact_phone' && filled($value))
                                 <a class="link link-primary whitespace-nowrap" href="tel:{{ preg_replace('/[^+\d]/', '', $value) }}">{{ $value }}</a>
