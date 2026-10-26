@@ -85,8 +85,32 @@ final class WhatsAppLink
             .'You can view my work at https://dylenwolff.com';
     }
 
+    public static function fallbackReason(Lead $lead): ?string
+    {
+        $lead->loadMissing(['contact', 'organization', 'outreachEmails']);
+        $availableEmails = collect([$lead->contact?->email, $lead->organization?->email])
+            ->filter()->map(fn (string $email) => strtolower(trim($email)))->unique()->values();
+
+        if ($availableEmails->isEmpty()) {
+            return 'No email address is available. WhatsApp is the secondary contact route.';
+        }
+
+        $bouncedEmails = $lead->outreachEmails->where('status', 'bounced')
+            ->pluck('recipient_email')->filter()->map(fn (string $email) => strtolower(trim($email)))->unique();
+
+        if ($availableEmails->every(fn (string $email) => $bouncedEmails->contains($email))) {
+            return 'Email delivery failed for the available address. WhatsApp is the secondary contact route.';
+        }
+
+        return null;
+    }
+
     public static function url(Lead $lead): ?string
     {
+        if (! self::fallbackReason($lead)) {
+            return null;
+        }
+
         $phone = self::phone($lead);
 
         if ($phone && WhatsAppOutreach::query()->where('lead_id', $lead->id)->where('phone', $phone)->where('status', 'unavailable')->exists()) {

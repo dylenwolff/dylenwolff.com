@@ -9,7 +9,7 @@
     @if(session('warning'))<div class="alert alert-warning"><i data-lucide="triangle-alert" class="size-5"></i><span>{{ session('warning') }}</span></div>@endif
     @if(session('error'))<div class="alert alert-error"><i data-lucide="circle-alert" class="size-5"></i><span>{{ session('error') }}</span></div>@endif
     <section class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-        <div><h2 class="text-2xl font-black tracking-tight">{{ $resource['label'] }}</h2><p class="mt-1 text-sm text-base-content/55">Manage {{ strtolower($resource['label']) }} from your workspace.</p></div>
+        <div><h2 class="text-2xl font-black tracking-tight">{{ $resource['label'] }}</h2><p class="mt-1 text-sm text-base-content/55">{{ $section === 'whatsapp-outreaches' ? 'Secondary contact only when email is unavailable or delivery has failed.' : 'Manage '.strtolower($resource['label']).' from your workspace.' }}</p></div>
         <div class="flex flex-wrap gap-2">
             @if($section === 'crm-tasks')<a href="{{ route('workspace.manage', ['section' => 'crm-tasks', 'type' => 'call']) }}" class="btn {{ request('type') === 'call' ? 'btn-primary' : 'btn-outline' }}"><i data-lucide="phone-call" class="size-4"></i>Calls to make</a>@endif
             @if(($resource['create'] ?? true) !== false)<a href="{{ route('workspace.resources.create', $section) }}" class="btn btn-primary"><i data-lucide="plus" class="size-4"></i>Add {{ strtolower($resource['singular']) }}</a>@endif

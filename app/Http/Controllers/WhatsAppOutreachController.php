@@ -14,6 +14,12 @@ class WhatsAppOutreachController extends Controller
     public function open(Lead $lead): RedirectResponse
     {
         $lead->loadMissing(['contact', 'organization']);
+        $fallbackReason = WhatsAppLink::fallbackReason($lead);
+
+        if (! $fallbackReason) {
+            return back()->with('warning', 'Email is available for this lead and remains the primary contact route.');
+        }
+
         $url = WhatsAppLink::url($lead);
 
         if (! $url) {
@@ -29,6 +35,7 @@ class WhatsAppOutreachController extends Controller
                 'recipient_name' => $lead->contact?->full_name ?: $lead->organization?->name,
                 'message' => WhatsAppLink::message($lead),
                 'status' => 'draft',
+                'notes' => $fallbackReason,
             ],
         );
 
@@ -57,6 +64,10 @@ class WhatsAppOutreachController extends Controller
 
     public function markSent(WhatsAppOutreach $whatsappOutreach): RedirectResponse
     {
+        if (! $whatsappOutreach->lead || ! WhatsAppLink::fallbackReason($whatsappOutreach->lead)) {
+            return back()->with('warning', 'Email is available for this lead and remains the primary contact route.');
+        }
+
         $whatsappOutreach->update(['status' => 'sent', 'sent_at' => now()]);
         $whatsappOutreach->lead?->update(['status' => 'contacted', 'next_follow_up_at' => now()->addDays(4)]);
         Activity::create(['contact_id' => $whatsappOutreach->contact_id, 'lead_id' => $whatsappOutreach->lead_id, 'type' => 'whatsapp', 'subject' => 'WhatsApp message sent', 'details' => 'Confirmed sent to +'.$whatsappOutreach->phone.'.', 'occurred_at' => now()]);

@@ -198,4 +198,17 @@ class WorkspaceResourceTest extends TestCase
         $lead->refresh()->load('organization');
         $this->assertNull(WhatsAppLink::phone($lead));
     }
+
+    public function test_whatsapp_is_not_offered_when_a_working_email_is_available(): void
+    {
+        $user = User::query()->where('email', 'dylenaw@gmail.com')->firstOrFail();
+        $organization = Organization::create(['name' => 'Email First Client', 'country_code' => 'AU', 'phone' => '0412 345 678', 'email' => 'hello@example.com', 'status' => 'prospect']);
+        $lead = Lead::create(['organization_id' => $organization->id, 'title' => 'improve enquiries', 'status' => 'new']);
+
+        $this->assertNull(WhatsAppLink::fallbackReason($lead));
+        $this->assertNull(WhatsAppLink::url($lead));
+
+        $this->actingAs($user)->post("http://admin.dylenwolff.com/leads/{$lead->id}/whatsapp")->assertRedirect();
+        $this->assertDatabaseMissing('whatsapp_outreaches', ['lead_id' => $lead->id]);
+    }
 }
