@@ -38,7 +38,7 @@
     </section>
 
     <section class="card border border-base-300 bg-base-100 shadow-sm">
-        <div class="card-body gap-5 p-5 sm:p-6">
+        <div class="card-body gap-4 p-5">
             <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
                 <div>
                     <div class="flex items-center gap-2"><i data-lucide="activity" class="size-5 text-primary"></i><h3 class="card-title text-lg">Email delivery</h3></div>
@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
                 @foreach([
                     ['Sent', $delivery['total'], 'send', 'text-primary'],
                     ['Accepted', $delivery['accepted'], 'circle-check-big', 'text-success'],
@@ -59,22 +59,17 @@
                     ['Invalid addresses', $delivery['invalid'], 'at-sign', 'text-warning'],
                     ['Delayed', $delivery['delayed'], 'clock-3', 'text-warning'],
                 ] as [$label, $value, $icon, $color])
-                    <div class="rounded-box border border-base-300 bg-base-200/40 p-4">
-                        <div class="flex items-center justify-between"><span class="text-sm font-semibold text-base-content/60">{{ $label }}</span><i data-lucide="{{ $icon }}" class="size-5 {{ $color }}"></i></div>
-                        <p class="mt-2 text-3xl font-black">{{ $value }}</p>
+                    <div class="rounded-box border border-base-300 bg-base-200/30 px-4 py-3">
+                        <div class="flex items-center justify-between"><span class="text-xs font-semibold text-base-content/60">{{ $label }}</span><i data-lucide="{{ $icon }}" class="size-4 {{ $color }}"></i></div>
+                        <p class="mt-1 text-2xl font-black">{{ $value }}</p>
                     </div>
                 @endforeach
             </div>
 
-            <div class="grid gap-4 border-t border-base-300 pt-4 md:grid-cols-3">
-                <div class="flex items-center justify-between gap-3"><span class="text-sm text-base-content/60">Reputation or security blocks</span><span class="badge badge-error">{{ $delivery['reputation'] }}</span></div>
-                <div class="flex items-center justify-between gap-3"><span class="text-sm text-base-content/60">Invalid or unavailable addresses</span><span class="badge badge-ghost">{{ $delivery['invalid'] }}</span></div>
-                <div class="flex items-center justify-between gap-3"><span class="text-sm text-base-content/60">Recipient server or DNS errors</span><span class="badge badge-ghost">{{ $delivery['server'] }}</span></div>
+            <div class="flex flex-col gap-1 border-t border-base-300 pt-3 text-xs text-base-content/45 sm:flex-row sm:items-center sm:justify-between">
+                <p>{{ $delivery['failed'] }} total failures: {{ $delivery['reputation'] }} reputation or security blocks, {{ $delivery['invalid'] }} invalid or unavailable addresses, and {{ $delivery['server'] }} recipient server or DNS errors.</p>
+                @if($delivery['measuredAt'])<p class="shrink-0">Updated {{ $delivery['measuredAt']->timezone('Asia/Colombo')->format('d M, g:i A') }}</p>@endif
             </div>
-
-            <p class="text-xs text-base-content/45">{{ $delivery['failed'] }} total failures: {{ $delivery['rejected'] }} delivery rejections and {{ $delivery['invalid'] }} invalid or unavailable addresses.</p>
-
-            @if($delivery['measuredAt'])<p class="text-xs text-base-content/40">Last reconciled {{ $delivery['measuredAt']->timezone('Asia/Colombo')->format('d M Y, g:i A') }}</p>@endif
         </div>
     </section>
 
