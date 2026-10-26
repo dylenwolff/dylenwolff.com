@@ -78,12 +78,12 @@
                 <span class="grid size-10 place-items-center rounded-xl bg-primary text-primary-content"><i data-lucide="orbit" class="size-5"></i></span>
                 <span><strong class="block leading-tight">Dylen Wolff</strong><span class="text-xs text-base-content/55">Business workspace</span></span>
             </a>
-            <nav class="menu flex-1 flex-nowrap overflow-y-auto p-3">
-                <li><a href="{{ route('workspace.dashboard') }}" class="{{ request()->routeIs('workspace.dashboard', 'workspace.home') ? 'active' : '' }}"><i data-lucide="layout-dashboard" class="size-4"></i>Dashboard</a></li>
+            <nav class="menu w-full flex-1 flex-nowrap overflow-y-auto p-3">
+                <li class="w-full"><a href="{{ route('workspace.dashboard') }}" class="w-full {{ request()->routeIs('workspace.dashboard', 'workspace.home') ? 'active' : '' }}"><i data-lucide="layout-dashboard" class="size-4"></i>Dashboard</a></li>
                 @foreach($sections as $group => $items)
                     <li class="menu-title mt-3">{{ $group }}</li>
                     @foreach($items as $item)
-                        <li><a href="{{ route('workspace.manage', $item['slug']) }}" class="{{ request()->route('section') === $item['slug'] ? 'active' : '' }}"><i data-lucide="{{ $item['icon'] }}" class="size-4"></i>{{ $item['label'] }}</a></li>
+                        <li class="w-full"><a href="{{ route('workspace.manage', $item['slug']) }}" class="w-full {{ request()->route('section') === $item['slug'] ? 'active' : '' }}"><i data-lucide="{{ $item['icon'] }}" class="size-4"></i>{{ $item['label'] }}</a></li>
                     @endforeach
                 @endforeach
             </nav>
