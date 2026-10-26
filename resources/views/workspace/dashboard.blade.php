@@ -18,6 +18,17 @@
         </div>
     </section>
 
+    <section class="card border border-base-300 bg-base-100 shadow-sm">
+        <div class="card-body gap-4 p-5">
+            <div class="flex flex-wrap items-center justify-between gap-3"><div><h3 class="card-title text-lg">Outreach report</h3><p class="text-sm text-base-content/55">Confirmed messages sent and unavailable WhatsApp numbers</p></div><div class="flex gap-2"><a href="{{ route('workspace.manage', 'outreach-emails') }}" class="btn btn-ghost btn-sm">Email queue</a><a href="{{ route('workspace.manage', 'whatsapp-outreaches') }}" class="btn btn-ghost btn-sm">WhatsApp queue</a></div></div>
+            <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+                @foreach([['Emails today', $stats['emailsToday'], 'mail-check'], ['Emails this week', $stats['emailsWeek'], 'mails'], ['WhatsApp today', $stats['whatsappToday'], 'message-circle-check'], ['WhatsApp this week', $stats['whatsappWeek'], 'messages-square'], ['Not on WhatsApp', $stats['whatsappUnavailable'], 'phone-off']] as [$label, $value, $icon])
+                    <div class="rounded-box border border-base-300 bg-base-200/30 px-4 py-3"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-base-content/60">{{ $label }}</span><i data-lucide="{{ $icon }}" class="size-4 text-primary"></i></div><p class="mt-1 text-2xl font-black">{{ $value }}</p></div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
     <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
         @foreach([
             ['Open leads', $stats['openLeads'], 'radar', 'text-primary', 'Sales prospects in progress'],

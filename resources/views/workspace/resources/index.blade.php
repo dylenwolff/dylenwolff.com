@@ -10,7 +10,10 @@
     @if(session('error'))<div class="alert alert-error"><i data-lucide="circle-alert" class="size-5"></i><span>{{ session('error') }}</span></div>@endif
     <section class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div><h2 class="text-2xl font-black tracking-tight">{{ $resource['label'] }}</h2><p class="mt-1 text-sm text-base-content/55">Manage {{ strtolower($resource['label']) }} from your workspace.</p></div>
-        @if(($resource['create'] ?? true) !== false)<a href="{{ route('workspace.resources.create', $section) }}" class="btn btn-primary"><i data-lucide="plus" class="size-4"></i>Add {{ strtolower($resource['singular']) }}</a>@endif
+        <div class="flex flex-wrap gap-2">
+            @if($section === 'crm-tasks')<a href="{{ route('workspace.manage', ['section' => 'crm-tasks', 'type' => 'call']) }}" class="btn {{ request('type') === 'call' ? 'btn-primary' : 'btn-outline' }}"><i data-lucide="phone-call" class="size-4"></i>Calls to make</a>@endif
+            @if(($resource['create'] ?? true) !== false)<a href="{{ route('workspace.resources.create', $section) }}" class="btn btn-primary"><i data-lucide="plus" class="size-4"></i>Add {{ strtolower($resource['singular']) }}</a>@endif
+        </div>
     </section>
 
     <form class="card border border-base-300 bg-base-100 shadow-sm" method="GET">
@@ -56,6 +59,13 @@
                         </td>
                     @endforeach
                         <td><div class="flex justify-end gap-1">
+                            @if($section === 'whatsapp-outreaches')
+                                @if(in_array($record->status, ['draft', 'opened'], true))
+                                    <form method="POST" action="{{ route('workspace.whatsapp.open', $record) }}" target="_blank">@csrf<button class="btn btn-square btn-success btn-sm" title="Open WhatsApp"><i data-lucide="message-circle" class="size-4"></i></button></form>
+                                    <form method="POST" action="{{ route('workspace.whatsapp.sent', $record) }}" onsubmit="return confirm('Confirm that you pressed Send in WhatsApp?')">@csrf<button class="btn btn-square btn-primary btn-sm" title="Mark sent"><i data-lucide="check" class="size-4"></i></button></form>
+                                    <form method="POST" action="{{ route('workspace.whatsapp.unavailable', $record) }}" onsubmit="return confirm('Mark this number as not available on WhatsApp?')">@csrf<button class="btn btn-square btn-warning btn-sm" title="Not on WhatsApp"><i data-lucide="phone-off" class="size-4"></i></button></form>
+                                @endif
+                            @endif
                             @if($section === 'crm-tasks' && $record->lead && \App\Support\WhatsAppLink::url($record->lead))
                                 <form method="POST" action="{{ route('workspace.leads.whatsapp', $record->lead) }}" target="_blank" onsubmit="return confirm('Open this tailored message in WhatsApp? The CRM will record that the draft was opened, not that it was sent.')">@csrf<button class="btn btn-square btn-success btn-sm" aria-label="Open WhatsApp message" title="Open WhatsApp message"><i data-lucide="message-circle" class="size-4"></i></button></form>
                             @endif

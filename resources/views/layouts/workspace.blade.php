@@ -18,6 +18,7 @@
             ['label' => 'Leads', 'slug' => 'leads', 'icon' => 'radar'],
             ['label' => 'Opportunities', 'slug' => 'opportunities', 'icon' => 'badge-dollar-sign'],
             ['label' => 'Email queue', 'slug' => 'outreach-emails', 'icon' => 'send'],
+            ['label' => 'WhatsApp queue', 'slug' => 'whatsapp-outreaches', 'icon' => 'message-circle'],
         ],
         'Work' => [
             ['label' => 'Tasks', 'slug' => 'crm-tasks', 'icon' => 'list-checks'],

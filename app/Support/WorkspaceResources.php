@@ -21,6 +21,7 @@ use App\Models\Quote;
 use App\Models\Service;
 use App\Models\SiteSetting;
 use App\Models\SupportTicket;
+use App\Models\WhatsAppOutreach;
 
 final class WorkspaceResources
 {
@@ -32,6 +33,7 @@ final class WorkspaceResources
             'leads' => ['label' => 'Leads', 'singular' => 'Lead', 'model' => Lead::class, 'title' => 'title', 'columns' => ['title', 'organization.name', 'organization.country_code', 'source', 'status', 'estimated_value', 'next_follow_up_at']],
             'opportunities' => ['label' => 'Opportunities', 'singular' => 'Opportunity', 'model' => Opportunity::class, 'title' => 'name', 'columns' => ['name', 'organization.name', 'organization.country_code', 'stage', 'amount', 'probability', 'expected_close_date']],
             'outreach-emails' => ['label' => 'Email queue', 'singular' => 'Email', 'model' => OutreachEmail::class, 'title' => 'subject', 'columns' => ['organization.name', 'recipient_email', 'subject', 'status', 'follow_up_at', 'sent_at'], 'readonly' => ['sent_at', 'external_message_id']],
+            'whatsapp-outreaches' => ['label' => 'WhatsApp queue', 'singular' => 'WhatsApp message', 'model' => WhatsAppOutreach::class, 'title' => 'recipient_name', 'columns' => ['organization.name', 'recipient_name', 'phone', 'status', 'opened_at', 'sent_at'], 'create' => false, 'readonly' => ['opened_at', 'sent_at']],
             'crm-tasks' => ['label' => 'Tasks', 'singular' => 'Task', 'model' => CrmTask::class, 'title' => 'title', 'columns' => ['title', 'organization_name', 'contact_name', 'contact_phone', 'status', 'priority', 'due_at']],
             'activities' => ['label' => 'Activities', 'singular' => 'Activity', 'model' => Activity::class, 'title' => 'subject', 'columns' => ['occurred_at', 'type', 'subject', 'contact.full_name', 'opportunity.name']],
             'client-projects' => ['label' => 'Client projects', 'singular' => 'Client project', 'model' => ClientProject::class, 'title' => 'name', 'columns' => ['name', 'organization.name', 'status', 'billing_type', 'fee', 'deadline']],
@@ -82,6 +84,7 @@ final class WorkspaceResources
             'leads.status' => self::pairs(['new', 'contacted', 'qualified', 'unqualified', 'converted']),
             'opportunities.stage' => self::pairs(['prospecting', 'qualification', 'proposal', 'negotiation', 'won', 'lost']),
             'outreach-emails.status' => self::pairs(['draft', 'ready', 'approved', 'sent', 'replied', 'bounced', 'do_not_contact']),
+            'whatsapp-outreaches.status' => self::pairs(['draft', 'opened', 'sent', 'replied', 'unavailable', 'do_not_contact']),
             'crm-tasks.status' => self::pairs(['todo', 'in_progress', 'done', 'cancelled']),
             'crm-tasks.priority', 'support-tickets.priority' => self::pairs(['low', 'normal', 'high', 'urgent']),
             'activities.type' => self::pairs(['call', 'email', 'whatsapp', 'meeting', 'note']),

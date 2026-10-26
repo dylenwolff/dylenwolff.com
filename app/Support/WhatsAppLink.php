@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\Lead;
+use App\Models\WhatsAppOutreach;
 
 final class WhatsAppLink
 {
@@ -87,6 +88,10 @@ final class WhatsAppLink
     public static function url(Lead $lead): ?string
     {
         $phone = self::phone($lead);
+
+        if ($phone && WhatsAppOutreach::query()->where('lead_id', $lead->id)->where('phone', $phone)->where('status', 'unavailable')->exists()) {
+            return null;
+        }
 
         return $phone ? 'https://wa.me/'.$phone.'?text='.rawurlencode(self::message($lead)) : null;
     }

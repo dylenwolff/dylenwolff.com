@@ -49,7 +49,11 @@ class WorkspaceResourceController extends Controller
                 : $query->whereHas('organization', fn ($query) => $query->where('country_code', $country));
         }
 
-        $statuses = in_array($section, ['contact-messages', 'outreach-emails'], true)
+        if ($section === 'crm-tasks' && $request->query('type') === 'call') {
+            $query->where('title', 'like', 'Call %')->whereNotIn('status', ['done', 'completed', 'cancelled']);
+        }
+
+        $statuses = in_array($section, ['contact-messages', 'outreach-emails', 'whatsapp-outreaches'], true)
             ? WorkspaceResources::options($section, 'status')
             : [];
         if ($statuses) {
@@ -237,6 +241,9 @@ class WorkspaceResourceController extends Controller
             'outreach-emails' => $query
                 ->orderByRaw("case status when 'approved' then 1 when 'ready' then 2 when 'draft' then 3 when 'sending' then 4 when 'sent' then 5 when 'replied' then 6 when 'bounced' then 7 when 'do_not_contact' then 8 else 9 end")
                 ->orderByRaw('follow_up_at IS NULL')->orderBy('follow_up_at')->latest('updated_at'),
+            'whatsapp-outreaches' => $query
+                ->orderByRaw("case status when 'draft' then 1 when 'opened' then 2 when 'sent' then 3 when 'replied' then 4 when 'unavailable' then 5 when 'do_not_contact' then 6 else 7 end")
+                ->latest('updated_at'),
             'contact-messages' => $query
                 ->orderByRaw("case status when 'new' then 1 when 'replied' then 2 when 'archived' then 3 when 'spam' then 4 else 5 end")
                 ->latest('created_at'),

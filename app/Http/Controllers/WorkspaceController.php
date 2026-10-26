@@ -8,8 +8,9 @@ use App\Models\Invoice;
 use App\Models\Lead;
 use App\Models\Opportunity;
 use App\Models\Organization;
-use App\Models\OutreachEmail;
 use App\Models\OutreachDeliveryMetric;
+use App\Models\OutreachEmail;
+use App\Models\WhatsAppOutreach;
 use App\Support\Countries;
 use Illuminate\View\View;
 
@@ -17,6 +18,9 @@ class WorkspaceController extends Controller
 {
     public function index(): View
     {
+        $now = now('Asia/Colombo');
+        $todayStart = $now->copy()->startOfDay()->utc();
+        $weekStart = $now->copy()->startOfWeek()->startOfDay()->utc();
         $openLeadStatuses = ['new', 'contacted', 'qualified'];
         $delivery = OutreachDeliveryMetric::current();
         $deliveryRate = $delivery->total_sent > 0
@@ -38,6 +42,11 @@ class WorkspaceController extends Controller
                 'unreadMessages' => ContactMessage::query()->whereNull('read_at')->where('status', '!=', 'spam')->count(),
                 'emailQueue' => OutreachEmail::query()->whereNull('sent_at')->whereIn('status', ['ready', 'approved'])->count(),
                 'sentEmails' => OutreachEmail::query()->whereNotNull('sent_at')->count(),
+                'emailsToday' => OutreachEmail::query()->where('sent_at', '>=', $todayStart)->count(),
+                'emailsWeek' => OutreachEmail::query()->where('sent_at', '>=', $weekStart)->count(),
+                'whatsappToday' => WhatsAppOutreach::query()->where('sent_at', '>=', $todayStart)->count(),
+                'whatsappWeek' => WhatsAppOutreach::query()->where('sent_at', '>=', $weekStart)->count(),
+                'whatsappUnavailable' => WhatsAppOutreach::query()->where('status', 'unavailable')->count(),
             ],
             'recentLeads' => Lead::query()->with(['organization', 'contact'])->latest()->limit(7)->get(),
             'dueTasks' => CrmTask::query()->with(['lead.organization', 'contact'])

@@ -49,4 +49,9 @@ class Lead extends Model
     {
         return $this->hasMany(ContactMessage::class);
     }
+
+    public function whatsappOutreaches(): HasMany
+    {
+        return $this->hasMany(WhatsAppOutreach::class);
+    }
 }

@@ -26,6 +26,9 @@ Route::domain('admin.dylenwolff.com')->group(function (): void {
         Route::delete('/manage/{section}/{record}', [WorkspaceResourceController::class, 'destroy'])->name('workspace.resources.destroy');
         Route::post('/outreach-emails/{outreachEmail}/send', [OutreachEmailController::class, 'send'])->name('workspace.outreach-emails.send');
         Route::post('/leads/{lead}/whatsapp', [WhatsAppOutreachController::class, 'open'])->name('workspace.leads.whatsapp');
+        Route::post('/whatsapp-outreach/{whatsappOutreach}/open', [WhatsAppOutreachController::class, 'openRecord'])->name('workspace.whatsapp.open');
+        Route::post('/whatsapp-outreach/{whatsappOutreach}/sent', [WhatsAppOutreachController::class, 'markSent'])->name('workspace.whatsapp.sent');
+        Route::post('/whatsapp-outreach/{whatsappOutreach}/unavailable', [WhatsAppOutreachController::class, 'markUnavailable'])->name('workspace.whatsapp.unavailable');
         Route::get('/legacy/{section?}', function (?string $section = null) {
             return $section
                 ? redirect()->route('workspace.manage', $section)
