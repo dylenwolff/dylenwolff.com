@@ -22,8 +22,12 @@ class WorkspaceController extends Controller
         $deliveryRate = $delivery->total_sent > 0
             ? round(($delivery->accepted / $delivery->total_sent) * 100, 1)
             : 0;
+        $rejected = max(0, $delivery->bounced - $delivery->invalid_recipient);
         $rejectionRate = $delivery->total_sent > 0
-            ? round(($delivery->bounced / $delivery->total_sent) * 100, 1)
+            ? round(($rejected / $delivery->total_sent) * 100, 1)
+            : 0;
+        $invalidRate = $delivery->total_sent > 0
+            ? round(($delivery->invalid_recipient / $delivery->total_sent) * 100, 1)
             : 0;
 
         return view('workspace.dashboard', [
@@ -57,13 +61,15 @@ class WorkspaceController extends Controller
             'delivery' => [
                 'total' => $delivery->total_sent,
                 'accepted' => $delivery->accepted,
-                'bounced' => $delivery->bounced,
+                'failed' => $delivery->bounced,
+                'rejected' => $rejected,
                 'delayed' => $delivery->delayed,
                 'reputation' => $delivery->reputation_blocked,
                 'invalid' => $delivery->invalid_recipient,
                 'server' => $delivery->server_rejected,
                 'deliveryRate' => $deliveryRate,
                 'rejectionRate' => $rejectionRate,
+                'invalidRate' => $invalidRate,
                 'measuredAt' => $delivery->measured_at,
             ],
         ]);

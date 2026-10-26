@@ -46,15 +46,17 @@
                 </div>
                 <div class="flex flex-wrap gap-2">
                     <span class="badge badge-success badge-outline">{{ $delivery['deliveryRate'] }}% accepted</span>
-                    <span class="badge badge-error badge-outline">{{ $delivery['rejectionRate'] }}% rejected</span>
+                    <span class="badge badge-error badge-outline">{{ $delivery['rejectionRate'] }}% delivery rejected</span>
+                    <span class="badge badge-warning badge-outline">{{ $delivery['invalidRate'] }}% invalid addresses</span>
                 </div>
             </div>
 
-            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
                 @foreach([
                     ['Sent', $delivery['total'], 'send', 'text-primary'],
                     ['Accepted', $delivery['accepted'], 'circle-check-big', 'text-success'],
-                    ['Rejected', $delivery['bounced'], 'circle-x', 'text-error'],
+                    ['Delivery rejected', $delivery['rejected'], 'circle-x', 'text-error'],
+                    ['Invalid addresses', $delivery['invalid'], 'at-sign', 'text-warning'],
                     ['Delayed', $delivery['delayed'], 'clock-3', 'text-warning'],
                 ] as [$label, $value, $icon, $color])
                     <div class="rounded-box border border-base-300 bg-base-200/40 p-4">
@@ -69,6 +71,8 @@
                 <div class="flex items-center justify-between gap-3"><span class="text-sm text-base-content/60">Invalid or unavailable addresses</span><span class="badge badge-ghost">{{ $delivery['invalid'] }}</span></div>
                 <div class="flex items-center justify-between gap-3"><span class="text-sm text-base-content/60">Recipient server or DNS errors</span><span class="badge badge-ghost">{{ $delivery['server'] }}</span></div>
             </div>
+
+            <p class="text-xs text-base-content/45">{{ $delivery['failed'] }} total failures: {{ $delivery['rejected'] }} delivery rejections and {{ $delivery['invalid'] }} invalid or unavailable addresses.</p>
 
             @if($delivery['measuredAt'])<p class="text-xs text-base-content/40">Last reconciled {{ $delivery['measuredAt']->timezone('Asia/Colombo')->format('d M Y, g:i A') }}</p>@endif
         </div>
