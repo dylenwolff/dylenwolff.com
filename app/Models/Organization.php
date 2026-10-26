@@ -24,6 +24,11 @@ class Organization extends Model
         return $this->hasMany(Opportunity::class);
     }
 
+    public function outreachEmails(): HasMany
+    {
+        return $this->hasMany(OutreachEmail::class);
+    }
+
     public function clientProjects(): HasMany
     {
         return $this->hasMany(ClientProject::class);

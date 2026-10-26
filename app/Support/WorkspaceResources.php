@@ -14,6 +14,7 @@ use App\Models\Lead;
 use App\Models\MaintenancePlan;
 use App\Models\Opportunity;
 use App\Models\Organization;
+use App\Models\OutreachEmail;
 use App\Models\Project;
 use App\Models\Qualification;
 use App\Models\Quote;
@@ -30,6 +31,7 @@ final class WorkspaceResources
             'contacts' => ['label' => 'Contacts', 'singular' => 'Contact', 'model' => Contact::class, 'title' => 'full_name', 'columns' => ['full_name', 'organization.name', 'email', 'phone', 'status']],
             'leads' => ['label' => 'Leads', 'singular' => 'Lead', 'model' => Lead::class, 'title' => 'title', 'columns' => ['title', 'organization.name', 'organization.country_code', 'source', 'status', 'estimated_value', 'next_follow_up_at']],
             'opportunities' => ['label' => 'Opportunities', 'singular' => 'Opportunity', 'model' => Opportunity::class, 'title' => 'name', 'columns' => ['name', 'organization.name', 'organization.country_code', 'stage', 'amount', 'probability', 'expected_close_date']],
+            'outreach-emails' => ['label' => 'Email queue', 'singular' => 'Email', 'model' => OutreachEmail::class, 'title' => 'subject', 'columns' => ['organization.name', 'recipient_email', 'subject', 'status', 'follow_up_at', 'sent_at'], 'readonly' => ['sent_at', 'external_message_id']],
             'crm-tasks' => ['label' => 'Tasks', 'singular' => 'Task', 'model' => CrmTask::class, 'title' => 'title', 'columns' => ['title', 'status', 'priority', 'due_at', 'lead.title', 'opportunity.name']],
             'activities' => ['label' => 'Activities', 'singular' => 'Activity', 'model' => Activity::class, 'title' => 'subject', 'columns' => ['occurred_at', 'type', 'subject', 'contact.full_name', 'opportunity.name']],
             'client-projects' => ['label' => 'Client projects', 'singular' => 'Client project', 'model' => ClientProject::class, 'title' => 'name', 'columns' => ['name', 'organization.name', 'status', 'billing_type', 'fee', 'deadline']],
@@ -56,7 +58,9 @@ final class WorkspaceResources
 
     public static function options(string $section, string $field): ?array
     {
-        if ($field === 'country_code') return Countries::options();
+        if ($field === 'country_code') {
+            return Countries::options();
+        }
 
         $relationships = [
             'organization_id' => [Organization::class, 'name'], 'contact_id' => [Contact::class, 'full_name'],
@@ -65,16 +69,19 @@ final class WorkspaceResources
         ];
         if (isset($relationships[$field])) {
             [$model, $label] = $relationships[$field];
+
             return $model::query()->get()->mapWithKeys(fn ($record) => [$record->getKey() => data_get($record, $label)])->all();
         }
 
         $key = $section.'.'.$field;
+
         return match ($key) {
             'organizations.status' => self::pairs(['prospect', 'client', 'partner', 'inactive']),
             'contacts.status' => self::pairs(['active', 'inactive']),
             'leads.source' => self::pairs(['website', 'referral', 'upwork', 'fiverr', 'outreach', 'manual']),
             'leads.status' => self::pairs(['new', 'contacted', 'qualified', 'unqualified', 'converted']),
             'opportunities.stage' => self::pairs(['prospecting', 'qualification', 'proposal', 'negotiation', 'won', 'lost']),
+            'outreach-emails.status' => self::pairs(['draft', 'ready', 'approved', 'sent', 'replied', 'bounced', 'do_not_contact']),
             'crm-tasks.status' => self::pairs(['todo', 'in_progress', 'done', 'cancelled']),
             'crm-tasks.priority', 'support-tickets.priority' => self::pairs(['low', 'normal', 'high', 'urgent']),
             'activities.type' => self::pairs(['call', 'email', 'meeting', 'note']),
@@ -93,18 +100,43 @@ final class WorkspaceResources
 
     public static function fieldType(string $field, string $dbType): string
     {
-        if (in_array($field, ['image_path', 'profile_photo'], true)) return 'image';
-        if ($field === 'gallery') return 'images';
-        if ($field === 'file_path') return 'file';
-        if (in_array($field, ['tags', 'technologies'], true)) return 'tags';
-        if (in_array($field, ['description', 'notes', 'details', 'message', 'summary', 'challenge', 'solution', 'responsibilities', 'scope', 'services', 'about_body', 'hero_intro', 'contact_body'], true)) return 'textarea';
-        if (str_starts_with($dbType, 'timestamp') || str_contains($field, '_at') && ! in_array($field, ['awarded_at', 'started_at'], true)) return 'datetime-local';
-        if ($dbType === 'date' || str_ends_with($field, '_date') || in_array($field, ['awarded_at', 'started_at', 'ended_at', 'deadline', 'valid_until'], true)) return 'date';
-        if (str_contains($dbType, 'int') || in_array($field, ['amount', 'fee', 'total', 'tax', 'subtotal', 'monthly_fee', 'estimated_value', 'amount_paid', 'probability'], true)) return 'number';
-        if (str_contains($dbType, 'bool') || str_starts_with($field, 'is_')) return 'checkbox';
-        if (in_array($field, ['email'], true)) return 'email';
-        if (str_ends_with($field, '_url') || in_array($field, ['url', 'website'], true)) return 'url';
-        if ($field === 'phone') return 'tel';
+        if (in_array($field, ['image_path', 'profile_photo'], true)) {
+            return 'image';
+        }
+        if ($field === 'gallery') {
+            return 'images';
+        }
+        if ($field === 'file_path') {
+            return 'file';
+        }
+        if (in_array($field, ['tags', 'technologies'], true)) {
+            return 'tags';
+        }
+        if (in_array($field, ['body', 'description', 'notes', 'details', 'message', 'summary', 'challenge', 'solution', 'responsibilities', 'scope', 'services', 'about_body', 'hero_intro', 'contact_body'], true)) {
+            return 'textarea';
+        }
+        if (str_starts_with($dbType, 'timestamp') || str_contains($field, '_at') && ! in_array($field, ['awarded_at', 'started_at'], true)) {
+            return 'datetime-local';
+        }
+        if ($dbType === 'date' || str_ends_with($field, '_date') || in_array($field, ['awarded_at', 'started_at', 'ended_at', 'deadline', 'valid_until'], true)) {
+            return 'date';
+        }
+        if (str_contains($dbType, 'int') || in_array($field, ['amount', 'fee', 'total', 'tax', 'subtotal', 'monthly_fee', 'estimated_value', 'amount_paid', 'probability'], true)) {
+            return 'number';
+        }
+        if (str_contains($dbType, 'bool') || str_starts_with($field, 'is_')) {
+            return 'checkbox';
+        }
+        if ($field === 'email' || str_ends_with($field, '_email')) {
+            return 'email';
+        }
+        if (str_ends_with($field, '_url') || in_array($field, ['url', 'website'], true)) {
+            return 'url';
+        }
+        if ($field === 'phone') {
+            return 'tel';
+        }
+
         return 'text';
     }
 

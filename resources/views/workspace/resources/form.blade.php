@@ -17,7 +17,7 @@
                     @if($field['options'])
                         <select name="{{ $field['name'] }}" class="select select-bordered w-full" @disabled($field['readonly']) @required($field['required'])><option value="">Select an option</option>@foreach($field['options'] as $key => $label)<option value="{{ $key }}" @selected((string)$value === (string)$key)>{{ $label }}</option>@endforeach</select>
                     @elseif($field['type'] === 'textarea')
-                        <textarea name="{{ $field['name'] }}" rows="{{ in_array($field['name'], ['about_body','message'], true) ? 10 : 5 }}" class="textarea textarea-bordered w-full" @readonly($field['readonly']) @required($field['required'])>{{ $value }}</textarea>
+                        <textarea name="{{ $field['name'] }}" rows="{{ in_array($field['name'], ['about_body','message','body'], true) ? 12 : 5 }}" class="textarea textarea-bordered w-full" @readonly($field['readonly']) @required($field['required'])>{{ $value }}</textarea>
                     @elseif($field['type'] === 'checkbox')
                         <span class="flex min-h-12 items-center gap-3 rounded-box border border-base-300 px-4"><input type="checkbox" name="{{ $field['name'] }}" value="1" class="toggle toggle-primary" @checked((bool)$value)><span>Enabled</span></span>
                     @elseif(in_array($field['type'], ['image','images','file'], true))

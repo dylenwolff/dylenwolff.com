@@ -13,16 +13,19 @@
         </div>
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('workspace.manage', 'leads') }}" class="btn btn-primary"><i data-lucide="plus" class="size-4"></i>Add lead</a>
+            <a href="{{ route('workspace.resources.create', 'outreach-emails') }}" class="btn btn-outline"><i data-lucide="mail-plus" class="size-4"></i>Draft email</a>
             <a href="{{ route('workspace.manage', 'crm-tasks') }}" class="btn btn-outline"><i data-lucide="list-checks" class="size-4"></i>View tasks</a>
         </div>
     </section>
 
-    <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
         @foreach([
             ['Open leads', $stats['openLeads'], 'radar', 'text-primary', 'Sales prospects in progress'],
             ['Pipeline value', '$'.number_format($stats['pipelineValue']), 'chart-no-axes-combined', 'text-success', 'Open opportunity value'],
             ['Tasks due', $stats['tasksDue'], 'clock-alert', 'text-warning', 'Due today or overdue'],
             ['Unread messages', $stats['unreadMessages'], 'mail', 'text-info', 'New website enquiries'],
+            ['Email queue', $stats['emailQueue'], 'send', 'text-primary', 'Approved emails ready to send'],
+            ['Emails sent', $stats['sentEmails'], 'mail-check', 'text-success', 'Tracked outreach delivered'],
         ] as [$label, $value, $icon, $color, $description])
             <article class="card border border-base-300 bg-base-100 shadow-sm">
                 <div class="card-body gap-3 p-5">
@@ -71,7 +74,7 @@
                 <div class="divide-y divide-base-300">
                     @forelse($dueTasks as $task)
                         <div class="flex gap-3 p-4">
-                            <span class="mt-1 size-2 shrink-0 rounded-full {{ $task->priority === 'high' ? 'bg-error' : 'bg-primary' }}"></span>
+                            <span class="mt-1 size-2 shrink-0 rounded-full {{ in_array($task->priority, ['urgent', 'high'], true) ? 'bg-error' : 'bg-primary' }}"></span>
                             <div class="min-w-0 flex-1"><p class="truncate font-semibold">{{ $task->title }}</p><p class="truncate text-sm text-base-content/50">{{ $task->lead?->organization?->name ?? $task->contact?->full_name ?? 'General task' }}</p></div>
                             <time class="whitespace-nowrap text-xs text-base-content/50">{{ $task->due_at?->timezone('Asia/Colombo')->format('d M') ?? 'No date' }}</time>
                         </div>

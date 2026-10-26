@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\Lead;
 use App\Models\Opportunity;
 use App\Models\Organization;
+use App\Models\OutreachEmail;
 use App\Support\Countries;
 use Illuminate\View\View;
 
@@ -23,9 +24,14 @@ class WorkspaceController extends Controller
                 'pipelineValue' => Opportunity::query()->whereNotIn('stage', ['won', 'lost'])->sum('amount'),
                 'tasksDue' => CrmTask::query()->whereNotIn('status', ['done', 'cancelled'])->where('due_at', '<=', now()->endOfDay())->count(),
                 'unreadMessages' => ContactMessage::query()->whereNull('read_at')->where('status', '!=', 'spam')->count(),
+                'emailQueue' => OutreachEmail::query()->whereNull('sent_at')->whereIn('status', ['ready', 'approved'])->count(),
+                'sentEmails' => OutreachEmail::query()->whereNotNull('sent_at')->count(),
             ],
             'recentLeads' => Lead::query()->with(['organization', 'contact'])->latest()->limit(7)->get(),
-            'dueTasks' => CrmTask::query()->with(['lead.organization', 'contact'])->whereNotIn('status', ['done', 'cancelled'])->orderByRaw('due_at IS NULL')->orderBy('due_at')->limit(6)->get(),
+            'dueTasks' => CrmTask::query()->with(['lead.organization', 'contact'])
+                ->whereNotIn('status', ['done', 'cancelled'])
+                ->orderByRaw("case priority when 'urgent' then 1 when 'high' then 2 when 'normal' then 3 else 4 end")
+                ->orderByRaw('due_at IS NULL')->orderBy('due_at')->limit(6)->get(),
             'organizations' => Organization::query()->count(),
             'countries' => Organization::query()
                 ->whereNotNull('country_code')

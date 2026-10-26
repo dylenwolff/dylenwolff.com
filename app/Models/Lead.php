@@ -35,6 +35,11 @@ class Lead extends Model
         return $this->hasMany(Activity::class);
     }
 
+    public function outreachEmails(): HasMany
+    {
+        return $this->hasMany(OutreachEmail::class);
+    }
+
     public function tasks(): HasMany
     {
         return $this->hasMany(CrmTask::class);

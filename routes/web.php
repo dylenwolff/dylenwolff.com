@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\WorkspaceController;
+use App\Http\Controllers\OutreachEmailController;
 use App\Http\Controllers\WorkspaceAuthController;
+use App\Http\Controllers\WorkspaceController;
 use App\Http\Controllers\WorkspaceResourceController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,7 @@ Route::domain('admin.dylenwolff.com')->group(function (): void {
         Route::get('/manage/{section}/{record}/edit', [WorkspaceResourceController::class, 'edit'])->name('workspace.resources.edit');
         Route::put('/manage/{section}/{record}', [WorkspaceResourceController::class, 'update'])->name('workspace.resources.update');
         Route::delete('/manage/{section}/{record}', [WorkspaceResourceController::class, 'destroy'])->name('workspace.resources.destroy');
+        Route::post('/outreach-emails/{outreachEmail}/send', [OutreachEmailController::class, 'send'])->name('workspace.outreach-emails.send');
         Route::get('/legacy/{section?}', function (?string $section = null) {
             return $section
                 ? redirect()->route('workspace.manage', $section)
