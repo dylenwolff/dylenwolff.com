@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use App\Models\OutreachEmail;
+use App\Models\OutreachDeliveryMetric;
 use App\Services\OutreachEmailSender;
 use App\Models\Activity;
 use App\Models\CrmTask;
@@ -53,15 +54,24 @@ Artisan::command('outreach:send-approved {--country= : Two-letter organization c
     }
 })->purpose('Send approved outreach emails using optional country and batch-size filters');
 
-Artisan::command('outreach:mark-bounced {email} {--reason=} {--alternate=}', function (string $email) {
+Artisan::command('outreach:mark-bounced {email} {--reason=} {--alternate=} {--category=server : reputation, invalid or server}', function (string $email) {
     $outreach = OutreachEmail::query()
         ->where('recipient_email', $email)
         ->latest('id')
         ->firstOrFail();
     $reason = trim((string) $this->option('reason')) ?: 'The receiving mail server rejected delivery.';
     $alternate = trim((string) $this->option('alternate'));
+    $category = (string) $this->option('category');
 
-    DB::transaction(function () use ($outreach, $reason, $alternate): void {
+    if (! in_array($category, ['reputation', 'invalid', 'server'], true)) {
+        $this->error('Category must be reputation, invalid or server.');
+
+        return self::FAILURE;
+    }
+
+    $wasBounced = $outreach->status === 'bounced';
+
+    DB::transaction(function () use ($outreach, $reason, $alternate, $category, $wasBounced): void {
         $outreach->update([
             'status' => 'bounced',
             'follow_up_at' => null,
@@ -98,7 +108,46 @@ Artisan::command('outreach:mark-bounced {email} {--reason=} {--alternate=}', fun
                 ]))),
             ]);
         }
+
+        if (! $wasBounced) {
+            $metric = OutreachDeliveryMetric::current();
+            $metric->accepted = max(0, $metric->accepted - 1);
+            $metric->bounced++;
+            $metric->{$category === 'reputation' ? 'reputation_blocked' : ($category === 'invalid' ? 'invalid_recipient' : 'server_rejected')}++;
+            $metric->measured_at = now();
+            $metric->save();
+        }
     });
 
     $this->info("Marked outreach {$outreach->id} to {$email} as bounced.");
 })->purpose('Record a delivery failure, clear its follow-up and preserve an alternate contact');
+
+Artisan::command('outreach:reconcile-metrics {total} {accepted} {bounced} {delayed} {reputation} {invalid} {server}', function () {
+    $values = collect(['total', 'accepted', 'bounced', 'delayed', 'reputation', 'invalid', 'server'])
+        ->mapWithKeys(fn (string $key) => [$key => max(0, (int) $this->argument($key))]);
+
+    if ($values['accepted'] + $values['bounced'] + $values['delayed'] !== $values['total']) {
+        $this->error('Accepted, bounced and delayed counts must add up to the total.');
+
+        return self::FAILURE;
+    }
+
+    if ($values['reputation'] + $values['invalid'] + $values['server'] !== $values['bounced']) {
+        $this->error('The three rejection categories must add up to the bounced count.');
+
+        return self::FAILURE;
+    }
+
+    OutreachDeliveryMetric::current()->update([
+        'total_sent' => $values['total'],
+        'accepted' => $values['accepted'],
+        'bounced' => $values['bounced'],
+        'delayed' => $values['delayed'],
+        'reputation_blocked' => $values['reputation'],
+        'invalid_recipient' => $values['invalid'],
+        'server_rejected' => $values['server'],
+        'measured_at' => now(),
+    ]);
+
+    $this->info('Outreach delivery metrics reconciled.');
+})->purpose('Set verified aggregate delivery figures from the mailbox');

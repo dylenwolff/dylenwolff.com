@@ -9,6 +9,7 @@ use App\Models\Lead;
 use App\Models\Opportunity;
 use App\Models\Organization;
 use App\Models\OutreachEmail;
+use App\Models\OutreachDeliveryMetric;
 use App\Support\Countries;
 use Illuminate\View\View;
 
@@ -17,6 +18,13 @@ class WorkspaceController extends Controller
     public function index(): View
     {
         $openLeadStatuses = ['new', 'contacted', 'qualified'];
+        $delivery = OutreachDeliveryMetric::current();
+        $deliveryRate = $delivery->total_sent > 0
+            ? round(($delivery->accepted / $delivery->total_sent) * 100, 1)
+            : 0;
+        $rejectionRate = $delivery->total_sent > 0
+            ? round(($delivery->bounced / $delivery->total_sent) * 100, 1)
+            : 0;
 
         return view('workspace.dashboard', [
             'stats' => [
@@ -46,6 +54,18 @@ class WorkspaceController extends Controller
                     'total' => $country->total,
                 ]),
             'outstandingInvoices' => Invoice::query()->whereNotIn('status', ['paid', 'cancelled'])->sum('total'),
+            'delivery' => [
+                'total' => $delivery->total_sent,
+                'accepted' => $delivery->accepted,
+                'bounced' => $delivery->bounced,
+                'delayed' => $delivery->delayed,
+                'reputation' => $delivery->reputation_blocked,
+                'invalid' => $delivery->invalid_recipient,
+                'server' => $delivery->server_rejected,
+                'deliveryRate' => $deliveryRate,
+                'rejectionRate' => $rejectionRate,
+                'measuredAt' => $delivery->measured_at,
+            ],
         ]);
     }
 }

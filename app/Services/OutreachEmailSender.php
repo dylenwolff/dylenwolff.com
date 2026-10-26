@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Activity;
 use App\Models\CrmTask;
 use App\Models\OutreachEmail;
+use App\Models\OutreachDeliveryMetric;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -85,6 +86,11 @@ class OutreachEmailSender
                     'due_at' => $followUpAt,
                 ],
             );
+
+            $metric = OutreachDeliveryMetric::current();
+            $metric->increment('total_sent');
+            $metric->increment('accepted');
+            $metric->update(['measured_at' => $sentAt]);
         });
 
         if (! $sentMessage instanceof SentMessage) {

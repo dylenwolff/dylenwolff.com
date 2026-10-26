@@ -37,6 +37,43 @@
         @endforeach
     </section>
 
+    <section class="card border border-base-300 bg-base-100 shadow-sm">
+        <div class="card-body gap-5 p-5 sm:p-6">
+            <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+                <div>
+                    <div class="flex items-center gap-2"><i data-lucide="activity" class="size-5 text-primary"></i><h3 class="card-title text-lg">Email delivery</h3></div>
+                    <p class="mt-1 text-sm text-base-content/55">All outreach sent from connect@dylenwolff.com</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="badge badge-success badge-outline">{{ $delivery['deliveryRate'] }}% accepted</span>
+                    <span class="badge badge-error badge-outline">{{ $delivery['rejectionRate'] }}% rejected</span>
+                </div>
+            </div>
+
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                @foreach([
+                    ['Sent', $delivery['total'], 'send', 'text-primary'],
+                    ['Accepted', $delivery['accepted'], 'circle-check-big', 'text-success'],
+                    ['Rejected', $delivery['bounced'], 'circle-x', 'text-error'],
+                    ['Delayed', $delivery['delayed'], 'clock-3', 'text-warning'],
+                ] as [$label, $value, $icon, $color])
+                    <div class="rounded-box border border-base-300 bg-base-200/40 p-4">
+                        <div class="flex items-center justify-between"><span class="text-sm font-semibold text-base-content/60">{{ $label }}</span><i data-lucide="{{ $icon }}" class="size-5 {{ $color }}"></i></div>
+                        <p class="mt-2 text-3xl font-black">{{ $value }}</p>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="grid gap-4 border-t border-base-300 pt-4 md:grid-cols-3">
+                <div class="flex items-center justify-between gap-3"><span class="text-sm text-base-content/60">Barracuda reputation blocks</span><span class="badge badge-error">{{ $delivery['reputation'] }}</span></div>
+                <div class="flex items-center justify-between gap-3"><span class="text-sm text-base-content/60">Invalid or unavailable addresses</span><span class="badge badge-ghost">{{ $delivery['invalid'] }}</span></div>
+                <div class="flex items-center justify-between gap-3"><span class="text-sm text-base-content/60">Recipient server or DNS errors</span><span class="badge badge-ghost">{{ $delivery['server'] }}</span></div>
+            </div>
+
+            @if($delivery['measuredAt'])<p class="text-xs text-base-content/40">Last reconciled {{ $delivery['measuredAt']->timezone('Asia/Colombo')->format('d M Y, g:i A') }}</p>@endif
+        </div>
+    </section>
+
     <section class="grid gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(360px,.8fr)]">
         <article class="card border border-base-300 bg-base-100 shadow-sm">
             <div class="card-body p-0">
