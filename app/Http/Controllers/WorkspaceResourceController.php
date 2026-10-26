@@ -91,6 +91,38 @@ class WorkspaceResourceController extends Controller
         return $this->form($section, $resource, $resource['model']::query()->findOrFail($record));
     }
 
+    public function show(string $section, int $record): View
+    {
+        $resource = WorkspaceResources::get($section);
+        $model = $resource['model']::query()->findOrFail($record);
+        $relationships = collect(['organization', 'contact', 'lead', 'opportunity', 'clientProject'])
+            ->filter(fn (string $relationship): bool => method_exists($model, $relationship))
+            ->values()
+            ->all();
+
+        if ($relationships !== []) {
+            $model->load($relationships);
+        }
+
+        if ($section === 'client-projects') {
+            $model->loadCount(['invoices', 'maintenancePlans', 'supportTickets', 'documents']);
+        }
+
+        $columns = collect(Schema::getColumns($model->getTable()))->keyBy('name');
+        $fields = collect($model->getFillable())->map(function (string $name) use ($columns, $section): array {
+            $column = $columns->get($name, []);
+
+            return [
+                'name' => $name,
+                'label' => WorkspaceResources::label($name),
+                'type' => WorkspaceResources::fieldType($name, $column['type_name'] ?? 'varchar'),
+                'options' => WorkspaceResources::options($section, $name),
+            ];
+        });
+
+        return view('workspace.resources.show', compact('section', 'resource', 'model', 'fields'));
+    }
+
     public function update(Request $request, string $section, int $record): RedirectResponse
     {
         $resource = WorkspaceResources::get($section);

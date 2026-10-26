@@ -36,6 +36,13 @@ class WorkspaceResourceTest extends TestCase
             ->assertRedirect('http://admin.dylenwolff.com/manage/organizations');
 
         $this->assertDatabaseHas('organizations', ['name' => 'New Zealand Test Client', 'country_code' => 'NZ']);
+
+        $organization = Organization::query()->where('name', 'New Zealand Test Client')->firstOrFail();
+        $this->actingAs($user)
+            ->get("http://admin.dylenwolff.com/manage/organizations/{$organization->id}")
+            ->assertOk()
+            ->assertSee('New Zealand Test Client')
+            ->assertSee('Edit organization');
     }
 
     public function test_every_native_management_section_loads(): void

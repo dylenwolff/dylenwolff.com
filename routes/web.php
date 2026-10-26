@@ -20,6 +20,7 @@ Route::domain('admin.dylenwolff.com')->group(function (): void {
         Route::get('/manage/{section}', [WorkspaceResourceController::class, 'index'])->name('workspace.manage');
         Route::get('/manage/{section}/create', [WorkspaceResourceController::class, 'create'])->name('workspace.resources.create');
         Route::post('/manage/{section}', [WorkspaceResourceController::class, 'store'])->name('workspace.resources.store');
+        Route::get('/manage/{section}/{record}', [WorkspaceResourceController::class, 'show'])->name('workspace.resources.show');
         Route::get('/manage/{section}/{record}/edit', [WorkspaceResourceController::class, 'edit'])->name('workspace.resources.edit');
         Route::put('/manage/{section}/{record}', [WorkspaceResourceController::class, 'update'])->name('workspace.resources.update');
         Route::delete('/manage/{section}/{record}', [WorkspaceResourceController::class, 'destroy'])->name('workspace.resources.destroy');

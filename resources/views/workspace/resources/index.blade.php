@@ -57,6 +57,7 @@
                             @if($section === 'outreach-emails' && in_array($record->status, ['ready', 'approved'], true) && !$record->sent_at)
                                 <form method="POST" action="{{ route('workspace.outreach-emails.send', $record) }}" onsubmit="return confirm('Send this email now?')">@csrf<button class="btn btn-square btn-success btn-sm" aria-label="Send email"><i data-lucide="send" class="size-4"></i></button></form>
                             @endif
+                            <a href="{{ route('workspace.resources.show', [$section, $record]) }}" class="btn btn-square btn-ghost btn-sm" aria-label="View" title="View"><i data-lucide="eye" class="size-4"></i></a>
                             <a href="{{ route('workspace.resources.edit', [$section, $record]) }}" class="btn btn-square btn-ghost btn-sm" aria-label="Edit"><i data-lucide="pencil" class="size-4"></i></a><form method="POST" action="{{ route('workspace.resources.destroy', [$section, $record]) }}" onsubmit="return confirm('Delete this {{ strtolower($resource['singular']) }}?')">@csrf @method('DELETE')<button class="btn btn-square btn-ghost btn-sm text-error" aria-label="Delete"><i data-lucide="trash-2" class="size-4"></i></button></form>
                         </div></td>
                     </tr>
