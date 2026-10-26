@@ -24,6 +24,9 @@ class WorkspaceResourceController extends Controller
         }
 
         $query = $model::query();
+        if ($section === 'leads') {
+            $query->with(['organization', 'contact']);
+        }
         $search = trim((string) $request->query('search'));
         if ($search !== '') {
             $fields = array_values(array_filter((new $model)->getFillable(), fn ($field) => ! str_ends_with($field, '_id') && ! in_array($field, ['gallery', 'image_path', 'file_path', 'profile_photo'], true)));

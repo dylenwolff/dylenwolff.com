@@ -7,6 +7,7 @@ use App\Models\Lead;
 use App\Models\Organization;
 use App\Models\OutreachEmail;
 use App\Models\User;
+use App\Support\WhatsAppLink;
 use App\Support\WorkspaceResources;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
@@ -112,5 +113,34 @@ class WorkspaceResourceTest extends TestCase
 
         $this->assertDatabaseHas('outreach_emails', ['id' => $email->id, 'status' => 'draft', 'sent_at' => null]);
         $this->assertDatabaseCount('activities', 0);
+    }
+
+    public function test_whatsapp_link_uses_the_organization_country_and_tracks_the_opened_draft(): void
+    {
+        $user = User::query()->where('email', 'dylenaw@gmail.com')->firstOrFail();
+        $organization = Organization::create([
+            'name' => 'Australian Test Client',
+            'country_code' => 'AU',
+            'phone' => '0412 345 678',
+            'status' => 'prospect',
+        ]);
+        $lead = Lead::create([
+            'organization_id' => $organization->id,
+            'title' => 'improve website enquiries',
+            'status' => 'new',
+        ]);
+
+        $lead->load('organization');
+        $this->assertSame('61412345678', WhatsAppLink::phone($lead));
+
+        $this->actingAs($user)
+            ->post("http://admin.dylenwolff.com/leads/{$lead->id}/whatsapp")
+            ->assertRedirectContains('https://wa.me/61412345678?text=');
+
+        $this->assertDatabaseHas('activities', [
+            'lead_id' => $lead->id,
+            'type' => 'whatsapp',
+            'subject' => 'WhatsApp draft opened',
+        ]);
     }
 }

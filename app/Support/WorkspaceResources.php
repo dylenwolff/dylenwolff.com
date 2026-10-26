@@ -84,7 +84,7 @@ final class WorkspaceResources
             'outreach-emails.status' => self::pairs(['draft', 'ready', 'approved', 'sent', 'replied', 'bounced', 'do_not_contact']),
             'crm-tasks.status' => self::pairs(['todo', 'in_progress', 'done', 'cancelled']),
             'crm-tasks.priority', 'support-tickets.priority' => self::pairs(['low', 'normal', 'high', 'urgent']),
-            'activities.type' => self::pairs(['call', 'email', 'meeting', 'note']),
+            'activities.type' => self::pairs(['call', 'email', 'whatsapp', 'meeting', 'note']),
             'client-projects.status' => self::pairs(['planned', 'active', 'on_hold', 'completed', 'cancelled']),
             'client-projects.billing_type' => self::pairs(['fixed', 'hourly', 'recurring']),
             'support-tickets.status' => self::pairs(['open', 'in_progress', 'waiting', 'resolved', 'closed']),
