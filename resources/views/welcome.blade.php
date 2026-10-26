@@ -156,6 +156,7 @@
                     <div class="max-w-xl"><p class="font-mono text-sm font-semibold uppercase tracking-[.18em] text-blue-100">Start a conversation</p><h2 class="mt-4 text-4xl font-black tracking-[-.04em] sm:text-5xl">{{ $settings->contact_heading }}</h2><p class="mt-5 text-lg leading-8 text-blue-100">{{ $settings->contact_body }}</p><a href="mailto:{{ $settings->email }}" class="mt-7 inline-flex font-semibold text-white underline decoration-blue-300 underline-offset-4">{{ $settings->email }}</a></div>
                     <form method="POST" action="{{ route('contact.store') }}" class="grid gap-5 rounded-2xl bg-white p-6 text-slate-950 shadow-xl sm:p-8">
                         @csrf
+                        <input type="hidden" name="form_started_at" value="{{ \App\Support\ContactSpamGuard::formToken() }}">
                         <div class="hidden" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
                         @if (session('contact_success'))<div class="rounded-xl bg-emerald-50 px-4 py-3 font-semibold text-emerald-800">{{ session('contact_success') }}</div>@endif
                         @if ($errors->any())<div class="rounded-xl bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-800">Please check the highlighted fields and try again.</div>@endif

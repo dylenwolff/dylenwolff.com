@@ -38,9 +38,24 @@ class WorkspaceResourceController extends Controller
                 : $query->whereHas('organization', fn ($query) => $query->where('country_code', $country));
         }
 
+        $statuses = $section === 'contact-messages'
+            ? WorkspaceResources::options($section, 'status')
+            : [];
+        if ($statuses) {
+            $status = $request->query('status');
+            if ($status === 'all') {
+                // Intentionally show every message.
+            } elseif ($status && array_key_exists($status, $statuses)) {
+                $query->where('status', $status);
+            } else {
+                $query->where('status', '!=', 'spam');
+            }
+        }
+
         return view('workspace.resources.index', [
             'section' => $section, 'resource' => $resource, 'records' => $query->latest()->paginate(20)->withQueryString(),
             'countries' => in_array($section, ['organizations', 'leads', 'opportunities'], true) ? Countries::options() : [],
+            'statuses' => $statuses,
         ]);
     }
 

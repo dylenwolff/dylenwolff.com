@@ -12,6 +12,7 @@ use App\Models\Qualification;
 use App\Models\Service;
 use App\Models\SiteSetting;
 use App\Services\SentMailArchiver;
+use App\Support\ContactSpamGuard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -110,7 +111,22 @@ class HomeController extends Controller
             'subject' => ['nullable', 'string', 'max:150'],
             'message' => ['required', 'string', 'min:20', 'max:5000'],
             'website' => ['nullable', 'max:0'],
+            'form_started_at' => ['required', 'string'],
         ]);
+
+        if (ContactSpamGuard::isSpam($validated)) {
+            ContactMessage::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'subject' => $validated['subject'] ?? null,
+                'message' => $validated['message'],
+                'status' => 'spam',
+            ]);
+
+            return back()->with('contact_success', 'Thank you, your message has been received. I’ll get back to you soon.');
+        }
+
+        unset($validated['website'], $validated['form_started_at']);
 
         $contact = DB::transaction(function () use ($validated) {
             $person = Contact::query()->firstOrCreate(

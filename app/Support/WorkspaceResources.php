@@ -85,7 +85,7 @@ final class WorkspaceResources
             'quotes.status' => self::pairs(['draft', 'sent', 'accepted', 'declined', 'expired']),
             'invoices.status' => self::pairs(['draft', 'sent', 'part_paid', 'paid', 'overdue', 'void']),
             'maintenance-plans.status' => self::pairs(['active', 'paused', 'cancelled', 'ended']),
-            'contact-messages.status' => self::pairs(['new', 'replied', 'archived']),
+            'contact-messages.status' => self::pairs(['new', 'replied', 'archived', 'spam']),
             'projects.accent' => ['blue' => 'Blue', 'cyan' => 'Cyan'],
             default => in_array($field, ['currency'], true) ? ['LKR' => 'LKR', 'USD' => 'USD'] : null,
         };

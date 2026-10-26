@@ -22,7 +22,7 @@ class WorkspaceController extends Controller
                 'openLeads' => Lead::query()->whereIn('status', $openLeadStatuses)->count(),
                 'pipelineValue' => Opportunity::query()->whereNotIn('stage', ['won', 'lost'])->sum('amount'),
                 'tasksDue' => CrmTask::query()->whereNotIn('status', ['done', 'cancelled'])->where('due_at', '<=', now()->endOfDay())->count(),
-                'unreadMessages' => ContactMessage::query()->whereNull('read_at')->count(),
+                'unreadMessages' => ContactMessage::query()->whereNull('read_at')->where('status', '!=', 'spam')->count(),
             ],
             'recentLeads' => Lead::query()->with(['organization', 'contact'])->latest()->limit(7)->get(),
             'dueTasks' => CrmTask::query()->with(['lead.organization', 'contact'])->whereNotIn('status', ['done', 'cancelled'])->orderByRaw('due_at IS NULL')->orderBy('due_at')->limit(6)->get(),

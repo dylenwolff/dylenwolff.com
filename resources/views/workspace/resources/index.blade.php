@@ -15,8 +15,9 @@
         <div class="card-body flex-row flex-wrap items-end gap-3 p-4">
             <label class="form-control min-w-64 flex-1"><span class="label-text mb-1 text-xs font-bold">Search</span><input name="search" value="{{ request('search') }}" class="input input-bordered w-full" placeholder="Search {{ strtolower($resource['label']) }}"></label>
             @if($countries)<label class="form-control w-full md:w-64"><span class="label-text mb-1 text-xs font-bold">Country</span><select name="country" class="select select-bordered"><option value="">All countries</option>@foreach($countries as $code => $name)<option value="{{ $code }}" @selected(request('country') === $code)>{{ $name }}</option>@endforeach</select></label>@endif
+            @if($statuses)<label class="form-control w-full md:w-56"><span class="label-text mb-1 text-xs font-bold">Status</span><select name="status" class="select select-bordered"><option value="">Inbox</option><option value="all" @selected(request('status') === 'all')>All messages</option>@foreach($statuses as $value => $label)<option value="{{ $value }}" @selected(request('status') === $value)>{{ $label }}</option>@endforeach</select></label>@endif
             <button class="btn btn-outline"><i data-lucide="search" class="size-4"></i>Filter</button>
-            @if(request()->hasAny(['search','country']))<a href="{{ route('workspace.manage', $section) }}" class="btn btn-ghost">Clear</a>@endif
+            @if(request()->hasAny(['search','country','status']))<a href="{{ route('workspace.manage', $section) }}" class="btn btn-ghost">Clear</a>@endif
         </div>
     </form>
 
