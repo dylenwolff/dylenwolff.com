@@ -67,7 +67,7 @@
             </div>
 
             <div class="grid gap-4 border-t border-base-300 pt-4 md:grid-cols-3">
-                <div class="flex items-center justify-between gap-3"><span class="text-sm text-base-content/60">Barracuda reputation blocks</span><span class="badge badge-error">{{ $delivery['reputation'] }}</span></div>
+                <div class="flex items-center justify-between gap-3"><span class="text-sm text-base-content/60">Reputation or security blocks</span><span class="badge badge-error">{{ $delivery['reputation'] }}</span></div>
                 <div class="flex items-center justify-between gap-3"><span class="text-sm text-base-content/60">Invalid or unavailable addresses</span><span class="badge badge-ghost">{{ $delivery['invalid'] }}</span></div>
                 <div class="flex items-center justify-between gap-3"><span class="text-sm text-base-content/60">Recipient server or DNS errors</span><span class="badge badge-ghost">{{ $delivery['server'] }}</span></div>
             </div>
