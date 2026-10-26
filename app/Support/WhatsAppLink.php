@@ -74,7 +74,7 @@ final class WhatsAppLink
         $opportunity = str($lead->title)->lower()->finish('.')->toString();
 
         return "Hi {$organization} team, I'm Dylen Wolff, a software engineer and digital solutions developer. "
-            ."I came across your business while researching organisations that could benefit from {$opportunity} "
+            ."I came across your business while researching organisations that could benefit from a stronger digital presence. I noticed a practical opportunity for your business: {$opportunity} "
             .'I build secure websites and practical digital workflows around how each business actually operates. '
             .'Would you be open to a brief conversation if I shared a focused idea for your current process? '
             .'You can view my work at https://dylenwolff.com';
