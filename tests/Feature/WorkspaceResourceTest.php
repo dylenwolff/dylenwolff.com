@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Contact;
+use App\Models\CrmTask;
 use App\Models\Lead;
 use App\Models\Organization;
 use App\Models\OutreachEmail;
@@ -53,6 +54,20 @@ class WorkspaceResourceTest extends TestCase
             $response = $this->actingAs($user)->get("http://admin.dylenwolff.com/manage/{$section}");
             $response->assertStatus(in_array($response->status(), [200, 302], true) ? $response->status() : 200);
         }
+    }
+
+    public function test_tasks_are_ordered_by_work_state_priority_and_due_date(): void
+    {
+        $user = User::query()->where('email', 'dylenaw@gmail.com')->firstOrFail();
+        CrmTask::create(['title' => 'Completed task', 'status' => 'completed', 'priority' => 'urgent', 'due_at' => now()->subDay()]);
+        CrmTask::create(['title' => 'Normal task', 'status' => 'todo', 'priority' => 'normal', 'due_at' => now()]);
+        CrmTask::create(['title' => 'Urgent task', 'status' => 'todo', 'priority' => 'urgent', 'due_at' => now()->addDay()]);
+        CrmTask::create(['title' => 'Work in progress', 'status' => 'in_progress', 'priority' => 'normal', 'due_at' => now()->addDays(2)]);
+
+        $this->actingAs($user)
+            ->get('http://admin.dylenwolff.com/manage/crm-tasks')
+            ->assertOk()
+            ->assertSeeInOrder(['Work in progress', 'Urgent task', 'Normal task', 'Completed task']);
     }
 
     public function test_old_filament_urls_redirect_to_the_native_workspace(): void

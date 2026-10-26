@@ -57,8 +57,10 @@ class WorkspaceResourceController extends Controller
             }
         }
 
+        $this->applyOrdering($query, $section);
+
         return view('workspace.resources.index', [
-            'section' => $section, 'resource' => $resource, 'records' => $query->latest()->paginate(20)->withQueryString(),
+            'section' => $section, 'resource' => $resource, 'records' => $query->paginate(20)->withQueryString(),
             'countries' => in_array($section, ['organizations', 'leads', 'opportunities'], true) ? Countries::options() : [],
             'statuses' => $statuses,
             'statusDefaultLabel' => $section === 'contact-messages' ? 'Inbox' : 'All statuses',
@@ -207,5 +209,55 @@ class WorkspaceResourceController extends Controller
         }
 
         return $data;
+    }
+
+    private function applyOrdering($query, string $section): void
+    {
+        match ($section) {
+            'crm-tasks' => $query
+                ->orderByRaw("case status when 'in_progress' then 1 when 'todo' then 2 when 'completed' then 3 when 'done' then 3 when 'cancelled' then 4 else 5 end")
+                ->orderByRaw("case priority when 'urgent' then 1 when 'high' then 2 when 'normal' then 3 when 'low' then 4 else 5 end")
+                ->orderByRaw('due_at IS NULL')->orderBy('due_at')->latest('updated_at'),
+            'activities' => $query->latest('occurred_at')->latest('id'),
+            'client-projects' => $query
+                ->orderByRaw("case status when 'active' then 1 when 'planned' then 2 when 'on_hold' then 3 when 'completed' then 4 when 'cancelled' then 5 else 6 end")
+                ->orderByRaw('deadline IS NULL')->orderBy('deadline')->latest('updated_at'),
+            'leads' => $query
+                ->orderByRaw("case status when 'qualified' then 1 when 'contacted' then 2 when 'new' then 3 when 'converted' then 4 when 'unqualified' then 5 else 6 end")
+                ->orderByRaw('next_follow_up_at IS NULL')->orderBy('next_follow_up_at')->latest('updated_at'),
+            'opportunities' => $query
+                ->orderByRaw("case stage when 'negotiation' then 1 when 'proposal' then 2 when 'qualification' then 3 when 'prospecting' then 4 when 'won' then 5 when 'lost' then 6 else 7 end")
+                ->orderByRaw('expected_close_date IS NULL')->orderBy('expected_close_date')->orderByDesc('amount'),
+            'outreach-emails' => $query
+                ->orderByRaw("case status when 'approved' then 1 when 'ready' then 2 when 'draft' then 3 when 'sending' then 4 when 'sent' then 5 when 'replied' then 6 when 'bounced' then 7 when 'do_not_contact' then 8 else 9 end")
+                ->orderByRaw('follow_up_at IS NULL')->orderBy('follow_up_at')->latest('updated_at'),
+            'contact-messages' => $query
+                ->orderByRaw("case status when 'new' then 1 when 'replied' then 2 when 'archived' then 3 when 'spam' then 4 else 5 end")
+                ->latest('created_at'),
+            'support-tickets' => $query
+                ->orderByRaw("case status when 'open' then 1 when 'in_progress' then 2 when 'waiting' then 3 when 'resolved' then 4 when 'closed' then 5 else 6 end")
+                ->orderByRaw("case priority when 'urgent' then 1 when 'high' then 2 when 'normal' then 3 when 'low' then 4 else 5 end")
+                ->orderByRaw('due_at IS NULL')->orderBy('due_at'),
+            'invoices' => $query
+                ->orderByRaw("case status when 'overdue' then 1 when 'part_paid' then 2 when 'sent' then 3 when 'draft' then 4 when 'paid' then 5 when 'void' then 6 else 7 end")
+                ->orderByRaw('due_at IS NULL')->orderBy('due_at')->latest('updated_at'),
+            'quotes' => $query
+                ->orderByRaw("case status when 'sent' then 1 when 'draft' then 2 when 'accepted' then 3 when 'declined' then 4 when 'expired' then 5 else 6 end")
+                ->orderByRaw('valid_until IS NULL')->orderBy('valid_until')->latest('updated_at'),
+            'maintenance-plans' => $query
+                ->orderByRaw("case status when 'active' then 1 when 'paused' then 2 when 'ended' then 3 when 'cancelled' then 4 else 5 end")
+                ->orderByRaw('next_billing_date IS NULL')->orderBy('next_billing_date'),
+            'projects', 'services' => $query->orderBy('sort_order')->latest('updated_at'),
+            'awards' => $query->orderByDesc('is_featured')->orderByDesc('awarded_at')->latest('id'),
+            'qualifications' => $query->orderByDesc('is_published')->orderByDesc('end_year')->latest('id'),
+            'client-documents' => $query->latest('updated_at'),
+            'organizations' => $query
+                ->orderByRaw("case status when 'client' then 1 when 'prospect' then 2 when 'partner' then 3 when 'inactive' then 4 else 5 end")
+                ->orderBy('name'),
+            'contacts' => $query
+                ->orderByRaw("case status when 'active' then 1 when 'inactive' then 2 else 3 end")
+                ->orderBy('first_name')->orderBy('last_name'),
+            default => $query->latest('updated_at'),
+        };
     }
 }
