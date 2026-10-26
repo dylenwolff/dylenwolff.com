@@ -129,9 +129,18 @@ class WorkspaceResourceTest extends TestCase
             'title' => 'improve website enquiries',
             'status' => 'new',
         ]);
+        OutreachEmail::create([
+            'organization_id' => $organization->id,
+            'lead_id' => $lead->id,
+            'recipient_email' => 'old@example.com',
+            'subject' => 'Earlier message',
+            'body' => 'Earlier outreach message.',
+            'status' => 'bounced',
+        ]);
 
         $lead->load('organization');
         $this->assertSame('61412345678', WhatsAppLink::phone($lead));
+        $this->assertStringContainsString('my message could not be delivered', WhatsAppLink::message($lead));
 
         $this->actingAs($user)
             ->post("http://admin.dylenwolff.com/leads/{$lead->id}/whatsapp")

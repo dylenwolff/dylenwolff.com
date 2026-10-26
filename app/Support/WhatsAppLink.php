@@ -72,8 +72,12 @@ final class WhatsAppLink
     {
         $organization = $lead->organization?->name ?: 'your team';
         $opportunity = str($lead->title)->lower()->finish('.')->toString();
+        $deliveryNote = $lead->outreachEmails()->where('status', 'bounced')->exists()
+            ? 'I previously tried to reach your team by email, but my message could not be delivered, so I am contacting you here instead. '
+            : '';
 
         return "Hi {$organization} team, I'm Dylen Wolff, a software engineer and digital solutions developer. "
+            .$deliveryNote
             ."I came across your business while researching organisations that could benefit from a stronger digital presence. I noticed a practical opportunity for your business: {$opportunity} "
             .'I build secure websites and practical digital workflows around how each business actually operates. '
             .'Would you be open to a brief conversation if I shared a focused idea for your current process? '
