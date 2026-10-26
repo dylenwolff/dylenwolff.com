@@ -56,6 +56,9 @@
                         </td>
                     @endforeach
                         <td><div class="flex justify-end gap-1">
+                            @if($section === 'crm-tasks' && $record->lead && \App\Support\WhatsAppLink::url($record->lead))
+                                <form method="POST" action="{{ route('workspace.leads.whatsapp', $record->lead) }}" target="_blank" onsubmit="return confirm('Open this tailored message in WhatsApp? The CRM will record that the draft was opened, not that it was sent.')">@csrf<button class="btn btn-square btn-success btn-sm" aria-label="Open WhatsApp message" title="Open WhatsApp message"><i data-lucide="message-circle" class="size-4"></i></button></form>
+                            @endif
                             @if($section === 'leads' && \App\Support\WhatsAppLink::url($record))
                                 <form method="POST" action="{{ route('workspace.leads.whatsapp', $record) }}" target="_blank" onsubmit="return confirm('Open this tailored message in WhatsApp? The CRM will record that the draft was opened, not that it was sent.')">@csrf<button class="btn btn-square btn-success btn-sm" aria-label="Open WhatsApp message" title="Open WhatsApp message"><i data-lucide="message-circle" class="size-4"></i></button></form>
                             @endif
