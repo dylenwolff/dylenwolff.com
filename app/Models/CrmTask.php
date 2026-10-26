@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\PhoneNumber;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -44,8 +45,11 @@ class CrmTask extends Model
 
     protected function contactPhone(): Attribute
     {
-        return Attribute::get(fn () => $this->contact?->phone
-            ?: $this->lead?->organization?->phone
-            ?: $this->opportunity?->organization?->phone);
+        return Attribute::get(function (): ?string {
+            $organization = $this->lead?->organization ?? $this->opportunity?->organization;
+            $phone = $this->contact?->phone ?: $organization?->phone;
+
+            return PhoneNumber::international($phone, $organization?->country_code);
+        });
     }
 }

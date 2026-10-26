@@ -83,10 +83,10 @@
             </nav>
             <div class="border-t border-base-300 p-3">
                 <div class="flex items-center gap-3 rounded-box px-2 py-2">
-                    <span class="avatar placeholder"><span class="w-9 rounded-full bg-primary text-primary-content"><span class="text-sm">{{ str(auth()->user()->name)->substr(0, 1) }}</span></span></span>
+                    <span class="avatar"><span class="size-10 overflow-hidden rounded-full border border-base-300 bg-base-200 p-1"><img src="{{ asset('images/brand/dylen-wolff-mark.svg') }}" alt="Dylen Wolff"></span></span>
                     <span class="min-w-0 flex-1"><strong class="block truncate text-sm">{{ auth()->user()->name }}</strong><span class="block truncate text-xs text-base-content/50">{{ auth()->user()->email }}</span></span>
+                    <form method="POST" action="{{ route('workspace.logout') }}">@csrf<button class="btn btn-square btn-ghost btn-sm" aria-label="Sign out" title="Sign out"><i data-lucide="log-out" class="size-4"></i></button></form>
                 </div>
-                <form method="POST" action="{{ route('workspace.logout') }}" class="mt-1">@csrf<button class="btn btn-ghost btn-sm w-full justify-start"><i data-lucide="log-out" class="size-4"></i>Sign out</button></form>
             </div>
         </div>
     </aside>

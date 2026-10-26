@@ -62,7 +62,8 @@
                         @elseif(in_array($field['name'], ['website', 'url'], true))
                             @if($value)<a class="link link-primary break-all" href="{{ $value }}" target="_blank" rel="noopener">{{ $value }}</a>@else<span class="text-base-content/40">Not set</span>@endif
                         @elseif($field['name'] === 'phone')
-                            @if($value)<a class="link link-primary" href="tel:{{ preg_replace('/[^+\d]/', '', $value) }}">{{ $value }}</a>@else<span class="text-base-content/40">Not set</span>@endif
+                            @php($internationalPhone = \App\Support\PhoneNumber::international($value, $model->country_code ?? $model->organization?->country_code))
+                            @if($internationalPhone)<a class="link link-primary" href="tel:{{ $internationalPhone }}">{{ $internationalPhone }}</a>@else<span class="text-base-content/40">Not set</span>@endif
                         @elseif(in_array($field['name'], ['status', 'stage', 'priority', 'source', 'type', 'billing_type'], true) && filled($display))
                             <span class="badge badge-outline">{{ str((string) $display)->replace('_', ' ')->headline() }}</span>
                         @elseif(in_array($field['name'], ['amount', 'fee', 'total', 'monthly_fee', 'estimated_value', 'amount_paid'], true) && filled($value))

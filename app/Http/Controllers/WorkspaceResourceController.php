@@ -27,6 +27,9 @@ class WorkspaceResourceController extends Controller
         if ($section === 'leads') {
             $query->with(['organization', 'contact']);
         }
+        if ($section === 'contacts') {
+            $query->with('organization');
+        }
         if ($section === 'crm-tasks') {
             $query->with(['lead.organization', 'contact', 'opportunity.organization']);
         }

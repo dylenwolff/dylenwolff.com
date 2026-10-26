@@ -8,6 +8,7 @@ use App\Models\Lead;
 use App\Models\Organization;
 use App\Models\OutreachEmail;
 use App\Models\User;
+use App\Support\PhoneNumber;
 use App\Support\WhatsAppLink;
 use App\Support\WorkspaceResources;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -83,7 +84,10 @@ class WorkspaceResourceTest extends TestCase
             ->assertOk()
             ->assertSee('Clear Call Client')
             ->assertSee('Jamie Owner')
-            ->assertSee('0411 222 333');
+            ->assertSee('+61411222333');
+
+        $this->assertSame('+61411222333', PhoneNumber::international('0411 222 333', 'AU'));
+        $this->assertSame('+61885363948', PhoneNumber::international('(08) 8536 3948', 'AU'));
     }
 
     public function test_old_filament_urls_redirect_to_the_native_workspace(): void
