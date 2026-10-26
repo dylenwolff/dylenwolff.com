@@ -142,5 +142,9 @@ class WorkspaceResourceTest extends TestCase
             'type' => 'whatsapp',
             'subject' => 'WhatsApp draft opened',
         ]);
+
+        $organization->update(['phone' => '(08) 8981 1212']);
+        $lead->refresh()->load('organization');
+        $this->assertNull(WhatsAppLink::phone($lead));
     }
 }

@@ -18,6 +18,16 @@ final class WhatsAppLink
         'US' => '1',
     ];
 
+    private const MOBILE_PREFIXES = [
+        'AE' => ['9715'],
+        'AU' => ['614'],
+        'GB' => ['447'],
+        'IE' => ['3538'],
+        'LK' => ['947'],
+        'NZ' => ['642'],
+        'SG' => ['658', '659'],
+    ];
+
     public static function phone(Lead $lead): ?string
     {
         $raw = $lead->contact?->phone ?: $lead->organization?->phone;
@@ -46,7 +56,16 @@ final class WhatsAppLink
             $digits = $callingCode.ltrim($digits, '0');
         }
 
-        return strlen($digits) >= 8 && strlen($digits) <= 15 ? $digits : null;
+        if (strlen($digits) < 8 || strlen($digits) > 15) {
+            return null;
+        }
+
+        $mobilePrefixes = self::MOBILE_PREFIXES[$country] ?? null;
+        if ($mobilePrefixes && ! collect($mobilePrefixes)->contains(fn (string $prefix): bool => str_starts_with($digits, $prefix))) {
+            return null;
+        }
+
+        return $digits;
     }
 
     public static function message(Lead $lead): string
