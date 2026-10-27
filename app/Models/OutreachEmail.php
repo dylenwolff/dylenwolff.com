@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable([
     'organization_id', 'contact_id', 'lead_id', 'recipient_name', 'recipient_email',
-    'subject', 'body', 'status', 'sent_at', 'follow_up_at', 'external_message_id', 'notes',
+    'subject', 'body', 'status', 'sent_at', 'sent_copy_archived_at', 'follow_up_at', 'external_message_id', 'notes',
 ])]
 class OutreachEmail extends Model
 {
     protected function casts(): array
     {
-        return ['sent_at' => 'datetime', 'follow_up_at' => 'datetime'];
+        return ['sent_at' => 'datetime', 'sent_copy_archived_at' => 'datetime', 'follow_up_at' => 'datetime'];
     }
 
     public function organization(): BelongsTo

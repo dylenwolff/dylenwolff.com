@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Mail\OutreachMessageMail;
+use App\Models\OutreachEmail;
 use Illuminate\Mail\SentMessage;
 use RuntimeException;
 
@@ -81,6 +83,40 @@ class SentMailArchiver
 
             $this->connection = null;
         }
+    }
+
+    public function archiveRecordToMaildir(OutreachEmail $record): void
+    {
+        $maildir = (string) config('mail.sent_maildir');
+        $newDirectory = $maildir.'/new';
+        $tmpDirectory = $maildir.'/tmp';
+        if (! is_dir($newDirectory) || ! is_dir($tmpDirectory)) {
+            throw new RuntimeException('The Sent Maildir is unavailable.');
+        }
+
+        $mailable = new OutreachMessageMail($record->subject, $record->body, $record->recipient_name);
+        $email = (new \Symfony\Component\Mime\Email())
+            ->from(new \Symfony\Component\Mime\Address((string) config('mail.from.address'), (string) config('mail.from.name')))
+            ->to(new \Symfony\Component\Mime\Address($record->recipient_email, $record->recipient_name ?: ''))
+            ->subject($record->subject)
+            ->date($record->sent_at?->toImmutable() ?? new \DateTimeImmutable())
+            ->html($mailable->render())
+            ->text(view('emails.outreach-text', [
+                'messageBody' => $record->body,
+                'messageSubject' => $record->subject,
+                'recipientName' => $record->recipient_name,
+            ])->render());
+
+        $raw = $email->toString();
+        $name = sprintf('%d.M%dP%d.%s', time(), (int) (microtime(true) * 1000000) % 1000000, getmypid(), gethostname() ?: 'localhost');
+        $temporary = $tmpDirectory.'/'.$name;
+        $destination = $newDirectory.'/'.$name;
+        if (file_put_contents($temporary, $raw, LOCK_EX) === false || ! rename($temporary, $destination)) {
+            @unlink($temporary);
+            throw new RuntimeException('Could not write the message to the Sent Maildir.');
+        }
+
+        chmod($destination, 0660);
     }
 
     private function command(string $command): void
