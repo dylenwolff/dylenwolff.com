@@ -130,7 +130,7 @@ return [
     */
 
     'sent_copy' => [
-        'enabled' => env('MAIL_SAVE_SENT', false),
+        'enabled' => env('MAIL_SAVE_SENT', true),
         'host' => env('MAIL_IMAP_HOST', env('MAIL_HOST')),
         'port' => env('MAIL_IMAP_PORT', 993),
         'username' => env('MAIL_IMAP_USERNAME', env('MAIL_USERNAME')),
