@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Support\OutreachBodyFormatter;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -12,11 +13,18 @@ class OutreachMessageMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(
-        public string $messageSubject,
-        public string $messageBody,
-        public ?string $recipientName = null,
-    ) {}
+    public string $messageSubject;
+
+    public string $messageBody;
+
+    public ?string $recipientName;
+
+    public function __construct(string $messageSubject, string $messageBody, ?string $recipientName = null)
+    {
+        $this->messageSubject = $messageSubject;
+        $this->messageBody = OutreachBodyFormatter::forDelivery($messageBody);
+        $this->recipientName = $recipientName;
+    }
 
     public function envelope(): Envelope
     {

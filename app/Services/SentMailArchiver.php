@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Mail\OutreachMessageMail;
 use App\Models\OutreachEmail;
+use App\Support\OutreachBodyFormatter;
 use Illuminate\Mail\SentMessage;
 use RuntimeException;
 
@@ -94,7 +95,8 @@ class SentMailArchiver
             throw new RuntimeException('The Sent Maildir is unavailable.');
         }
 
-        $mailable = new OutreachMessageMail($record->subject, $record->body, $record->recipient_name);
+        $messageBody = OutreachBodyFormatter::forDelivery($record->body);
+        $mailable = new OutreachMessageMail($record->subject, $messageBody, $record->recipient_name);
         $email = (new \Symfony\Component\Mime\Email())
             ->from(new \Symfony\Component\Mime\Address((string) config('mail.from.address'), (string) config('mail.from.name')))
             ->to(new \Symfony\Component\Mime\Address($record->recipient_email, $record->recipient_name ?: ''))
@@ -102,7 +104,7 @@ class SentMailArchiver
             ->date($record->sent_at?->toImmutable() ?? new \DateTimeImmutable())
             ->html($mailable->render())
             ->text(view('emails.outreach-text', [
-                'messageBody' => $record->body,
+                'messageBody' => $messageBody,
                 'messageSubject' => $record->subject,
                 'recipientName' => $record->recipient_name,
             ])->render());
