@@ -22,7 +22,6 @@ class WorkspaceController extends Controller
         $now = now('Asia/Colombo');
         $todayStart = $now->copy()->startOfDay()->utc();
         $weekStart = $now->copy()->startOfWeek()->startOfDay()->utc();
-        $dailyStart = $now->copy()->subDays(6)->startOfDay()->utc();
         $openLeadStatuses = ['new', 'contacted', 'qualified'];
         $delivery = OutreachDeliveryMetric::current();
         $deliveryRate = $delivery->total_sent > 0
@@ -36,16 +35,6 @@ class WorkspaceController extends Controller
             ? round(($delivery->invalid_recipient / $delivery->total_sent) * 100, 1)
             : 0;
         $emailsByDay = SentMailStatistics::dailyCounts();
-        $whatsAppByDay = WhatsAppOutreach::query()->where('sent_at', '>=', $dailyStart)->get(['sent_at'])
-            ->countBy(fn ($message) => $message->sent_at->timezone('Asia/Colombo')->toDateString());
-        $outreachDaily = collect(range(6, 0))->map(function (int $daysAgo) use ($now, $emailsByDay, $whatsAppByDay) {
-            $day = $now->copy()->subDays($daysAgo);
-            $date = $day->toDateString();
-            $emails = $emailsByDay->get($date, 0);
-            $whatsApp = $whatsAppByDay->get($date, 0);
-
-            return ['date' => $date, 'label' => $day->format('D, d M'), 'emails' => $emails, 'whatsapp' => $whatsApp, 'total' => $emails + $whatsApp];
-        });
 
         return view('workspace.dashboard', [
             'stats' => [
@@ -57,6 +46,7 @@ class WorkspaceController extends Controller
                 'sentEmails' => SentMailStatistics::total(),
                 'emailsToday' => $emailsByDay->get($now->toDateString(), 0),
                 'emailsWeek' => $emailsByDay->sum(),
+                'emailsDailyAverage' => round($emailsByDay->sum() / 7, 1),
                 'whatsappToday' => WhatsAppOutreach::query()->where('sent_at', '>=', $todayStart)->count(),
                 'whatsappWeek' => WhatsAppOutreach::query()->where('sent_at', '>=', $weekStart)->count(),
                 'whatsappUnavailable' => WhatsAppOutreach::query()->where('status', 'unavailable')->count(),
@@ -80,7 +70,6 @@ class WorkspaceController extends Controller
                     'total' => $country->total,
                 ]),
             'outstandingInvoices' => Invoice::query()->whereNotIn('status', ['paid', 'cancelled'])->sum('total'),
-            'outreachDaily' => $outreachDaily,
             'delivery' => [
                 'total' => $delivery->total_sent,
                 'accepted' => $delivery->accepted,
