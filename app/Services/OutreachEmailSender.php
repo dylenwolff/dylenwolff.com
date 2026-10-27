@@ -6,7 +6,7 @@ use App\Models\Activity;
 use App\Models\CrmTask;
 use App\Models\OutreachEmail;
 use App\Models\OutreachDeliveryMetric;
-use Illuminate\Mail\Message;
+use App\Mail\OutreachMessageMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use RuntimeException;
@@ -39,10 +39,8 @@ class OutreachEmailSender
         $outreachEmail->refresh();
 
         try {
-            $sentMessage = Mail::raw($outreachEmail->body, function (Message $message) use ($outreachEmail): void {
-                $message->to($outreachEmail->recipient_email, $outreachEmail->recipient_name)
-                    ->subject($outreachEmail->subject);
-            });
+            $sentMessage = Mail::to($outreachEmail->recipient_email, $outreachEmail->recipient_name)
+                ->send(new OutreachMessageMail($outreachEmail->subject, $outreachEmail->body, $outreachEmail->recipient_name));
         } catch (Throwable $exception) {
             $outreachEmail->update(['status' => 'approved']);
             throw $exception;

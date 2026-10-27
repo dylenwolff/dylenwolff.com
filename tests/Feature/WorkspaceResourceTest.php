@@ -8,6 +8,7 @@ use App\Models\Lead;
 use App\Models\Organization;
 use App\Models\OutreachEmail;
 use App\Models\User;
+use App\Mail\OutreachMessageMail;
 use App\Support\PhoneNumber;
 use App\Support\WhatsAppLink;
 use App\Support\WorkspaceResources;
@@ -146,6 +147,7 @@ class WorkspaceResourceTest extends TestCase
         $this->assertDatabaseHas('activities', ['lead_id' => $lead->id, 'type' => 'email']);
         $this->assertDatabaseHas('crm_tasks', ['lead_id' => $lead->id, 'status' => 'todo']);
         $this->assertDatabaseHas('leads', ['id' => $lead->id, 'status' => 'contacted']);
+        Mail::assertSent(OutreachMessageMail::class, fn (OutreachMessageMail $mail) => $mail->messageSubject === 'A simpler website workflow');
     }
 
     public function test_a_draft_or_already_sent_email_cannot_be_sent(): void
