@@ -22,6 +22,7 @@ class WorkspaceController extends Controller
         $now = now('Asia/Colombo');
         $todayStart = $now->copy()->startOfDay()->utc();
         $weekStart = $now->copy()->startOfWeek()->startOfDay()->utc();
+        $dailyStart = $now->copy()->subDays(6)->startOfDay()->utc();
         $openLeadStatuses = ['new', 'contacted', 'qualified'];
         $delivery = OutreachDeliveryMetric::current();
         $deliveryRate = $delivery->total_sent > 0

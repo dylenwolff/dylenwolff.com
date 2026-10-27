@@ -19,6 +19,16 @@ class WorkspaceResourceTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_workspace_dashboard_loads_for_an_approved_user(): void
+    {
+        $user = User::query()->where('email', 'dylenaw@gmail.com')->firstOrFail();
+
+        $this->actingAs($user)
+            ->get('http://admin.dylenwolff.com/')
+            ->assertOk()
+            ->assertSee('Outreach report');
+    }
+
     public function test_native_daisy_workspace_lists_and_creates_organizations(): void
     {
         $user = User::query()->where('email', 'dylenaw@gmail.com')->firstOrFail();
