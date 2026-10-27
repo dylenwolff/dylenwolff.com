@@ -1,0 +1,326 @@
+[
+  {
+    "organization": {
+      "name": "Morrison Outdoor Power Equipment",
+      "industry": "Outdoor power equipment",
+      "country_code": "NZ",
+      "city": "Auckland",
+      "website": "https://www.morrisonoutdoor.co.nz/",
+      "email": "sales@morrisonoutdoor.co.nz",
+      "phone": "0800 4MORRISON",
+      "status": "prospect",
+      "notes": "Official website currently displays a new website coming soon notice. Official product brochure confirms the sales email and phone number."
+    },
+    "lead": {
+      "title": "Product catalogue and dealer journey",
+      "source": "Official website review",
+      "status": "new",
+      "description": "Replace the coming-soon page with a searchable product catalogue, dealer finder, warranty registration and support journey that reduces customer and dealer friction."
+    },
+    "email": {
+      "recipient_name": "Morrison team",
+      "recipient_email": "sales@morrisonoutdoor.co.nz",
+      "subject": "Turning Morrison's new website into a useful dealer and customer tool",
+      "body": "Hello Morrison team,\n\nI visited https://www.morrisonoutdoor.co.nz and noticed that the main site currently says a new website is coming soon, while product information, warranty registration and dealer support still need to serve customers across New Zealand.\n\nThere is an opportunity to make the new site do more than present the brand. A searchable product catalogue, clear model comparison, dealer lookup, warranty registration and structured support requests could help customers find the right equipment and reduce repetitive questions reaching your team. Product and dealer information could also be managed from one place instead of being updated across separate pages and documents.\n\nI build secure websites and business systems around the way an organisation already works. I can help with the public website now and later connect other manual processes, such as dealer enquiries, warranty follow-up or product-support routing, wherever that would save time.\n\nWould a short review of the customer and dealer journey be useful? I can outline the most valuable first improvements without asking you to commit to a large project.\n\nYou can see examples of my work at https://dylenwolff.com/work\n\nKind regards,\nDylen Wolff",
+      "status": "draft",
+      "notes": "Verified against the official website and official Morrison brochure on 27 Oct 2026. Hold until sender reputation remediation is complete."
+    }
+  },
+  {
+    "organization": {
+      "name": "AEC Construction",
+      "industry": "Construction",
+      "country_code": "IE",
+      "city": null,
+      "website": "https://www.aecconstruction.ie/",
+      "email": "aec.construction1@gmail.com",
+      "phone": "01 458 9865",
+      "status": "prospect",
+      "notes": "Official website is an under-construction page. Email and phone are published on the official site."
+    },
+    "lead": {
+      "title": "Construction portfolio and qualified enquiry website",
+      "source": "Official website review",
+      "status": "new",
+      "description": "Replace the under-construction page with a credible portfolio, service pages, project evidence and a structured enquiry workflow."
+    },
+    "email": {
+      "recipient_name": "AEC Construction team",
+      "recipient_email": "aec.construction1@gmail.com",
+      "subject": "A stronger online project showcase for AEC Construction",
+      "body": "Hello AEC Construction team,\n\nI visited https://www.aecconstruction.ie and saw that the website is still showing an under-construction page. For a construction business, that can mean potential clients cannot quickly assess your capabilities, previous work or the type of enquiry your team is best placed to handle.\n\nI would build the site around how a prospective client makes a decision: clear services, selected projects, locations served, trust signals and a structured enquiry form that collects the useful details before your team calls back. That creates a more professional first impression and reduces the time spent asking every prospect the same initial questions.\n\nI can also help automate other repetitive steps around enquiries, document collection, quote preparation or project updates if those are currently handled manually. The aim is a secure system that makes work easier for your team, not just a better-looking homepage.\n\nWould you be open to a short outline of how the new site could be structured around your actual projects and enquiry process?\n\nMy work is available at https://dylenwolff.com/work\n\nKind regards,\nDylen Wolff",
+      "status": "draft",
+      "notes": "Official-site contact verified 27 Oct 2026. Hold until sender reputation remediation is complete."
+    }
+  },
+  {
+    "organization": {
+      "name": "Healthy Life Foot Clinic Adelaide",
+      "industry": "Podiatry and allied health",
+      "country_code": "AU",
+      "city": "Adelaide",
+      "website": "https://healthylifefootcli.wixsite.com/podiatristadelaide",
+      "email": "mark@healthylifefootclinic.com.au",
+      "phone": "+61 8 8445 8680",
+      "status": "prospect",
+      "notes": "Current public website uses a Wix subdomain and displays a 2018 copyright. Contact email verified through the Australian Podiatry Association listing."
+    },
+    "lead": {
+      "title": "Owned clinic website and patient enquiry journey",
+      "source": "Official website and professional association listing",
+      "status": "new",
+      "description": "Move from the Wix subdomain to an owned, current clinic site with location-specific SEO, practitioner profiles and clearer booking routes."
+    },
+    "email": {
+      "recipient_name": "Mark",
+      "recipient_email": "mark@healthylifefootclinic.com.au",
+      "subject": "A clearer online path from foot pain to a Healthy Life appointment",
+      "body": "Hello Mark,\n\nI reviewed Healthy Life Foot Clinic's public website and noticed that it is still presented through a Wix subdomain with a 2018 footer, even though the clinic is active, growing and serving patients across multiple Adelaide locations.\n\nPatients usually arrive with a specific problem, such as heel pain, sports injury, children's foot care or nail treatment. A current website could guide each person from that concern to the right service, practitioner and location, then make the next booking step obvious. Separate local pages for Woodville and Burnside would also strengthen search visibility without making the site feel repetitive.\n\nI can build this as a secure, manageable website and can also connect repetitive administrative steps where useful, such as referral intake, pre-appointment information, document collection or follow-up reminders. The goal is to make it easier for patients to act and easier for the clinic team to manage what follows.\n\nWould you be open to a concise page and patient-journey plan based on the services you already offer?\n\nYou can see my work at https://dylenwolff.com/work\n\nKind regards,\nDylen Wolff",
+      "status": "draft",
+      "notes": "Contact verified through Australian Podiatry Association on 27 Oct 2026. Hold until sender reputation remediation is complete."
+    }
+  },
+  {
+    "organization": {
+      "name": "Bale Data Services",
+      "industry": "Paper and POS consumables",
+      "country_code": "AU",
+      "city": "Perth",
+      "website": "https://baledata.com.au/",
+      "email": "sales@baledata.com.au",
+      "phone": "+61 8 9302 4411",
+      "status": "prospect",
+      "notes": "Official site says new website coming soon. Official brochure states 900+ customers Australia-wide."
+    },
+    "lead": {
+      "title": "B2B catalogue and repeat-order workflow",
+      "source": "Official website and brochure review",
+      "status": "new",
+      "description": "Create a searchable B2B catalogue and make repeat ordering, quote requests and account enquiries easier for a customer base of 900+."
+    },
+    "email": {
+      "recipient_name": "Bale Data team",
+      "recipient_email": "sales@baledata.com.au",
+      "subject": "Making repeat orders easier for Bale Data's 900+ customers",
+      "body": "Hello Bale Data team,\n\nI visited https://baledata.com.au and saw the new-website-coming-soon page. I also reviewed your public brochure, which mentions more than 900 customers across Australia and a broad range of POS rolls, plotter paper, ribbons and related consumables.\n\nFor that kind of repeat-purchase business, the strongest website is not only a catalogue. It should help a customer identify the correct size or product, request custom printing, repeat a previous order and send the exact information your sales team needs without a long email exchange. Existing account customers could later have a simple self-service area for favourites, order history and quote status.\n\nI build secure websites and connected business workflows around the way a company already operates. I can also automate other repetitive steps in enquiries, quoting and order follow-up so staff spend less time re-entering information.\n\nWould it be useful if I prepared a short structure for the catalogue and repeat-order journey based on your current range?\n\nExamples of my work are at https://dylenwolff.com/work\n\nKind regards,\nDylen Wolff",
+      "status": "draft",
+      "notes": "Official-site and brochure details verified 27 Oct 2026. Hold until sender reputation remediation is complete."
+    }
+  },
+  {
+    "organization": {
+      "name": "Darwin Newsagency",
+      "industry": "Retail newsagency",
+      "country_code": "AU",
+      "city": "Darwin",
+      "website": "https://www.facebook.com/DarwinNewsagency/",
+      "email": "darwinnews@net.com.au",
+      "phone": "+61 8 8981 1212",
+      "status": "prospect",
+      "notes": "Public listings direct customers to Facebook rather than an owned business website. Contact details cross-checked against current business listings."
+    },
+    "lead": {
+      "title": "Owned local retail website and enquiry hub",
+      "source": "Public business presence review",
+      "status": "new",
+      "description": "Create an owned local website with hours, product and special-order enquiries, promotions and search visibility beyond Facebook."
+    },
+    "email": {
+      "recipient_name": "Darwin Newsagency team",
+      "recipient_email": "darwinnews@net.com.au",
+      "subject": "Helping Darwin customers find what your newsagency stocks before they visit",
+      "body": "Hello Darwin Newsagency team,\n\nI looked at how customers currently find Darwin Newsagency online. Most public listings direct them to Facebook, which means opening hours, services, product enquiries and updates are dependent on a third-party platform rather than one clear website that you control.\n\nA focused local website could make the practical questions easy: what you stock, current hours, gifts and stationery, special orders, promotions and how to reach the Smith Street Mall location. It could also capture product or special-order enquiries in a structured way so staff receive the useful details at once instead of going back and forth through messages.\n\nThe site can start as a straightforward, professional local presence and grow only where it saves work, such as preorder requests, catalogue updates or automated customer notifications. Security, speed and local search visibility would be built in from the beginning.\n\nWould you be open to seeing a simple homepage and enquiry-flow concept for the newsagency?\n\nYou can view my work at https://dylenwolff.com/work\n\nKind regards,\nDylen Wolff",
+      "status": "draft",
+      "notes": "Contact details verified through current public listings on 27 Oct 2026. Hold until sender reputation remediation is complete."
+    }
+  },
+  {
+    "organization": {
+      "name": "INNOSPACE",
+      "industry": "Digital transformation agency",
+      "country_code": "AU",
+      "city": "Sydney",
+      "website": "https://www.innospace.com.au/",
+      "email": "innovate@innospace.com.au",
+      "phone": "+61 437 302 680",
+      "status": "prospect",
+      "notes": "Official site describes a broad digital-transformation delivery model and a network of software engineers. Outreach is for delivery partnership, not direct website sales."
+    },
+    "lead": {
+      "title": "Flexible software delivery partnership",
+      "source": "Official agency website review",
+      "status": "new",
+      "description": "Offer flexible remote full-stack capacity for secure web applications, business workflows, integrations and production support under their delivery model."
+    },
+    "email": {
+      "recipient_name": "INNOSPACE team",
+      "recipient_email": "innovate@innospace.com.au",
+      "subject": "Flexible engineering capacity for INNOSPACE delivery work",
+      "body": "Hello INNOSPACE team,\n\nI reviewed https://www.innospace.com.au and your Discover, Build, Automate and Transform delivery model. The way you combine requirements, application development, workflow automation, cloud deployment and ongoing transformation closely matches the kind of work I deliver.\n\nI am a software engineer and digital solutions developer based in Sri Lanka. I work across secure web applications, business portals, workflow automation, integrations, deployment and ongoing support, choosing the technology around the client's requirements rather than forcing every project into one stack.\n\nI am reaching out as a potential delivery partner when you need additional engineering capacity, a dependable owner for a contained workstream, or support moving an existing project through to production. I am comfortable working behind an agency relationship and communicating technical decisions clearly to both project teams and non-technical stakeholders.\n\nWould it be useful to have a short capability call and see whether my experience fits the kind of overflow or specialist work you occasionally place with your engineering network?\n\nMy portfolio is at https://dylenwolff.com/work and my LinkedIn profile is https://www.linkedin.com/in/dylenaw/\n\nKind regards,\nDylen Wolff",
+      "status": "draft",
+      "notes": "Official contact and delivery model verified 27 Oct 2026. Hold until sender reputation remediation is complete."
+    }
+  },
+  {
+    "organization": {
+      "name": "Wonderloft",
+      "industry": "Retail",
+      "country_code": "AU",
+      "city": "Kingscliff",
+      "website": "https://www.wonderloft.com.au/",
+      "email": "hello@wonderloft.com.au",
+      "phone": "1300 563 800",
+      "status": "prospect",
+      "notes": "Official website currently uses a password/coming-soon page while publishing active business contact details."
+    },
+    "lead": {
+      "title": "Secure retail launch and customer journey",
+      "source": "Official website review",
+      "status": "new",
+      "description": "Launch a polished retail site with search visibility, clear discovery and a customer journey suited to the products and service model."
+    },
+    "email": {
+      "recipient_name": "Wonderloft team",
+      "recipient_email": "hello@wonderloft.com.au",
+      "subject": "Turning Wonderloft's coming-soon page into a customer-ready launch",
+      "body": "Hello Wonderloft team,\n\nI visited https://www.wonderloft.com.au and saw that customers currently reach a password-protected coming-soon page, while the business contact details and Kingscliff presence are already public.\n\nThat creates a useful launch opportunity. The website can be structured around how customers discover the range, understand what makes Wonderloft different and take the next step without needing to search across several channels. Product discovery, enquiries, store information and search visibility can all be designed as one clear experience.\n\nI build secure websites and connected systems around the needs of each business. If parts of the customer or administrative process are currently manual, I can also connect those later, such as stock enquiries, customer follow-up, supplier information or order-status communication.\n\nWould you be open to a short launch checklist and page plan based on what Wonderloft is preparing to offer?\n\nMy work is available at https://dylenwolff.com/work\n\nKind regards,\nDylen Wolff",
+      "status": "draft",
+      "notes": "Official-site details verified 27 Oct 2026. Hold until sender reputation remediation is complete."
+    }
+  },
+  {
+    "organization": {
+      "name": "PGC Group",
+      "industry": "Corporate training and education",
+      "country_code": "AU",
+      "city": null,
+      "website": "https://pgcgroup.au/",
+      "email": "rtoadmin@pgcgroup.au",
+      "phone": "+61 8 9417 9444",
+      "status": "prospect",
+      "notes": "Official course information directs corporate bookings and many date enquiries to phone or email."
+    },
+    "lead": {
+      "title": "Corporate training booking and learner administration",
+      "source": "Official website workflow review",
+      "status": "new",
+      "description": "Connect corporate booking, participant intake, scheduling, documents and status communication in one workflow."
+    },
+    "email": {
+      "recipient_name": "PGC Group team",
+      "recipient_email": "rtoadmin@pgcgroup.au",
+      "subject": "Reducing the coordination behind PGC corporate training bookings",
+      "body": "Hello PGC Group team,\n\nI reviewed the course and booking journey on https://pgcgroup.au. Individual course information is available online, but corporate bookings, larger groups and many date enquiries still move into phone and email coordination.\n\nA connected corporate booking workflow could let a company choose its training need, provide participant details once, upload required information, review available dates and track confirmation from one place. Your team would receive complete information in a consistent format, while reminders, changes and learner communications could be handled without repeatedly copying details between messages and spreadsheets.\n\nI build secure business systems around existing processes, so the objective would be to preserve how your training team works while removing avoidable administration. The same system could later support documents, attendance, compliance evidence or recurring client bookings where that adds value.\n\nWould a short workflow map based on one common corporate booking scenario be useful?\n\nYou can see related platform work at https://dylenwolff.com/work\n\nKind regards,\nDylen Wolff",
+      "status": "draft",
+      "notes": "Workflow reviewed against official site. Hold until sender reputation remediation is complete."
+    }
+  },
+  {
+    "organization": {
+      "name": "Lifestyle Tractor Hire",
+      "industry": "Equipment hire",
+      "country_code": "NZ",
+      "city": "Hamilton and Taupo",
+      "website": "https://www.lifestyletractorhire.co.nz/",
+      "email": "harley@lifestyletractorhire.co.nz",
+      "phone": "+64 27 458 3744",
+      "status": "prospect",
+      "notes": "Public bookings use phone, email or enquiry form and are manually confirmed."
+    },
+    "lead": {
+      "title": "Equipment availability and hire workflow",
+      "source": "Official website workflow review",
+      "status": "new",
+      "description": "Connect equipment selection, attachment compatibility, location, delivery, availability, deposits and confirmation."
+    },
+    "email": {
+      "recipient_name": "Harley",
+      "recipient_email": "harley@lifestyletractorhire.co.nz",
+      "subject": "Making tractor availability and hire confirmation easier to manage",
+      "body": "Hello Harley,\n\nI reviewed the hire process on https://www.lifestyletractorhire.co.nz, including the Hamilton and Taupo locations, equipment combinations and the current phone, email or enquiry-form route for bookings.\n\nThe main opportunity is to remove the repeated coordination between an initial request and a confirmed hire. A customer could choose the tractor and attachments, enter the job location and dates, request delivery if needed and see what information is still required. Your team could then confirm availability, pricing, deposit and collection or delivery details from one place without re-entering the same information.\n\nI build secure systems around the way a business already operates. Beyond bookings, I can also automate practical manual work such as agreements, reminders, return checks, maintenance scheduling or repeat-customer requests where it saves time.\n\nWould you be open to a short example based on one of your common tractor-and-attachment hire combinations?\n\nYou can see my work at https://dylenwolff.com/work\n\nKind regards,\nDylen Wolff",
+      "status": "draft",
+      "notes": "Official workflow and contact verified previously. Hold until sender reputation remediation is complete."
+    }
+  },
+  {
+    "organization": {
+      "name": "Wholesale Meats Direct",
+      "industry": "Retail and wholesale food",
+      "country_code": "NZ",
+      "city": "Auckland",
+      "website": "https://wholesalemeatsdirect.co.nz/",
+      "email": "info@wholesalemeatsdirect.co.nz",
+      "phone": "+64 9 577 1135",
+      "status": "prospect",
+      "notes": "Official site is under construction. Business operates three Auckland-area locations and offers retail, wholesale and custom processing."
+    },
+    "lead": {
+      "title": "Multi-location catalogue and ordering experience",
+      "source": "Official website review",
+      "status": "new",
+      "description": "Create a multi-location catalogue, pickup selection, specials, custom-processing enquiries, wholesale accounts and repeat ordering."
+    },
+    "email": {
+      "recipient_name": "Wholesale Meats Direct team",
+      "recipient_email": "info@wholesalemeatsdirect.co.nz",
+      "subject": "Connecting Wholesale Meats Direct's three locations online",
+      "body": "Hello Wholesale Meats Direct team,\n\nI visited https://wholesalemeatsdirect.co.nz and saw that the official website is currently under construction. With three Auckland-area locations and a mix of retail, wholesale and custom processing, the online experience needs to do more than show a list of products.\n\nCustomers should be able to understand what is available, choose the correct location, see current specials and send a complete custom-processing or wholesale enquiry. Repeat customers could later reorder common items or manage account requests without starting from the beginning each time. That would make buying easier while reducing repetitive messages and manual follow-up for staff.\n\nI design secure websites and business workflows around actual operations. If ordering, location fulfilment, customer accounts or status updates are currently handled manually, those can be connected gradually wherever the time saving is worthwhile.\n\nWould you be open to a short structure for the website and ordering journey across the three locations?\n\nMy portfolio is at https://dylenwolff.com/work\n\nKind regards,\nDylen Wolff",
+      "status": "draft",
+      "notes": "Official-site details verified previously. Hold until sender reputation remediation is complete."
+    }
+  },
+  {
+    "organization": {
+      "name": "NZ Timber",
+      "industry": "Timber supply",
+      "country_code": "NZ",
+      "city": "Hamilton and Auckland",
+      "website": "https://www.nztimber.net.nz/",
+      "email": "sales@nztimber.net.nz",
+      "phone": "+64 7 824 4452",
+      "status": "prospect",
+      "notes": "Official site says trade online ordering is coming soon. Current trade orders use a contact form followed by manual stock confirmation and account charging."
+    },
+    "lead": {
+      "title": "Trade ordering and customer self-service",
+      "source": "Official website workflow review",
+      "status": "new",
+      "description": "Complete the trade-order journey with accounts, stock or quote review, order history, fulfilment location and status updates."
+    },
+    "email": {
+      "recipient_name": "NZ Timber team",
+      "recipient_email": "sales@nztimber.net.nz",
+      "subject": "Completing NZ Timber's trade online ordering journey",
+      "body": "Hello NZ Timber team,\n\nI reviewed the trade-order journey on https://www.nztimber.net.nz and noticed that online ordering is marked as coming soon. The current process still relies on a submitted request, manual stock confirmation and charging the customer's trade account.\n\nA useful trade portal could keep your existing approval and account controls while making the process easier for both sides. Customers could sign in, build an order or quote request, select Hamilton or Auckland fulfilment, review previous orders and see the current status. Your team could confirm stock, adjust quantities and approve the account charge without copying information between forms, email and internal records.\n\nI build secure customer portals and workflow systems around business requirements. Other manual functions, such as account applications, quote follow-up or delivery notifications, can also be connected where automation would save staff time.\n\nWould a short workflow outline for the first release of trade ordering be useful?\n\nYou can see examples at https://dylenwolff.com/work\n\nKind regards,\nDylen Wolff",
+      "status": "draft",
+      "notes": "Official workflow reviewed previously. Hold until sender reputation remediation is complete."
+    }
+  },
+  {
+    "organization": {
+      "name": "COMEX Communication Excavations",
+      "industry": "Civil and communications infrastructure",
+      "country_code": "AU",
+      "city": "Sydney",
+      "website": "https://comex.net.au/under-construction/",
+      "email": "info@comex.net.au",
+      "phone": "+61 2 8847 3019",
+      "status": "prospect",
+      "notes": "Official site remains an under-construction contact page."
+    },
+    "lead": {
+      "title": "Capability website and structured quote enquiries",
+      "source": "Official website review",
+      "status": "new",
+      "description": "Replace the under-construction page with service, project and capability evidence plus a structured commercial enquiry workflow."
+    },
+    "email": {
+      "recipient_name": "COMEX team",
+      "recipient_email": "info@comex.net.au",
+      "subject": "Showing COMEX capability before the first project enquiry",
+      "body": "Hello COMEX team,\n\nI visited https://comex.net.au/under-construction and saw that the official website is still a basic under-construction contact page. For communications and excavation work, prospective clients often need to confirm capability, service coverage, project experience and the right contact path before making an enquiry.\n\nA focused website could present those details clearly, show selected work and collect the project information your team actually needs, such as location, scope, timing, drawings or supporting documents. That gives the client confidence and reduces the initial back-and-forth before someone can assess the job.\n\nI build secure websites and connected business systems around real workflows. I can also help automate repetitive internal steps, such as enquiry assignment, document collection, quote status or project updates, wherever that makes the workday easier.\n\nWould you be open to a concise structure for the capability pages and project-enquiry flow?\n\nMy work is available at https://dylenwolff.com/work\n\nKind regards,\nDylen Wolff",
+      "status": "draft",
+      "notes": "Official-site gap verified previously. Hold until sender reputation remediation is complete."
+    }
+  }
+]
