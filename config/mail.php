@@ -3,6 +3,8 @@
 return [
 
     'sent_maildir' => env('MAIL_SENT_MAILDIR', '/home/dylenaw/mail/dylenwolff.com/connect/.Sent'),
+    'sent_maildir_owner' => env('MAIL_SENT_MAILDIR_OWNER', 'dylenaw'),
+    'sent_maildir_group' => env('MAIL_SENT_MAILDIR_GROUP', 'mail'),
 
     /*
     |--------------------------------------------------------------------------

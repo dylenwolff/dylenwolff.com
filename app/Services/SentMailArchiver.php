@@ -117,6 +117,11 @@ class SentMailArchiver
         }
 
         chmod($destination, 0660);
+
+        // Console maintenance commands may run as root. Ensure those messages
+        // remain readable by Dovecot as the mailbox owner.
+        @chown($destination, (string) config('mail.sent_maildir_owner', 'dylenaw'));
+        @chgrp($destination, (string) config('mail.sent_maildir_group', 'mail'));
     }
 
     private function command(string $command): void
