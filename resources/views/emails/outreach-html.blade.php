@@ -22,7 +22,25 @@
             <tr>
                 <td style="background:#ffffff;border:1px solid #dfe6f1;border-top:0;border-radius:0 0 16px 16px;padding:34px 38px;box-shadow:0 8px 24px rgba(16,24,40,.05);">
                     @foreach(preg_split('/\R{2,}/', trim($messageBody)) as $paragraph)
-                        <p style="margin:0 0 18px;font-size:15px;line-height:25px;color:#344054;">{!! nl2br(e($paragraph)) !!}</p>
+                        @php
+                            $linkedParagraph = e($paragraph);
+                            $linkedParagraph = preg_replace_callback(
+                                '~https?://[^\s<>]+~i',
+                                static function (array $match): string {
+                                    $url = rtrim($match[0], '.,;:!?)');
+                                    $suffix = substr($match[0], strlen($url));
+
+                                    return '<a href="'.$url.'" style="color:#1265e8;text-decoration:underline;">'.$url.'</a>'.$suffix;
+                                },
+                                $linkedParagraph,
+                            );
+                            $linkedParagraph = preg_replace(
+                                '~(?<![\w/])([A-Z0-9._%+\-]+@[A-Z0-9.\-]+\.[A-Z]{2,})~i',
+                                '<a href="mailto:$1" style="color:#1265e8;text-decoration:underline;">$1</a>',
+                                $linkedParagraph,
+                            );
+                        @endphp
+                        <p style="margin:0 0 18px;font-size:15px;line-height:25px;color:#344054;">{!! nl2br($linkedParagraph) !!}</p>
                     @endforeach
 
                     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top:28px;border-top:1px solid #e7ecf3;">
