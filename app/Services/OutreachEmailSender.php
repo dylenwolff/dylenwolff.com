@@ -9,8 +9,8 @@ use App\Models\OutreachDeliveryMetric;
 use App\Mail\OutreachMessageMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\SentMessage;
 use RuntimeException;
-use Symfony\Component\Mailer\SentMessage;
 use Throwable;
 
 class OutreachEmailSender

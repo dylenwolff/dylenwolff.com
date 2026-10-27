@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Mail\SentMessage;
 use RuntimeException;
-use Symfony\Component\Mailer\SentMessage;
 
 class SentMailArchiver
 {
