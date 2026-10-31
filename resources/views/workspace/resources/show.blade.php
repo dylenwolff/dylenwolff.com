@@ -4,6 +4,9 @@
 @section('heading', $resource['label'])
 
 @section('content')
+@if($section === 'quotes')
+    @include('workspace.resources.quote-show')
+@else
 @php
     $title = data_get($model, $resource['title']) ?: $resource['singular'].' #'.$model->getKey();
     $state = $model->status ?? $model->stage ?? $model->priority ?? null;
@@ -83,4 +86,5 @@
         </div>
     </section>
 </div>
+@endif
 @endsection

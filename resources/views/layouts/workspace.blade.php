@@ -7,6 +7,7 @@
     <title>@yield('title', 'Dashboard') · Dylen Wolff</title>
     <script>document.documentElement.dataset.theme=localStorage.getItem('theme')||((matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light')</script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
 </head>
 <body class="min-h-screen bg-base-200 text-base-content">
 @php
