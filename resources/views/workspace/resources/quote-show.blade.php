@@ -19,6 +19,7 @@
     $organization = $model->organization;
     $issuedAt = $model->issued_at?->timezone('Asia/Colombo');
     $validUntil = $model->valid_until?->timezone('Asia/Colombo');
+    $isMonthlyService = str_contains(strtolower((string) $model->scope), 'monthly managed service');
 @endphp
 
 <div class="mx-auto max-w-5xl space-y-5">
@@ -79,7 +80,7 @@
 
             <section class="overflow-hidden rounded-2xl border border-base-300">
                 <div class="flex items-center justify-between bg-base-200 px-5 py-4">
-                    <span class="font-bold">First-year investment</span>
+                    <span class="font-bold">{{ $isMonthlyService ? 'Monthly managed service' : 'Quoted investment' }}</span>
                     <span class="text-2xl font-black text-primary">{{ $model->currency }} {{ number_format((float) $model->total, 2) }}</span>
                 </div>
                 @if((float) $model->tax > 0)
